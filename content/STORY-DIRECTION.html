@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NexGen — Story Direction</title>
+<meta name="description" content="A working direction for the NexGen story. For Brenden + Chip." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-deep: #050810;
+    --bg-section: #0F1218;
+    --bg-card: #171A1F;
+    --bg-card-hover: #1F242C;
+    --text: #E5E7EB;
+    --text-soft: #A1AAB8;
+    --text-dim: #6B7280;
+    --accent: #2578E4;
+    --accent-dark: #1D5FB6;
+    --accent-light: #EAF3FF;
+    --accent-soft: rgba(37, 120, 228, 0.08);
+    --rule: rgba(229, 231, 235, 0.08);
+    --maxw: 1100px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-deep);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent); color: white; }
+
+  .display { font-family: 'Fraunces', Georgia, serif; }
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  section { padding: 7rem 1.5rem; }
+  .container { max-width: var(--maxw); margin: 0 auto; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+    background: radial-gradient(ellipse at center 30%, #0F1218 0%, #050810 70%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(37,120,228,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(37,120,228,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero .eyebrow { color: var(--accent); animation: rise 1.2s ease 0.15s both; position: relative; }
+  .hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(3.2rem, 11vw, 9rem);
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+    margin: 2rem 0 2rem;
+    animation: rise 1.5s ease 0.4s both;
+    position: relative;
+  }
+  .hero .when {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.25rem, 2.6vw, 1.85rem);
+    color: var(--accent);
+    animation: rise 1.5s ease 1s both;
+    position: relative;
+  }
+  .hero .lead {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+    color: var(--text);
+    margin-top: 0.4rem;
+    max-width: 850px;
+    line-height: 1.25;
+    animation: rise 1.5s ease 1.4s both;
+    position: relative;
+  }
+  .hero .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: pulse 2.4s ease infinite, fade 1s ease 2.6s both;
+    color: var(--text-dim);
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pulse { 0%,100% { transform: translateX(-50%) translateY(0); opacity: 0.7; } 50% { transform: translateX(-50%) translateY(8px); opacity: 1; } }
+
+  /* INTRO */
+  .intro { background: var(--bg-section); padding: 9rem 1.5rem; }
+  .intro h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4.2vw, 3.2rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 3rem;
+    max-width: 920px;
+  }
+  .intro h2 em { font-style: italic; color: var(--accent); }
+  .intro p.bridge {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+    line-height: 1.6;
+    max-width: 780px;
+    color: var(--text-soft);
+  }
+  .demo-paragraph {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(1.25rem, 1.7vw, 1.55rem);
+    line-height: 1.72;
+    max-width: 880px;
+    margin: 4rem 0 2rem;
+    padding: 3rem;
+    border-left: 2px solid var(--accent);
+    background: var(--accent-soft);
+    color: var(--text);
+    border-radius: 0 4px 4px 0;
+  }
+  .demo-paragraph .placeholder {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .demo-paragraph strong {
+    font-weight: 500;
+    color: var(--accent-light);
+  }
+  .demo-paragraph em { font-style: italic; }
+  .footnote {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    max-width: 720px;
+    line-height: 1.65;
+  }
+
+  /* ACTS */
+  .acts h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 4rem;
+    max-width: 800px;
+  }
+  .acts .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .act-card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 2rem 1.75rem;
+    border-radius: 4px;
+    transition: transform 0.4s cubic-bezier(.2,.8,.2,1), border-color 0.4s ease, background 0.4s ease;
+  }
+  .act-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+  }
+  .act-card .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+  }
+  .act-card h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.55rem;
+    line-height: 1.15;
+    margin: 0.75rem 0 1rem;
+    letter-spacing: -0.01em;
+  }
+  .act-card .beat { color: var(--text-soft); margin-bottom: 1.25rem; font-size: 0.95rem; line-height: 1.6; }
+  .act-card .hook {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    color: var(--accent-light);
+    font-size: 1rem;
+    line-height: 1.4;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* MOVES */
+  .moves { background: var(--bg-section); }
+  .moves h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 1.5rem;
+    max-width: 800px;
+  }
+  .moves .ship-rule {
+    color: var(--text-soft);
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin-bottom: 3.5rem;
+    line-height: 1.6;
+  }
+  .moves .ship-rule strong { color: var(--accent-light); font-weight: 500; }
+  .moves .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .move {
+    padding: 1.75rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .move:hover { border-color: var(--accent-dark); transform: translateY(-2px); }
+  .move .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+  .move h4 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 1.18rem;
+    margin: 0.6rem 0 0.7rem;
+    line-height: 1.2;
+  }
+  .move p { color: var(--text-soft); font-size: 0.93rem; line-height: 1.6; }
+
+  /* BRENDEN'S CALL */
+  .brenden { background: var(--bg-deep); padding: 9rem 1.5rem; }
+  .brenden h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    line-height: 1;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    letter-spacing: -0.025em;
+  }
+  .brenden h2 em { color: var(--accent); }
+  .brenden .ask {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+    color: var(--text-soft);
+    max-width: 760px;
+    margin-bottom: 4rem;
+    line-height: 1.55;
+  }
+  .brenden .ask em { color: var(--text); font-style: italic; }
+  .brenden ol { list-style: none; counter-reset: q; max-width: 880px; }
+  .brenden li {
+    counter-increment: q;
+    padding: 1.5rem 0 1.5rem 4.5rem;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .brenden li::before {
+    content: counter(q, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 1.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.92rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .brenden li .why {
+    display: block;
+    color: var(--text-dim);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    margin-top: 0.7rem;
+    font-style: normal;
+    line-height: 1.5;
+  }
+  .brenden .deliverable {
+    margin-top: 4rem;
+    padding: 2rem;
+    border: 1px solid var(--accent);
+    background: var(--accent-soft);
+    max-width: 640px;
+    border-radius: 4px;
+  }
+  .brenden .deliverable .label { color: var(--accent); }
+  .brenden .deliverable code {
+    display: block;
+    margin-top: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text);
+    word-break: break-all;
+  }
+
+  /* SURFACES */
+  .surfaces h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 1.5rem;
+  }
+  .surfaces .lead {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: var(--text-soft);
+    margin-bottom: 4rem;
+    max-width: 720px;
+    line-height: 1.6;
+  }
+  .surfaces table { width: 100%; border-collapse: collapse; }
+  .surfaces tr { transition: background 0.2s ease; }
+  .surfaces tr:hover { background: var(--accent-soft); }
+  .surfaces td {
+    padding: 1.4rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .surfaces td:first-child {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    color: var(--accent-light);
+    width: 35%;
+  }
+  .surfaces td:nth-child(2) { color: var(--text-soft); width: 35%; font-size: 0.95rem; line-height: 1.5; }
+  .surfaces td:last-child {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+  }
+
+  /* CLOSING */
+  .closing {
+    background: linear-gradient(180deg, var(--bg-deep) 0%, #02040A 100%);
+    padding: 12rem 1.5rem 8rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .closing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(37,120,228,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .closing > * { position: relative; }
+  .closing .vow {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.75rem, 3.6vw, 2.85rem);
+    line-height: 1.2;
+    max-width: 880px;
+    margin: 0 auto 2rem;
+    letter-spacing: -0.015em;
+  }
+  .closing .vow strong { color: var(--accent-light); font-weight: 500; }
+  .closing .vow .second {
+    display: block;
+    margin-top: 2rem;
+    font-size: 0.78em;
+    color: var(--text-soft);
+    font-style: normal;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .closing .team {
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    letter-spacing: 0.16em;
+    margin-top: 5rem;
+  }
+  .closing .team span { color: var(--accent); margin: 0 1rem; }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    border-top: 1px solid var(--rule);
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+  }
+
+  @media (max-width: 700px) {
+    section { padding: 5rem 1.25rem; }
+    .demo-paragraph { padding: 1.75rem 1.5rem; font-size: 1.1rem; }
+    .brenden { padding: 6rem 1.25rem; }
+    .brenden li { padding-left: 3.5rem; font-size: 1.1rem; }
+    .surfaces td { padding: 1rem 0.5rem; font-size: 0.9rem; }
+    .surfaces td:first-child { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="container">
+    <p class="mono eyebrow">A Story Direction · For Brenden + Chip · Internal · 2026-05-08</p>
+    <h1>It was a Tuesday.</h1>
+    <p class="when">March 11, 2014.</p>
+    <p class="lead">And the bid came back ninety thousand dollars under us.</p>
+  </div>
+  <div class="scroll-hint mono">scroll ↓</div>
+</section>
+
+<section class="intro">
+  <div class="container">
+    <p class="mono">The Premise</p>
+    <h2>Most company stories tell the events. <em>Epic stories make you want to know the storyteller.</em></h2>
+    <p class="bridge">The first version of NexGen's story sounded like a competent paragraph in a brochure — and "competent" is the worst thing a story can be. Here's what we're aiming for instead. <strong style="color: var(--accent); font-weight: 500;">The blue specifics are placeholders</strong> — Brenden has the real ones.</p>
+
+    <div class="demo-paragraph">
+      It was a Tuesday — <span class="placeholder">March 11, 2014</span> — and the <span class="placeholder">Carmichael bid</span> came back from a shop in <span class="placeholder">Wisconsin</span> <span class="placeholder">ninety thousand dollars under</span> us, and Brenden Fritz sat in his truck in the parking lot for <span class="placeholder">forty minutes</span> before he could go home and tell his wife. The shop he'd inherited ran on paper, on coffee, on the memory of two senior wiremen who could quit on a Tuesday and end the company by Friday. The drawings were decoration. The schedule was a wish. And underneath it all was the lie every shop owner in America has been told for thirty years — that working harder, hiring smarter, and buying more equipment would eventually be enough. <em>It isn't. It never was.</em> What finally broke the lie wasn't a machine. It was a system: wire processing automation so the work didn't stop at 4:30, EPLAN so the drawing finally <em>was</em> the panel, Lean so a wireman didn't walk forty feet to ask the engineer a question that should have been answered the day before, and integrated production to hold the other three together like rebar in concrete. ADS runs <span class="placeholder">70% faster</span> now. <strong>The senior wiremen are still there — and they're craftsmen again, not load-bearing walls.</strong> NexGen Panel Mentoring exists because the gap was never the software, it was adoption — and because somewhere right now there's another owner sitting in another truck doing math that doesn't work. Brenden built NexGen so the next one doesn't have to pay full price for the lessons. <em>He already paid. The receipts are on the website.</em>
+    </div>
+
+    <p class="footnote">The Carmichael bid is fabricated. So is March 11. So is ninety thousand. So is forty minutes. We're holding open seats — Brenden fills them with the real moments, dates, dollars, and names. <strong style="color: var(--text-soft); font-weight: 500;">Real specifics are unforgeable. Fabricated ones get smelled out by the third read.</strong></p>
+  </div>
+</section>
+
+<section class="acts">
+  <div class="container">
+    <p class="mono">The Spine · Five Acts</p>
+    <h2>One arc the reader has to recognize themselves inside.</h2>
+    <div class="grid">
+      <div class="act-card">
+        <p class="num">ACT I</p>
+        <h3>The Inheritance</h3>
+        <p class="beat">Walked into a shop he didn't design. Two senior wiremen carried the entire production capability of the company in their heads.</p>
+        <p class="hook">"The drawings were decoration."</p>
+      </div>
+      <div class="act-card">
+        <p class="num">ACT II</p>
+        <h3>The Tuesday</h3>
+        <p class="beat">The single moment the system broke. A specific day. A specific dollar number. The night he couldn't sleep.</p>
+        <p class="hook">"Ninety thousand dollars under."</p>
+      </div>
+      <div class="act-card">
+        <p class="num">ACT III</p>
+        <h3>The Wrong Bets</h3>
+        <p class="beat">The honest catalog of what didn't work — software ahead of workflow, equipment ahead of standards, consultants who left binders.</p>
+        <p class="hook">"The bottleneck was never on the floor."</p>
+      </div>
+      <div class="act-card">
+        <p class="num">ACT IV</p>
+        <h3>The Four Pillars</h3>
+        <p class="beat">Wire processing automation. EPLAN. Lean. Integrated production. Four legs. One operating system.</p>
+        <p class="hook">"The drawing is the panel."</p>
+      </div>
+      <div class="act-card">
+        <p class="num">ACT V</p>
+        <h3>The Road You Don't Have To Pave Twice</h3>
+        <p class="beat">ADS today: 70% faster, retained senior people, predictable. NexGen as the road map he wishes he'd had.</p>
+        <p class="hook">"He already paid. The receipts are on the website."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="moves">
+  <div class="container">
+    <p class="mono">The Epic Test</p>
+    <h2>Nine moves that separate epic from competent.</h2>
+    <p class="ship-rule">Every NexGen draft — site copy, deck slide, social post, ad — gets measured against this. <strong>6 of 9 to ship. 8 of 9 for the home page.</strong></p>
+    <div class="grid">
+      <div class="move"><p class="num">01</p><h4>Open in the wound</h4><p>Drop the reader inside the worst day before they know whose day it is. Don't set up the story.</p></div>
+      <div class="move"><p class="num">02</p><h4>Name a villain</h4><p>The lie that hard work + more equipment = enough. Tribal knowledge as a feature. The training-industrial complex.</p></div>
+      <div class="move"><p class="num">03</p><h4>Specifics a journalist could fact-check</h4><p>Date. Customer. Dollar. Equipment model. Year. Generic isn't specific.</p></div>
+      <div class="move"><p class="num">04</p><h4>Sensory anchor</h4><p>Truck-cab silence. The smell of solder. The pitch of a wire feeder running right. Bodies remember bodies.</p></div>
+      <div class="move"><p class="num">05</p><h4>A line that tattoos itself</h4><p>One quotable line per piece. Plant it on purpose. Guard it.</p></div>
+      <div class="move"><p class="num">06</p><h4>The turn to the reader</h4><p>The camera swivels. The story stops being about Brenden and becomes about whoever is reading.</p></div>
+      <div class="move"><p class="num">07</p><h4>Honest about cost</h4><p>The marriage strain. The lost sleep. The bets that almost killed it. Sanitized = unbelievable.</p></div>
+      <div class="move"><p class="num">08</p><h4>A specific, falsifiable vow</h4><p>"You won't waste another quarter on software that doesn't get adopted." Not "we'll help you scale."</p></div>
+      <div class="move"><p class="num">09</p><h4>Cultural resonance</h4><p>NexGen is a small piece of the rebuild of American manufacturing know-how. Plug into the bigger arc.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="brenden">
+  <div class="container">
+    <p class="mono">For Brenden</p>
+    <h2>Thirty minutes. <em>Seven questions.</em></h2>
+    <p class="ask">Voice memo. While you're driving home. No editing, no polish, no script. The story is sitting inside you intact — <em>our job is to extract it without sanding off the parts that hurt to remember</em>. Those are the parts the reader trusts.</p>
+    <ol>
+      <li>What was the actual Tuesday? The day. The customer. The dollar amount. Lost-by-how-much.<span class="why">Anchors the entire story to one real event.</span></li>
+      <li>Where were you when you learned? Truck? Kitchen? Phone?<span class="why">The sensory anchor. Bodies remember bodies.</span></li>
+      <li>What did you do in the next forty minutes? The next night?<span class="why">The waiting is where the reader connects.</span></li>
+      <li>Who were the two senior wiremen? First names. What were they like? Are they still there?<span class="why">If they're still there, that's the payoff line. If they left, that's a different story — also true.</span></li>
+      <li>What was the first wrong bet — software, equipment, consultant? Cost? Year?<span class="why">Vulnerability. The reader has made the same bets.</span></li>
+      <li>What's the lie you most want to call out, in your own words?<span class="why">Names the villain. Without one, the story is a memoir.</span></li>
+      <li>If you could stop one panel-shop owner from making your same mistake, what would you tell him at lunch?<span class="why">The brand t-shirt line is hiding in here.</span></li>
+    </ol>
+    <div class="deliverable">
+      <p class="mono label">Deliverable</p>
+      <p style="margin-top: 0.5rem; color: var(--text);">One audio file. Drop it here:</p>
+      <code>content/raw/audio-epic-unlocks.m4a</code>
+    </div>
+  </div>
+</section>
+
+<section class="surfaces">
+  <div class="container">
+    <p class="mono">Deployment</p>
+    <h2>One Tuesday powers everything.</h2>
+    <p class="lead">Same molecules — your dates, your dollars, your faces — cast into ten different molds. Same story. Ten surfaces. Built once, lived everywhere.</p>
+    <table>
+      <tr><td>Live site / home</td><td>30 seconds. One stat. One CTA.</td><td>Bolt + Chip</td></tr>
+      <tr><td>Live site / backstory</td><td>Full 5-act arc · timeline · audio · video</td><td>Brenden + Shain + Chip</td></tr>
+      <tr><td>Sales deck — Boss CYOA</td><td>Story spine + four pillars + numbers wall</td><td>Existing tool, content refresh</td></tr>
+      <tr><td>Client proposal CYOA</td><td>Mirror story unlocks adaptively</td><td>Brenden (dev)</td></tr>
+      <tr><td>Germany booth (60-sec loop)</td><td>Documentary cut + timeline display</td><td>Shain</td></tr>
+      <tr><td>LinkedIn — weekly chapter</td><td>One asset per post: clip, quote, photo, line</td><td>Shain</td></tr>
+      <tr><td>Cold email sequence (5 touches)</td><td>One act per email, paced over weeks</td><td>Shain</td></tr>
+      <tr><td>Podcast pilot</td><td>Brenden's voice, 30 minutes, ambient under</td><td>Brenden + audio engineer</td></tr>
+      <tr><td>Documentary (3-min hero + cuts)</td><td>Brenden walking shop floor · real photos · drone</td><td>Videographer, Q3</td></tr>
+      <tr><td>Annual Panel Hackers Summit</td><td>90-minute live walk-through</td><td>Brenden, Q4 each year</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="container">
+    <p class="mono" style="margin-bottom: 4rem;">The Vow</p>
+    <p class="vow">
+      "I built this so you wouldn't have to <strong>break what I broke</strong>."
+      <span class="second">NexGen exists because the gap was never the software. It was adoption. And because somewhere right now there's another owner doing math that doesn't work.</span>
+    </p>
+    <p class="team">
+      Story <span>·</span> Shain Heiss
+      <span>·</span> Molecules <span>·</span> Brenden Fritz
+      <span>·</span> Visual <span>·</span> Chip Thompson Design
+    </p>
+  </div>
+</section>
+
+<footer>
+  NEXGEN PANEL MENTORING &nbsp; · &nbsp; STORY DIRECTION v0.1 &nbsp; · &nbsp; sheiss94 / NexGen-BD
+</footer>
+
+</body>
+</html>
