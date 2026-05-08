@@ -3,10 +3,20 @@
 **Single source of truth** for every story element, line, character, principle, and unlock we've developed for NexGen. This is the doc to keep open while writing site copy, sales decks, ad creative, video scripts, social posts, or anything else that has to carry the brand.
 
 **Author:** Shain Heiss · with Claude (consolidation)
-**Status:** v0.3 — synthesis with Brenden's authentic narrative woven in
+**Status:** v0.3 — **LOCKED FOR REVIEW** (2026-05-08). No further structural changes until Brenden + Chip have weighed in.
 **Owner of the molecules:** Brenden Fritz
 **Owner of the language:** Shain Heiss
 **Owner of the look:** Chip Thompson Design
+
+## Review Gate
+
+| Reviewer | Status | Notes |
+|---|---|---|
+| Shain Heiss | ✅ Approved for review · 2026-05-08 | "Really good. Not perfect yet, but lock it in for consideration and cleanup." |
+| Brenden Fritz | ⏳ Pending | Must verify authentic anchors (Nuremberg moment, Steinhauer details, four questions) and provide voice-memo unlock answers |
+| Chip Thompson Design | ⏳ Pending | Must react to visual register — typography, color application, type/space hierarchy |
+
+**Until both pending reviewers respond:** typo fixes and copy polish only. No structural rewrites, no new acts, no scope expansion. If a meaningful change is proposed during review, it goes through a v0.4 cycle with explicit changelog.
 
 > If you're updating story content, edit *here first*, then propagate to `STORY-BIBLE.md`, `STORY-DIRECTION.html`, the live site, decks, and assets. This doc is upstream.
 
