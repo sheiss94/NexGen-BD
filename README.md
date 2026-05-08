@@ -4,7 +4,8 @@ Business development platform for NexGen Panel Mentoring (sister company to Auto
 
 ## Project
 
-- **Owner:** Shain Heiss, Director of Business Development, ADS
+- **Owner / President:** Brendan — Automated Drive Systems and NexGen Panel Mentoring
+- **Project Lead:** Shain Heiss, Director of Business Development, ADS
 - **Site:** panelmentor.com
 - **Location:** Omaha, Nebraska
 - **Contact:** sheiss@automateddrives.com / 402-598-5180
@@ -36,8 +37,8 @@ Requires 15-20 qualified leads in pipeline by Month 4.
 
 | Role | Person | GitHub | Access |
 |---|---|---|---|
-| Admin | Shain Heiss | `<your-github>` | Full admin |
-| Developer | Brendan | `<brendan-github>` | Read/Write — `tools/`, `docs/` |
+| Owner / President | Brendan | `<brendan-github>` | Full admin |
+| Director of Business Development | Shain Heiss | `<your-github>` | Full admin |
 | Creative | Chip Thompson Design | `<chip-github>` | Read/Write — `creative/`, `content/` |
 
 > Replace placeholder usernames in GitHub Settings → Collaborators when inviting.
