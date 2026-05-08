@@ -25,6 +25,18 @@ node_modules/
 *.fig
 *.sketch
 
+# Raw audio (interviews, ambient, podcast source)
+*.m4a
+*.mp3
+*.wav
+*.aiff
+
+# Raw asset drop zones — files inside don't go to GitHub
+content/raw/*
+!content/raw/README.md
+content/raw-transcripts/*
+!content/raw-transcripts/README.md
+
 # Build artifacts
 dist/
 build/
