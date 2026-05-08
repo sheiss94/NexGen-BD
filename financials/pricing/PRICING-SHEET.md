@@ -1,53 +1,77 @@
 # Internal Pricing Sheet — CONFIDENTIAL
 
-> **Do not share outside the team.** This file contains floor prices and margin targets.
-> If this needs to be sent to a customer, redact floor + margin columns.
+> **Do not share outside the team.** Floor prices and margin targets included.
+> If sending to a customer, redact floor + margin columns.
+> Reconciled to live site: https://nexgen-panel-mentori-wq55.bolt.host/
 
-## Offers
+---
 
-| # | Offer | List | Floor | Target Margin |
-|---|---|---|---|---|
-| 1 | Shop Assessment | $5,500 | $4,500 | 65% |
-| 2 | NexGen Core | $397 / mo | $297 / mo | 80% |
-| 3 | EPLAN Sprint | $15,000 | $12,000 | 55% |
-| 4 | NexGen Pro | $2,500 / mo | $1,950 / mo | 70% |
-| 5 | Engineering Fix | $25,000 - $60,000 | quote -15% | 40% |
-| 6 | Build Fix | $20,000 - $45,000 | quote -10% | 30% |
-| 7 | CM Hardware | $20,000 - $55,000 | quote -10% | 35% |
-| 8 | CM SaaS | $800 / mo / site | $650 / mo | 75% |
-| 9 | Managed Monitoring | $2,500 / mo / site | $2,000 / mo | 60% |
-| 10 | Panel Hackers Summit | $1,500 - $3,000 / ticket | $1,200 / early bird | event break-even bar |
+## Membership Platform (live on panelmentor.com)
 
-## Discounting Rules
+| Tier | List | Floor (with discount stacking) | Target Margin |
+|---|---|---|---|
+| **EPLAN Entry** | $300 / mo | $258 / mo (-14%) | 80% |
+| **Panel Shop Automation** | $400 / mo | $344 / mo (-14%) | 80% |
+| **Premium Combined** | $600 / mo | $516 / mo (-14%) | 75% |
+| **Elite One-on-One** | $2,500 / mo | Not discountable — invite only | 70% |
 
-| Discount | Authority |
+### Public Discounts (as advertised on site)
+
+| Term | Discount | Conditions |
+|---|---|---|
+| Monthly billing | None | 6-month commitment, non-cancellable |
+| 6-month upfront | **4% off** total | Pricing locked for term |
+| 12-month upfront | **10% off** total | Cancellable after month 6 with 50% remaining-term fee |
+
+### Non-Public Discounting Authority
+
+| Discount beyond public | Authority |
 |---|---|
-| 0-10% | Shain (BD Director) — log in `monthly-reports/` |
-| 11-20% | Shain + parent ADS GM signoff |
-| > 20% | Owner approval — must go to email |
-| Floor breach | Not permitted without written exception |
+| 0-5% (special promo) | Shain — log in `monthly-reports/` |
+| 6-10% (named accounts) | Shain + Brenden signoff |
+| > 10% | Brenden approval — written |
+| Floor breach | Not permitted without written exception from Brenden |
+
+---
+
+## ADS-Side Project & Recurring Engagements (off-platform)
+
+| Offer | List | Floor | Target Margin |
+|---|---|---|---|
+| Shop Assessment | $5,500 one-time | $4,500 | 65% |
+| EPLAN Sprint | $15,000 fixed | $12,000 | 55% |
+| Engineering Fix | $25,000 - $60,000 project | quote -15% | 40% |
+| Build Fix | $20,000 - $45,000 project | quote -10% | 30% |
+| CM Hardware | $20,000 - $55,000 project | quote -10% | 35% |
+| CM SaaS | $800 / mo / site | $650 / mo | 75% |
+| Managed Monitoring | $2,500 / mo / site | $2,000 / mo | 60% |
+| Panel Hackers Summit (ticket) | $1,500 - $3,000 | $1,200 / early bird | event break-even bar |
+
+---
 
 ## Bundling Allowances
 
 | Bundle | Discount allowed |
 |---|---|
-| Assessment + EPLAN Sprint | up to 10% on Sprint |
-| EPLAN Sprint + 12 mo Core | first month Core free |
+| Shop Assessment + EPLAN Sprint | up to 10% on Sprint |
+| EPLAN Sprint + 12 mo Premium Combined | first month Premium free |
+| Shop Assessment + 6 mo of any membership tier | $500 off Assessment |
 | CM Hardware + CM SaaS (12 mo) | up to 5% on Hardware |
-| CM Hardware + Managed (12 mo) | up to 10% on Hardware |
+| CM Hardware + Managed Monitoring (12 mo) | up to 10% on Hardware |
 
-## Multi-Site / Volume
+## Multi-Site / Volume (CM tiers)
 
 - 2-3 sites: 5%
 - 4-7 sites: 10%
 - 8+ sites: custom — Shain quotes after engineering review
 
-## Annual Prepay
+## Annual Prepay (recurring offers)
 
-- Recurring offers (Core, Pro, CM SaaS, Managed): **2 months free** if 12 months prepaid.
+- Membership tiers: covered by public 12-month upfront discount (10% off).
+- CM SaaS + Managed Monitoring: **2 months free** on 12-month prepay.
 
 ## Notes
 
 - All prices in USD.
 - Travel/expenses billed at cost on Engineering Fix, Build Fix, CM Hardware unless explicitly bundled.
-- Re-evaluate floor prices quarterly. Last review: 2026-05.
+- Membership base prices are reviewed quarterly; floor prices reviewed semiannually. Last review: 2026-05.

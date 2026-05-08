@@ -22,16 +22,21 @@ Business development platform for NexGen Panel Mentoring (sister company to Auto
 2. **NexGen Consulting** — $6-8M
 3. **Condition Monitoring** — $5-8M
 
-## $70K Breakeven Math
+## $70K Breakeven Math (cumulative through Month 6)
 
-| Item | Count | Unit | Subtotal |
-|---|---|---|---|
-| EPLAN Sprint | 2 | $15,000 | $30,000 |
-| Shop Assessment | 3 | $5,500 | $16,500 |
-| Consulting Retainer (3 mo) | 1 | $8,500/mo | $25,500 |
-| **Total** | | | **$72,000** |
+Two sources combined: subscription ramp + project work.
 
-Requires 15-20 qualified leads in pipeline by Month 4.
+| Source | Subtotal |
+|---|---|
+| Membership MRR ramp ($0 → $12K MRR over 6 mo) | ~$38,500 cumulative |
+| Project work (mix of EPLAN Sprints, Shop Assessments, Engineering Fix) | $31,500 - $33,500 |
+| **Total** | **~$70,000 - $72,000** |
+
+Sample project mix that closes the gap:
+- 2 × EPLAN Sprint @ $15,000 = $30,000, OR
+- 1 × EPLAN Sprint + 3 × Shop Assessment = $15,000 + $16,500 = $31,500
+
+**Pipeline requirement:** 15-20 qualified leads in pipeline by Month 4 (mix of membership-fit and project-fit).
 
 ## Team & Access
 

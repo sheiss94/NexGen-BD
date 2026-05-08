@@ -39,16 +39,24 @@ Single source of truth for active deals. Update weekly (Monday) before the tech 
 | 2026-09 |  |  |  |  |  |
 | 2026-10 |  |  |  |  |  |
 
-## Month 6 Breakeven Math ($70K)
+## Month 6 Breakeven Math ($70K cumulative)
 
-| Deal Type | Count | Unit | Subtotal |
-|---|---|---|---|
-| EPLAN Sprint | 2 | $15,000 | $30,000 |
-| Shop Assessment | 3 | $5,500 | $16,500 |
-| Consulting Retainer (3 mo) | 1 | $8,500/mo | $25,500 |
-| **Total** | | | **$72,000** |
+Two streams combine to clear $70K through Month 6.
 
-**Lead requirement:** 15-20 qualified leads in pipeline by end of Month 4.
+### Stream 1 — Membership MRR ramp
+Target: $0 → $12K MRR by Month 6. Cumulative: ~$38,500.
+
+### Stream 2 — Project work
+Need to deliver ~$31,500-$33,500 in project revenue by Month 6.
+
+| Sample project mix | Subtotal |
+|---|---|
+| 2 × EPLAN Sprint @ $15,000 | $30,000 |
+| 3 × Shop Assessment @ $5,500 | $16,500 |
+| 1 × EPLAN Sprint + 3 × Shop Assessment (alt mix) | $31,500 |
+| 1 × Engineering Fix (low-end) | $25,000+ |
+
+**Lead requirement:** 15-20 qualified leads in pipeline by end of Month 4 (mix of membership-fit and project-fit).
 
 ## Forecast Health Signals
 
