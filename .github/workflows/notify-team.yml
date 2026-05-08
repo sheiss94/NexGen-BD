@@ -1,0 +1,73 @@
+name: Notify Team on Push
+
+on:
+  push:
+    branches:
+      - "**"
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: Log push details
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Log actor and ref
+        run: |
+          echo "::group::Push Metadata"
+          echo "Actor:       ${{ github.actor }}"
+          echo "Repository:  ${{ github.repository }}"
+          echo "Ref:         ${{ github.ref }}"
+          echo "Branch:      ${{ github.ref_name }}"
+          echo "Event:       ${{ github.event_name }}"
+          echo "Compare:     ${{ github.event.compare }}"
+          echo "::endgroup::"
+
+      - name: Log commit message
+        run: |
+          echo "::group::Commit Message"
+          git log -1 --pretty=format:"%h%n%an <%ae>%n%ad%n%n%s%n%n%b" --date=iso
+          echo ""
+          echo "::endgroup::"
+
+      - name: Log files changed
+        run: |
+          echo "::group::Files Changed"
+          if git rev-parse HEAD~1 >/dev/null 2>&1; then
+            git diff --name-status HEAD~1 HEAD
+          else
+            echo "First commit on this branch — listing all tracked files:"
+            git ls-tree -r --name-only HEAD
+          fi
+          echo "::endgroup::"
+
+      - name: Summary
+        run: |
+          {
+            echo "### Push by @${{ github.actor }}"
+            echo ""
+            echo "**Branch:** \`${{ github.ref_name }}\`"
+            echo ""
+            echo "**Commit:**"
+            echo ""
+            echo '```'
+            git log -1 --pretty=format:"%h %s" 2>/dev/null || true
+            echo ""
+            echo '```'
+            echo ""
+            echo "**Files changed:**"
+            echo ""
+            echo '```'
+            if git rev-parse HEAD~1 >/dev/null 2>&1; then
+              git diff --name-status HEAD~1 HEAD
+            else
+              git ls-tree -r --name-only HEAD
+            fi
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
