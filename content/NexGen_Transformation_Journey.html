@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexGen — The Panel Shop Transformation Journey</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --eplan-blue:#008BD0; --eplan-red:#E50043; --ng-dark:#1A2744; --ng-mid:#243560;
+  --ng-accent:#00B4D8; --gold:#F4A261; --white:#ffffff; --light:#F4F6F9;
+  --mid-gray:#8892A4; --dark-gray:#2D3748; --text:#1a202c; --border:#E2E8F0;
+  --bg2:#F8FAFC;
+}
+html { font-family:'Segoe UI',Arial,sans-serif; background:#0f1629; color:var(--text); }
+
+.page-wrap { max-width:960px; margin:0 auto; padding:40px 24px 80px; }
+
+.hero { text-align:center; margin-bottom:48px; }
+.hero-pill { display:inline-block; background:var(--eplan-red); color:#fff; font-size:10px; font-weight:700; letter-spacing:0.1em; padding:4px 14px; border-radius:20px; margin-bottom:16px; }
+.hero h1 { font-size:clamp(28px,5vw,48px); font-weight:700; color:#fff; font-family:Georgia,serif; line-height:1.2; margin-bottom:12px; }
+.hero-sub { font-size:16px; color:var(--mid-gray); line-height:1.8; max-width:640px; margin:0 auto 28px; }
+.hero-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; max-width:560px; margin:0 auto; }
+.hs { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:14px; text-align:center; }
+.hs-n { font-size:24px; font-weight:700; color:var(--ng-accent); }
+.hs-l { font-size:11px; color:var(--mid-gray); margin-top:3px; }
+
+.journey-wrap { background:#fff; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+
+.stage-rail { display:flex; background:var(--ng-dark); border-bottom:3px solid var(--ng-mid); position:relative; overflow:hidden; }
+.prog-bar { position:absolute; bottom:0; left:0; height:3px; background:var(--eplan-blue); transition:width 0.4s ease; z-index:2; }
+.stage-btn { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:18px 8px 14px; cursor:pointer; background:none; border:none; font-family:inherit; border-right:1px solid rgba(255,255,255,0.06); transition:background 0.2s; position:relative; z-index:1; }
+.stage-btn:last-of-type { border-right:none; }
+.stage-btn:hover { background:rgba(255,255,255,0.05); }
+.stage-btn.active { background:rgba(255,255,255,0.08); }
+.stage-btn.active::after { content:''; position:absolute; bottom:-3px; left:0; right:0; height:3px; }
+.stage-icon { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:18px; border:2px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.05); transition:all 0.25s; }
+.stage-btn.active .stage-icon { border-width:2px; }
+.stage-name { font-size:10px; color:#8892A4; font-weight:600; text-align:center; line-height:1.4; letter-spacing:0.04em; transition:color 0.2s; }
+.stage-btn.active .stage-name { color:#fff; }
+
+.stage-content { display:none; }
+.stage-content.active { display:block; animation:fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+.content-header { padding:32px 40px 24px; color:#fff; }
+.content-tag { font-size:10px; font-weight:700; letter-spacing:0.12em; opacity:0.7; margin-bottom:8px; }
+.content-title { font-size:30px; font-weight:700; font-family:Georgia,serif; margin-bottom:8px; line-height:1.3; }
+.content-sub { font-size:14px; opacity:0.82; line-height:1.8; max-width:680px; }
+
+.content-body { padding:28px 40px 36px; }
+
+.shop-animation { width:100%; height:160px; background:var(--light); border-radius:12px; margin-bottom:24px; overflow:hidden; position:relative; }
+
+.metrics-row { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px; }
+.metric-card { background:var(--bg2); border-radius:10px; padding:14px 16px; text-align:center; border:1px solid var(--border); }
+.metric-val { font-size:22px; font-weight:700; margin-bottom:2px; }
+.metric-lab { font-size:11px; color:var(--mid-gray); }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px; }
+.col-block h3 { font-size:10px; font-weight:700; letter-spacing:0.1em; color:var(--mid-gray); text-transform:uppercase; margin-bottom:10px; }
+.list-item { font-size:13px; color:var(--dark-gray); padding:7px 0; border-bottom:1px solid var(--border); display:flex; gap:10px; align-items:flex-start; line-height:1.5; }
+.list-item .dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+
+.services-section { background:var(--ng-dark); border-radius:12px; padding:18px 22px; margin-bottom:22px; }
+.services-section h3 { font-size:10px; font-weight:700; letter-spacing:0.1em; color:var(--ng-accent); margin-bottom:12px; }
+.tags-wrap { display:flex; flex-wrap:wrap; gap:8px; }
+.tag { font-size:12px; font-weight:600; padding:5px 14px; border-radius:20px; }
+.tag-ng { background:rgba(0,180,216,0.15); border:1px solid rgba(0,180,216,0.3); color:var(--ng-accent); }
+.tag-ads { background:rgba(244,162,97,0.15); border:1px solid rgba(244,162,97,0.3); color:var(--gold); }
+.tag-eplan { background:rgba(0,139,208,0.15); border:1px solid rgba(0,139,208,0.3); color:var(--eplan-blue); }
+
+.nav-strip { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.nav-btn-next { padding:11px 24px; border-radius:8px; border:none; font-size:14px; font-weight:700; color:#fff; cursor:pointer; font-family:inherit; transition:opacity 0.2s; }
+.nav-btn-next:hover { opacity:0.88; }
+.nav-btn-back { padding:11px 20px; border-radius:8px; border:1px solid var(--border); background:transparent; font-size:13px; color:var(--mid-gray); cursor:pointer; font-family:inherit; }
+.nav-btn-back:hover { border-color:var(--dark-gray); color:var(--dark-gray); }
+
+.video-placeholder { background:var(--ng-dark); border:2px dashed rgba(0,180,216,0.3); border-radius:12px; padding:28px; text-align:center; margin-bottom:22px; }
+.vp-icon { font-size:32px; margin-bottom:10px; }
+.vp-title { font-size:15px; font-weight:700; color:#fff; margin-bottom:6px; }
+.vp-sub { font-size:12px; color:var(--mid-gray); line-height:1.6; }
+.vp-badge { display:inline-block; margin-top:12px; font-size:11px; color:var(--ng-accent); border:1px solid rgba(0,180,216,0.3); padding:4px 12px; border-radius:20px; }
+
+.footer-strip { text-align:center; margin-top:48px; }
+.footer-text { font-size:12px; color:rgba(255,255,255,0.3); }
+.footer-text span { color:var(--ng-accent); font-weight:700; }
+
+@media(max-width:640px) {
+  .page-wrap { padding:24px 14px 60px; }
+  .hero-stats { grid-template-columns:1fr; }
+  .metrics-row { grid-template-columns:1fr; }
+  .two-col { grid-template-columns:1fr; }
+  .content-header { padding:24px 20px 18px; }
+  .content-body { padding:20px 20px 28px; }
+  .stage-name { display:none; }
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<div class="hero">
+  <div class="hero-pill">NEXGEN PANEL MENTORING</div>
+  <h1>The Panel Shop<br>Transformation Journey</h1>
+  <div class="hero-sub">From fully manual to fully integrated — every stage of the automation journey, and exactly how NexGen and ADS support you at each step.</div>
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-n">5</div><div class="hs-l">Transformation stages</div></div>
+    <div class="hs"><div class="hs-n">10×</div><div class="hs-l">Output potential from stage 1 to 5</div></div>
+    <div class="hs"><div class="hs-n">ADS+NexGen</div><div class="hs-l">Your partner at every milestone</div></div>
+  </div>
+</div>
+
+<div class="journey-wrap">
+  <div class="stage-rail" id="stage-rail">
+    <div class="prog-bar" id="prog-bar" style="width:0%"></div>
+  </div>
+  <div id="stage-panels"></div>
+</div>
+
+<div class="footer-strip">
+  <div class="footer-text"><span>NexGen Panel Mentoring</span> + Automated Drive Systems (ADS) · nexgenpanelmentoring.com</div>
+</div>
+
+</div>
+
+<script>
+const stages = [
+  {
+    icon:"🔧", name:"Manual\nShop", color:"#888780", bg:"#5F5E5A", prog:0,
+    tag:"STAGE 1 OF 5 · STARTING POINT",
+    title:"The fully manual shop",
+    sub:"Hand tools, paper drawings, individual craftsmanship. Every panel built differently. Maximum skill dependency, minimum scalability.",
+    viz:"manual",
+    metrics:[{v:"40–60 hrs",l:"per panel built"},{v:"< $5K",l:"monthly throughput"},{v:"High",l:"quality variability"}],
+    current:["Hand wire measurement, cutting, stripping — all manual","Enclosures hand-drilled with paper or cardboard templates","1–2 electricians build each panel start to finish","Paper schematics or verbal instructions only","Each panel varies based on who built it","No traceability, no digital documentation"],
+    challenges:["Quality depends entirely on individual skill","Quoting is guesswork — no accurate time data","Training new builders takes 12–18 months","Can't scale without hiring experienced electricians"],
+    services:[{l:"Shop assessment + baseline",t:"ng"},{l:"2-second lean introduction",t:"ng"},{l:"Process mapping & waste ID",t:"ng"},{l:"Drawing conversion (to CAD)",t:"ads"}],
+    video:"Stage 1 shop walk-through animation — manual build sequence, hand tools, paper layout",
+    next:"Move to Stage 2: Establish standards →"
+  },
+  {
+    icon:"📋", name:"Standards\n+ Process", color:"#1D9E75", bg:"#0F6E56", prog:25,
+    tag:"STAGE 2 OF 5 · FOUNDATION",
+    title:"Establishing standards and process",
+    sub:"Cell-based workflow, documented procedures, consistent labeling. The shop starts looking the same every day — regardless of who's building.",
+    viz:"standards",
+    metrics:[{v:"25–40 hrs",l:"per panel built"},{v:"15–30%",l:"throughput gain"},{v:"2×",l:"faster onboarding"}],
+    current:["Cell-based build stations with defined roles","Work instructions and assembly sequences documented","Consistent wire labeling and color coding","Basic time tracking and job costing in place","Standard BOM and cut-list per panel type","Monthly CI feedback loops with the team"],
+    challenges:["Existing team resistance to change","Documentation takes significant time to create","Quoting improves but still manual and slow","Drawings still done in basic CAD or by hand"],
+    services:[{l:"Lean consulting sessions",t:"ng"},{l:"2-second lean workshops",t:"ng"},{l:"EPLAN Essentials tier",t:"eplan"},{l:"Drawing conversion service",t:"ads"},{l:"ADS shop tour",t:"ads"}],
+    video:"Time-lapse animation: chaotic manual shop → organized cell-based workflow, before and after",
+    next:"Move to Stage 3: Add CAD + EPLAN →"
+  },
+  {
+    icon:"💻", name:"CAD +\nEPLAN", color:"#008BD0", bg:"#185FA5", prog:50,
+    tag:"STAGE 3 OF 5 · DESIGN TRANSFORMATION",
+    title:"CAD integration and EPLAN adoption",
+    sub:"Engineering and manufacturing begin to speak the same language. EPLAN becomes the single source of truth — from schematic to BOM to build.",
+    viz:"eplan",
+    metrics:[{v:"15–25 hrs",l:"per panel built"},{v:"50–70%",l:"error reduction"},{v:"3–5×",l:"quoting speed"}],
+    current:["EPLAN Electric P8 in active use for all projects","Automated BOM generation directly from schematic","Wire lists exported directly to wire processing machine","Parts database linked to purchasing workflow","Customer drawing imports and conversions standardized","Digital documentation for every panel shipped"],
+    challenges:["Team EPLAN training takes 3–6 months","Parts database build-out is significant upfront effort","eBUILD and Pro Panel integration is the next challenge","Still manually loading wire processing machine"],
+    services:[{l:"EPLAN support calls",t:"eplan"},{l:"Premium Access tier",t:"eplan"},{l:"eBUILD implementation",t:"ng"},{l:"Parts database build",t:"ng"},{l:"Drawing import service",t:"ads"},{l:"Outsourced wire harnesses",t:"ads"}],
+    video:"Screen-capture style animation: EPLAN schematic driving BOM → wire list → build sequence automatically",
+    next:"Move to Stage 4: Automate the floor →"
+  },
+  {
+    icon:"⚙️", name:"Wire + CNC\nAuto", color:"#F4A261", bg:"#854F0B", prog:75,
+    tag:"STAGE 4 OF 5 · PHYSICAL AUTOMATION",
+    title:"Wire processing and CNC automation",
+    sub:"EPLAN data drives the machines. Wire lists flow to the Komax. CNC cuts enclosures. Smart Wiring guides assembly in real time. Labor drops dramatically.",
+    viz:"automation",
+    metrics:[{v:"8–14 hrs",l:"per panel built"},{v:"60–80%",l:"labor cost reduction"},{v:"4–6×",l:"capacity gain"}],
+    current:["Komax/Schleuniger: automated wire cut, strip, and label","CNC machining center for enclosure drilling and cutouts","EPLAN Smart Wiring guiding assembly step by step","Smart Mounting Panel for component placement accuracy","Near-zero wire measurement errors","Engineering change orders update machines automatically"],
+    challenges:["Capital investment: $250K–$800K in equipment","Machine programming and maintenance expertise required","Robotics integration is the natural next step","Workforce shift: fewer builders, more technicians needed"],
+    services:[{l:"Elite Partnership tier",t:"eplan"},{l:"Equipment selection consulting",t:"ng"},{l:"Outsourced manufacturing",t:"ads"},{l:"Wire harness production",t:"ads"},{l:"Robotics integration planning",t:"ng"},{l:"M&A / capacity planning",t:"ng"}],
+    video:"Shop floor animation: EPLAN data → Komax processing wires automatically → CNC cutting enclosure → Smart Wiring guiding builder",
+    next:"Move to Stage 5: Full integration →"
+  },
+  {
+    icon:"🏭", name:"Full\nIntegration", color:"#E50043", bg:"#A32D2D", prog:100,
+    tag:"STAGE 5 OF 5 · INDUSTRY LEADER",
+    title:"Fully integrated digital panel manufacturing",
+    sub:"One data model from engineering to shipping. Robotics, EPLAN, CNC, and Smart Wiring working in concert. Your shop is now the reference account — the ADS/NexGen story.",
+    viz:"full",
+    metrics:[{v:"4–8 hrs",l:"per panel built"},{v:"85–95%",l:"on-time delivery"},{v:"10×+",l:"vs. manual output"}],
+    current:["EPLAN Pro Panel → CNC → Smart Wiring → Smart Mounting: fully integrated","Robotic wire insertion and cable management","Digital twin of every panel — full traceability","Real-time production tracking and OEE monitoring","Customer portal: live project status and documentation","Your shop is the benchmark. You are the case study."],
+    challenges:["Maintaining competitive advantage as others catch up","Continuous software and machine firmware updates","Talent: engineers fluent in EPLAN + automation","Strategic: outsource commodity, own complex high-value work"],
+    services:[{l:"NexGen case study & content",t:"ng"},{l:"Industry speaking opportunities",t:"ng"},{l:"ADS outsource manufacturing partner",t:"ads"},{l:"M&A / acquisition conversations",t:"ads"},{l:"Referral partner program",t:"ng"},{l:"Elite tier ongoing strategy",t:"eplan"}],
+    video:"Cinematic shop walk — fully integrated automation line, robotic arms, digital dashboards, panels leaving dock — the ADS story",
+    next:null
+  }
+];
+
+function shopSvg(type) {
+  const palettes = {
+    manual:     {bg:"#F1EFE8",bench:"#D3D1C7",person:"#888780",accent:"#5F5E5A",pct:5},
+    standards:  {bg:"#E1F5EE",bench:"#9FE1CB",person:"#1D9E75",accent:"#0F6E56",pct:25},
+    eplan:      {bg:"#E6F1FB",bench:"#B5D4F4",person:"#378ADD",accent:"#185FA5",pct:55},
+    automation: {bg:"#FAEEDA",bench:"#FAC775",person:"#BA7517",accent:"#F4A261",pct:80},
+    full:       {bg:"#FCEBEB",bench:"#F7C1C1",person:"#E24B4A",accent:"#E50043",pct:100}
+  };
+  const p = palettes[type];
+  const workers={manual:2,standards:3,eplan:2,automation:1,full:1};
+  const machines={manual:0,standards:1,eplan:2,automation:4,full:5};
+  const nW=workers[type], nM=machines[type];
+
+  let s = `<svg width="100%" viewBox="0 0 880 160" style="display:block;">`;
+  s += `<rect x="0" y="0" width="880" height="160" fill="${p.bg}"/>`;
+  s += `<rect x="0" y="140" width="880" height="6" fill="${p.bench}" opacity="0.5"/>`;
+
+  const progress_bar_w = Math.round(880 * p.pct / 100);
+  s += `<rect x="0" y="0" width="880" height="6" fill="rgba(0,0,0,0.08)"/>`;
+  s += `<rect x="0" y="0" width="${progress_bar_w}" height="6" rx="0" fill="${p.accent}" opacity="0.7"/>`;
+  s += `<text x="8" y="22" font-size="11" fill="${p.accent}" font-family="Segoe UI,Arial,sans-serif" font-weight="600">Automation progress: ${p.pct}%</text>`;
+
+  const wPos=[100,240,390,560,720];
+  for(let i=0;i<nW;i++){
+    const x=wPos[i];
+    s+=`<ellipse cx="${x}" cy="143" rx="16" ry="6" fill="${p.person}" opacity="0.25"/>`;
+    s+=`<rect x="${x-7}" y="102" width="14" height="42" rx="4" fill="${p.person}" opacity="0.65"/>`;
+    s+=`<circle cx="${x}" cy="93" r="11" fill="${p.person}" opacity="0.85"/>`;
+    if(type==='manual'){s+=`<line x1="${x+7}" y1="115" x2="${x+28}" y2="132" stroke="${p.accent}" stroke-width="2.5" stroke-linecap="round"/>`;}
+  }
+
+  const mConf=[
+    {x:180,w:90,h:55,lbl:"Wire proc."},
+    {x:340,w:80,h:48,lbl:"EPLAN"},
+    {x:490,w:100,h:60,lbl:"CNC center"},
+    {x:650,w:80,h:50,lbl:"Smart Wire"},
+    {x:40, w:70,h:55,lbl:"Robot arm"}
+  ];
+  for(let i=0;i<nM;i++){
+    const m=mConf[i];
+    s+=`<rect x="${m.x}" y="${144-m.h}" width="${m.w}" height="${m.h}" rx="6" fill="${p.accent}" opacity="0.12"/>`;
+    s+=`<rect x="${m.x}" y="${144-m.h}" width="${m.w}" height="${m.h}" rx="6" fill="none" stroke="${p.accent}" stroke-width="1.5" opacity="0.5"/>`;
+    s+=`<text x="${m.x+m.w/2}" y="${144-m.h+15}" text-anchor="middle" font-size="10" fill="${p.accent}" font-family="Segoe UI,Arial,sans-serif" font-weight="600">${m.lbl}</text>`;
+    if(i>=2){s+=`<circle cx="${m.x+m.w/2}" cy="${144-m.h+32}" r="7" fill="${p.accent}" opacity="0.2"/>`;s+=`<circle cx="${m.x+m.w/2}" cy="${144-m.h+32}" r="4" fill="${p.accent}" opacity="0.5"/>`;}
+  }
+
+  if(type==='full'||type==='automation'){
+    s+=`<path d="M60,100 Q200,65 440,60 Q680,55 820,100" fill="none" stroke="${p.accent}" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.4"/>`;
+    for(let i=0;i<7;i++){const bx=30+i*120;s+=`<rect x="${bx}" y="108" width="70" height="18" rx="3" fill="${p.accent}" opacity="0.08"/>`;s+=`<rect x="${bx}" y="108" width="70" height="18" rx="3" fill="none" stroke="${p.accent}" stroke-width="0.5" opacity="0.4"/>`;}
+  }
+
+  const lbl={manual:"Fully manual · hand tools · paper drawings",standards:"Cell-based workflow · documented · consistent",eplan:"EPLAN active · digital design · automated BOM",automation:"Wire processing + CNC + Smart Wiring integrated",full:"Fully integrated · digital twin · automated throughout"};
+  s+=`<text x="440" y="155" text-anchor="middle" font-size="11" fill="${p.accent}" font-family="Segoe UI,Arial,sans-serif" opacity="0.75">${lbl[type]}</text>`;
+  s+=`</svg>`;
+  return s;
+}
+
+const rail = document.getElementById('stage-rail');
+const panelsEl = document.getElementById('stage-panels');
+let current = 0;
+
+stages.forEach((st, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'stage-btn' + (i===0?' active':'');
+  btn.id = 'sbtn-'+i;
+  btn.innerHTML = `<div class="stage-icon" id="sicon-${i}" style="border-color:${st.color}33">${st.icon}</div><div class="stage-name">${st.name.replace('\n','<br>')}</div>`;
+  btn.onclick = () => switchTo(i);
+  rail.appendChild(btn);
+
+  const svcHtml = st.services.map(sv => `<span class="tag tag-${sv.t}">${sv.l}</span>`).join('');
+  const curHtml = st.current.map(c => `<div class="list-item"><div class="dot" style="background:${st.color}"></div>${c}</div>`).join('');
+  const chalHtml = st.challenges.map(c => `<div class="list-item"><div class="dot" style="background:var(--mid-gray)"></div>${c}</div>`).join('');
+  const metricsHtml = st.metrics.map(m => `<div class="metric-card"><div class="metric-val" style="color:${st.color}">${m.v}</div><div class="metric-lab">${m.l}</div></div>`).join('');
+  const nextHtml = st.next
+    ? `<button class="nav-btn-next" style="background:${st.color}" onclick="switchTo(${i+1})">${st.next}</button>`
+    : `<div style="font-size:14px;font-weight:700;color:${st.color}">🏆 You've reached full integration. You are the benchmark.</div>`;
+  const backHtml = i > 0 ? `<button class="nav-btn-back" onclick="switchTo(${i-1})">← Previous stage</button>` : '';
+
+  const panel = document.createElement('div');
+  panel.className = 'stage-content' + (i===0?' active':'');
+  panel.id = 'panel-'+i;
+  panel.innerHTML = `
+    <div class="content-header" style="background:${st.bg}">
+      <div class="content-tag">${st.tag}</div>
+      <div class="content-title">${st.title}</div>
+      <div class="content-sub">${st.sub}</div>
+    </div>
+    <div class="content-body">
+      <div class="shop-animation">${shopSvg(st.viz)}</div>
+      <div class="metrics-row">${metricsHtml}</div>
+      <div class="video-placeholder">
+        <div class="vp-icon">▶</div>
+        <div class="vp-title">Stage ${i+1} animation / video</div>
+        <div class="vp-sub">${st.video}</div>
+        <div class="vp-badge">Production video · In development</div>
+      </div>
+      <div class="two-col">
+        <div class="col-block"><h3>What this stage looks like</h3>${curHtml}</div>
+        <div class="col-block"><h3>Current challenges</h3>${chalHtml}</div>
+      </div>
+      <div class="services-section">
+        <h3>HOW NEXGEN + ADS SUPPORT THIS STAGE</h3>
+        <div class="tags-wrap">${svcHtml}</div>
+      </div>
+      <div class="nav-strip">${backHtml}${nextHtml}</div>
+    </div>`;
+  panelsEl.appendChild(panel);
+});
+
+function switchTo(idx) {
+  current = idx;
+  stages.forEach((st, i) => {
+    document.getElementById('sbtn-'+i).classList.toggle('active', i===idx);
+    document.getElementById('panel-'+i).classList.toggle('active', i===idx);
+  });
+  document.getElementById('prog-bar').style.width = (idx/(stages.length-1)*100)+'%';
+  document.querySelector('.journey-wrap').scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>

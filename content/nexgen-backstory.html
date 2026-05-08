@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NexGen — The Backstory Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Manrope:wght@300..800&family=JetBrains+Mono:wght@300..600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0E15;
+    --bg-2: #11161F;
+    --surface: #161B26;
+    --surface-2: #1C2230;
+    --line: #232A3A;
+    --line-bright: #2E3850;
+    --text: #F1ECDF;
+    --text-dim: #8A8E99;
+    --text-faint: #4A4F5C;
+    --amber: #F5A524;
+    --amber-bright: #FFB94A;
+    --amber-deep: #B57206;
+    --cyan: #5BC0EB;
+    --rust: #C45A2C;
+    --green: #6FAA5A;
+    --red: #C95B5B;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Manrope', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-position: -1px -1px;
+    background-attachment: fixed;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(245,165,36,0.06), transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(91,192,235,0.04), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+  /* ═══ MASTHEAD ═══ */
+  .masthead {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+
+  .meta-row {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 64px;
+  }
+
+  .meta-row .doc-id { color: var(--amber); }
+
+  .masthead h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+    font-size: clamp(48px, 8vw, 108px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+  }
+
+  .masthead h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--amber);
+  }
+
+  .masthead .lead {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.45;
+    color: var(--text);
+    max-width: 780px;
+    margin-bottom: 48px;
+  }
+
+  .masthead .lead em { font-style: italic; color: var(--amber-bright); }
+
+  .stamp {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text-dim); text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 10px 16px;
+    border: 1px solid var(--line-bright);
+    border-radius: 2px;
+    background: var(--surface);
+  }
+  .stamp::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--amber); border-radius: 50%;
+    box-shadow: 0 0 8px var(--amber);
+  }
+
+  /* ═══ SECTIONS ═══ */
+  section { padding: 100px 0; position: relative; }
+
+  .section-label {
+    display: flex; align-items: center; gap: 16px;
+    font-family: var(--mono);
+    font-size: 11px; color: var(--amber);
+    text-transform: uppercase; letter-spacing: 0.2em;
+    margin-bottom: 24px;
+  }
+  .section-label::before {
+    content: ''; width: 32px; height: 1px; background: var(--amber);
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    max-width: 900px;
+  }
+
+  h2 em { font-style: italic; color: var(--amber); }
+
+  .section-intro {
+    font-size: 18px;
+    color: var(--text-dim);
+    max-width: 720px;
+    margin-bottom: 64px;
+    line-height: 1.7;
+  }
+
+  /* ═══ TIMELINE ═══ */
+  .timeline-frame {
+    background: var(--bg-2);
+    border: 1px solid var(--line-bright);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .timeline-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--surface);
+    flex-wrap: wrap; gap: 16px;
+  }
+
+  .timeline-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+  .timeline-title strong {
+    color: var(--text); font-weight: 600;
+  }
+
+  .timeline-controls {
+    display: flex; gap: 8px;
+  }
+
+  .ctrl-btn {
+    background: var(--surface-2);
+    border: 1px solid var(--line-bright);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 8px 14px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .ctrl-btn:hover {
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+  .ctrl-btn.playing {
+    background: var(--amber);
+    color: var(--bg);
+    border-color: var(--amber);
+  }
+
+  /* The scrubber bar */
+  .scrubber {
+    padding: 32px 32px 24px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+
+  .scrubber-track {
+    position: relative;
+    height: 80px;
+  }
+
+  .scrubber-line {
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--line-bright);
+    transform: translateY(-50%);
+  }
+
+  .scrubber-progress {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--amber-deep), var(--amber));
+    transform: translateY(-50%);
+    transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+    box-shadow: 0 0 12px rgba(245,165,36,0.5);
+  }
+
+  .era-marker {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .era-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--line-bright);
+    transition: all 0.3s;
+    margin: 0 auto;
+  }
+
+  .era-marker:hover .era-dot {
+    border-color: var(--amber);
+    transform: scale(1.3);
+  }
+
+  .era-marker.active .era-dot {
+    background: var(--amber);
+    border-color: var(--amber);
+    box-shadow: 0 0 16px rgba(245,165,36,0.6);
+    transform: scale(1.4);
+  }
+
+  .era-marker.passed .era-dot {
+    background: var(--amber-deep);
+    border-color: var(--amber-deep);
+  }
+
+  .era-year {
+    position: absolute;
+    top: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-faint);
+    white-space: nowrap;
+    transition: color 0.3s;
+  }
+  .era-marker.active .era-year { color: var(--amber); }
+  .era-marker.passed .era-year { color: var(--text-dim); }
+
+  .era-label {
+    position: absolute;
+    bottom: 26px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-faint);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.3s;
+    opacity: 0;
+  }
+  .era-marker.active .era-label { color: var(--amber-bright); opacity: 1; }
+  .era-marker:hover .era-label { color: var(--text); opacity: 1; }
+
+  /* The era content */
+  .era-stage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 580px;
+  }
+
+  .era-visual {
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid var(--line);
+    background-image:
+      linear-gradient(rgba(35,42,58,0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(35,42,58,0.5) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .era-visual svg {
+    width: 100%; height: 100%;
+    display: block;
+  }
+
+  .era-content {
+    padding: 48px;
+    display: flex; flex-direction: column;
+    justify-content: center;
+  }
+
+  .era-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .era-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-variation-settings: "opsz" 144;
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .era-title em { font-style: italic; color: var(--amber); }
+
+  .era-years {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 28px;
+  }
+
+  .era-summary {
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 28px;
+  }
+
+  .era-prompt {
+    background: var(--surface);
+    border-left: 2px solid var(--amber);
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    font-style: italic;
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text-dim);
+  }
+  .era-prompt strong {
+    display: block;
+    font-family: var(--mono);
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--amber);
+    margin-bottom: 10px;
+  }
+
+  .era-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .metric {
+    font-family: var(--mono);
+  }
+  .metric-label {
+    font-size: 9px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 6px;
+  }
+  .metric-value {
+    font-size: 22px;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .metric-value.up { color: var(--green); }
+  .metric-value.down { color: var(--red); }
+  .metric-value.amber { color: var(--amber); }
+
+  .era-stage {
+    transition: opacity 0.5s;
+  }
+  .era-stage.transitioning { opacity: 0.3; }
+
+  /* ═══ STORY PROMPTS ═══ */
+  .chapter-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .chapter {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .chapter:hover { border-color: var(--line-bright); }
+
+  .chapter-header {
+    padding: 28px 32px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    background: var(--bg-2);
+  }
+
+  .chapter-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+
+  .chapter-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-variation-settings: "opsz" 144;
+    font-size: 32px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .chapter-title em { font-style: italic; color: var(--amber); }
+
+  .chapter-tagline {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 17px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  .chapter-emoji {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    border: 1px solid var(--line-bright);
+    padding: 6px 12px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    white-space: nowrap;
+  }
+
+  .chapter-body {
+    padding: 32px;
+  }
+
+  .prompt-block {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .prompt-block:last-child { border-bottom: none; }
+
+  .prompt-q {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .prompt-meta {
+    display: flex;
+    gap: 24px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  .prompt-meta span strong { color: var(--text-dim); margin-right: 6px; }
+
+  .prompt-evoke {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.65;
+    padding-left: 16px;
+    border-left: 1px solid var(--line-bright);
+  }
+  .prompt-evoke em { color: var(--amber-bright); font-style: normal; font-weight: 500; }
+
+  /* ═══ SCAFFOLD ═══ */
+  .scaffold {
+    background: var(--surface);
+    border: 1px dashed var(--line-bright);
+    border-radius: 4px;
+    padding: 56px 64px;
+    margin-top: 32px;
+    position: relative;
+  }
+
+  .scaffold::before {
+    content: 'PREVIEW — NEXGEN BACKSTORY SECTION';
+    position: absolute;
+    top: -10px; left: 32px;
+    background: var(--bg);
+    padding: 0 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--amber);
+    letter-spacing: 0.2em;
+  }
+
+  .scaffold h3 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-variation-settings: "opsz" 144;
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .scaffold h3 em { font-style: italic; color: var(--amber); }
+
+  .scaffold .pull {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 1.4;
+    color: var(--text);
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin: 32px 0;
+    position: relative;
+    padding-left: 40px;
+  }
+  .scaffold .pull::before {
+    content: '"';
+    position: absolute;
+    left: 0; top: 18px;
+    font-family: var(--serif);
+    font-size: 80px;
+    color: var(--amber);
+    line-height: 1;
+  }
+
+  .scaffold p {
+    font-size: 17px;
+    color: var(--text);
+    line-height: 1.75;
+    margin-bottom: 20px;
+    max-width: 720px;
+  }
+
+  .placeholder {
+    background: rgba(245,165,36,0.08);
+    border-bottom: 1px dashed var(--amber);
+    color: var(--amber-bright);
+    padding: 0 4px;
+    font-style: italic;
+  }
+
+  .scaffold-cta {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex; align-items: center; gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .scaffold-cta-btn {
+    background: var(--amber);
+    color: var(--bg);
+    padding: 16px 28px;
+    font-family: var(--mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .scaffold-cta-text {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 16px;
+  }
+
+  /* ═══ INTEGRATION NOTES ═══ */
+  .integration-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .integration-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 32px;
+    transition: all 0.3s;
+  }
+  .integration-card:hover {
+    border-color: var(--amber);
+    transform: translateY(-2px);
+  }
+
+  .integration-card .num {
+    font-family: var(--mono);
+    font-size: 36px;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 16px;
+    font-weight: 300;
+  }
+
+  .integration-card h4 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 22px;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .integration-card p {
+    font-size: 15px;
+    color: var(--text-dim);
+    line-height: 1.65;
+  }
+
+  /* ═══ FOOTER ═══ */
+  footer {
+    padding: 80px 0 60px;
+    border-top: 1px solid var(--line);
+    margin-top: 80px;
+  }
+
+  .footer-content {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 24px;
+  }
+
+  .footer-tag {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 22px;
+    color: var(--text-dim);
+    line-height: 1.4;
+    max-width: 540px;
+  }
+
+  .footer-tag em { color: var(--amber); }
+
+  .footer-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    text-align: right;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    line-height: 1.8;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .container { padding: 0 20px; }
+    .era-stage { grid-template-columns: 1fr; }
+    .era-visual { min-height: 280px; border-right: none; border-bottom: 1px solid var(--line); }
+    .era-content { padding: 32px 24px; }
+    .era-title { font-size: 32px; }
+    .integration-grid { grid-template-columns: 1fr; }
+    .scaffold { padding: 32px 24px; }
+    .scrubber { padding: 24px 16px; }
+    .era-label { display: none; }
+    .chapter-header { flex-direction: column; }
+    section { padding: 60px 0; }
+  }
+
+  /* Schematic SVG styles */
+  .sch-line { stroke: #5BC0EB; stroke-width: 1; fill: none; opacity: 0.7; }
+  .sch-line-amber { stroke: #F5A524; stroke-width: 1; fill: none; opacity: 0.9; }
+  .sch-fill { fill: #5BC0EB; opacity: 0.15; }
+  .sch-fill-amber { fill: #F5A524; opacity: 0.2; }
+  .sch-text { font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #8A8E99; }
+  .sch-text-amber { font-family: 'JetBrains Mono', monospace; font-size: 9px; fill: #F5A524; }
+  .sch-dim { stroke: #4A4F5C; stroke-width: 0.5; stroke-dasharray: 2 2; fill: none; }
+</style>
+</head>
+<body>
+
+<!-- ═══ MASTHEAD ═══ -->
+<header class="masthead">
+  <div class="container">
+    <div class="meta-row">
+      <span class="doc-id">DOC-NEXGEN-001 / V1.0</span>
+      <span>PREPARED FOR BRENDEN R. FRITZ — ADS</span>
+      <span>BY SHAIN HEISS</span>
+    </div>
+    <h1>The <em>backstory</em><br>is the&nbsp;product.</h1>
+    <p class="lead">
+      The plans are clear. The pricing makes sense. What's missing is the <em>why now, why you, why this</em> —
+      the journey that lets a panel shop owner reading your site recognize themselves somewhere on your road
+      and understand exactly where NexGen meets them.
+    </p>
+    <span class="stamp">Working Document — Concept &amp; Architecture</span>
+  </div>
+</header>
+
+<!-- ═══ SECTION 1: THE TIMELINE ═══ -->
+<section id="timeline">
+  <div class="container">
+    <div class="section-label">Part 01 — The Evolution</div>
+    <h2>Fifteen years. Four <em>pillars.</em><br>One operating system for the modern panel shop.</h2>
+    <p class="section-intro">
+      This is the centerpiece of the backstory section. A scrub-able, animated visualization of the road from
+      manual paper-and-toolbox shop to integrated lean-and-automation operation. Each station on the timeline
+      anchors a specific transformation — and a specific moment in your story.
+    </p>
+
+    <div class="timeline-frame">
+      <div class="timeline-header">
+        <div class="timeline-title"><strong>EVOLUTION OF THE PANEL SHOP</strong> — ADS / NEXGEN TIMELINE</div>
+        <div class="timeline-controls">
+          <button class="ctrl-btn" id="prev-btn">‹ PREV</button>
+          <button class="ctrl-btn" id="play-btn">▶ AUTO-PLAY</button>
+          <button class="ctrl-btn" id="next-btn">NEXT ›</button>
+        </div>
+      </div>
+
+      <div class="scrubber">
+        <div class="scrubber-track" id="scrubber-track">
+          <div class="scrubber-line"></div>
+          <div class="scrubber-progress" id="scrubber-progress"></div>
+          <!-- markers populated by JS -->
+        </div>
+      </div>
+
+      <div class="era-stage" id="era-stage">
+        <div class="era-visual" id="era-visual"></div>
+        <div class="era-content" id="era-content"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 2: STORY DISCOVERY PROMPTS ═══ -->
+<section id="prompts">
+  <div class="container">
+    <div class="section-label">Part 02 — Discovery Prompts</div>
+    <h2>The interview. <em>Not the script.</em></h2>
+    <p class="section-intro">
+      Don't write the backstory. Answer these six chapters out loud — record yourself if you can — and then
+      let the words become the page. The goal isn't polish. The goal is the <em>scar tissue</em> only you have.
+      The "evoke" notes under each question describe what the reader should feel, not what you should say.
+    </p>
+
+    <div class="chapter-grid" id="chapter-grid"></div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 3: STORY SCAFFOLD PREVIEW ═══ -->
+<section id="scaffold">
+  <div class="container">
+    <div class="section-label">Part 03 — Page Scaffold</div>
+    <h2>What the visitor sees. <em>A draft of the canvas.</em></h2>
+    <p class="section-intro">
+      Below is a placeholder draft of how the backstory section reads on the NexGen site once your answers
+      from Part 02 fill in. The amber-underlined text is where your words land. The structure is intentional —
+      it pulls a reader through the same arc you actually traveled.
+    </p>
+
+    <div class="scaffold">
+      <h3>I built this so you wouldn't have to <em>break what I broke.</em></h3>
+
+      <p>
+        Fifteen years ago I was running the same shop you're running. <span class="placeholder">[BRENDEN — what year, what shop, what role. One sentence.]</span>
+        Paper schematics. Toolboxes organized by whoever happened to grab them last. Two senior wiremen who
+        held the entire production capability of the company in their heads. We bid jobs the way I'd been
+        taught to bid them, and we built jobs the way they'd always been built.
+      </p>
+
+      <p>
+        And then we started losing.
+      </p>
+
+      <p>
+        <span class="placeholder">[BRENDEN — the moment. The customer call, the lost bid, the stockout, the night you couldn't sleep. Be specific. Name the dollar amount or the customer or the day of the week.]</span>
+      </p>
+
+      <p class="pull">
+        I didn't have a methodology. I had a problem. The methodology came later — and it came out of fifteen
+        years of getting it wrong before getting it right.
+      </p>
+
+      <p>
+        What you're looking at on this page — the four pillars, the cost calculator, the subscription tiers —
+        none of that started as a plan. It started as a survival list. Wire processing automation, because the
+        machine doesn't quit at 4:30. EPLAN, because the design data is the production data. Lean, because the
+        most expensive thing in any shop is the wireman walking to ask the engineer a question. And integrated
+        production, because none of the first three matters if the fourth one isn't holding it together.
+      </p>
+
+      <p>
+        <span class="placeholder">[BRENDEN — the inflection. The week or month or quarter when you knew it was working. Numbers if you have them. A face if you don't.]</span>
+      </p>
+
+      <p>
+        I'm not going to tell you this is easy. I'm going to tell you I've already paid for the lessons, and
+        you don't have to pay full price again. NexGen is the road map I wish I'd had — staged so you can
+        start where you are, not where I ended up.
+      </p>
+
+      <div class="scaffold-cta">
+        <button class="scaffold-cta-btn">Find Where You Are →</button>
+        <div class="scaffold-cta-text">…then routes to the diagnostic / tier selector already on the site.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SECTION 4: INTEGRATION ═══ -->
+<section id="integration">
+  <div class="container">
+    <div class="section-label">Part 04 — Integration Notes</div>
+    <h2>Where this lives <em>on the site.</em></h2>
+    <p class="section-intro">
+      Four placement decisions worth thinking through with Chip before any of this gets coded into the live
+      site. The timeline is a real component — it should be embeddable. The story is editorial — it should
+      breathe.
+    </p>
+
+    <div class="integration-grid">
+      <div class="integration-card">
+        <div class="num">01</div>
+        <h4>Place the backstory <em>before</em> the tier selector.</h4>
+        <p>The current site jumps straight to plans. Move the story above the fold of "what you'll do together."
+          A reader who finds themselves in the journey is a reader who is already pre-qualified for a tier — they
+          just need to be told which one.</p>
+      </div>
+      <div class="integration-card">
+        <div class="num">02</div>
+        <h4>The timeline is a <em>standalone asset.</em></h4>
+        <p>Build it as a self-contained embeddable widget. Drop it into the site, drop it into a LinkedIn post
+          as a screen recording, drop it into the front of a sales deck. One object, many surfaces. Same story
+          everywhere.</p>
+      </div>
+      <div class="integration-card">
+        <div class="num">03</div>
+        <h4>Map the timeline eras <em>directly</em> to the tiers.</h4>
+        <p>Each era on the timeline answers the question "is this you?" — and each one points at the NexGen
+          tier built for shops at that stage. No tier-shopping anxiety. The reader sees themselves, then sees
+          the obvious next step.</p>
+      </div>
+      <div class="integration-card">
+        <div class="num">04</div>
+        <h4>Record an audio version of <em>your</em> story.</h4>
+        <p>Once the prompts are answered, record yourself reading the final draft over a low background of shop-floor
+          ambient sound. Embed it on the page. Voice-of-Brenden carries credibility no transcript ever will —
+          and it pre-sells the podcast that's already in the pipeline.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-tag">
+        Tell the story <em>once,</em> tell it true. Then let the four pillars,
+        the calculator, and the tiers do what they were designed to do.
+      </div>
+      <div class="footer-meta">
+        DOC-NEXGEN-001<br>
+        REV 1.0 — DRAFT<br>
+        SHAIN HEISS / FOR BRENDEN R. FRITZ
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// ERA DATA
+// ═══════════════════════════════════════════════════════════════════════
+const eras = [
+  {
+    n: '01',
+    yearShort: '2010',
+    yearFull: '2010 – 2012',
+    label: 'PAPER ERA',
+    title: 'The <em>paper</em> era.',
+    summary: 'PDFs taped to workbenches. Wire pulled by feel. Two senior guys held the production capability of the company in their heads. Cycle time measured in weeks, rework measured in shrugs.',
+    prompt: '<strong>Story Beat — Origin</strong> What did the shop look like the day you walked in? What was the unspoken rule everyone followed?',
+    metrics: [
+      { label: 'Design Source', value: 'Paper PDF', cls: '' },
+      { label: 'Wire Processing', value: 'Manual', cls: '' },
+      { label: 'Production System', value: 'Tribal', cls: 'down' },
+      { label: 'Talent Strategy', value: 'Pray', cls: 'down' }
+    ],
+    visual: 'paper'
+  },
+  {
+    n: '02',
+    yearShort: '2013',
+    yearFull: '2013 – 2014',
+    label: 'THE FRACTURE',
+    title: 'The <em>fracture.</em>',
+    summary: 'The losing started. Not loud. A bid here. A customer rebill there. A senior wireman retiring with thirty years of how-it-works walking out the door. The math stopped working before anyone said it out loud.',
+    prompt: '<strong>Story Beat — Crisis</strong> Name the moment you knew the old way was finished. The customer call, the lost bid, the night you couldn\'t sleep.',
+    metrics: [
+      { label: 'Win Rate', value: '↓ falling', cls: 'down' },
+      { label: 'Rework Cost', value: 'Hidden', cls: 'down' },
+      { label: 'Senior Bench', value: 'Aging out', cls: 'down' },
+      { label: 'Owner Sleep', value: 'Optional', cls: 'down' }
+    ],
+    visual: 'fracture'
+  },
+  {
+    n: '03',
+    yearShort: '2015',
+    yearFull: '2015 – 2016',
+    label: '5S AWAKENING',
+    title: 'The <em>5S</em> awakening.',
+    summary: 'A customer in automotive walked the floor and said three sentences that didn\'t leave. We started with shadow boards. The skeptics rolled their eyes. The first kanban board went up. Six weeks in, something shifted.',
+    prompt: '<strong>Story Beat — Conviction</strong> Who told you the truth? Who pushed back? What was the smallest first win that made you believe?',
+    metrics: [
+      { label: 'Methodology', value: 'Lean / 5S', cls: 'amber' },
+      { label: 'Floor Discipline', value: 'Emerging', cls: 'amber' },
+      { label: 'Buy-In', value: 'Mixed', cls: '' },
+      { label: 'Cycle Time', value: '↓ 12%', cls: 'up' }
+    ],
+    visual: 'lean'
+  },
+  {
+    n: '04',
+    yearShort: '2017',
+    yearFull: '2017 – 2018',
+    label: 'EPLAN BET',
+    title: 'The <em>EPLAN</em> bet.',
+    summary: 'The biggest single check we\'d ever written for a piece of software, and a year of designing two ways at the same time. The senior engineers fought it. The new ones loved it. And then the production package started coming out of the database, not out of a brain.',
+    prompt: '<strong>Story Beat — The Big Bet</strong> What did saying yes cost — in dollars, in relationships, in nights? When did you know it was working?',
+    metrics: [
+      { label: 'Design Tool', value: 'EPLAN', cls: 'amber' },
+      { label: 'Eng. Process', value: 'Rebuilt', cls: 'amber' },
+      { label: 'BOM Accuracy', value: '↑ 96%', cls: 'up' },
+      { label: 'Resistance', value: 'Real', cls: '' }
+    ],
+    visual: 'eplan'
+  },
+  {
+    n: '05',
+    yearShort: '2019',
+    yearFull: '2019 – 2020',
+    label: 'WIRE AUTOMATION',
+    title: 'Wire processing <em>automation.</em>',
+    summary: 'First Komax landed on the dock the same week the world locked down. Cycle time on wire prep dropped 80%. The labor mix flipped — less measure-and-cut, more troubleshoot-and-commission. The next generation of wireman started showing up, and they wanted the screens.',
+    prompt: '<strong>Story Beat — The Compounding</strong> When did the investments start multiplying instead of adding? What did automation do to the kind of person who wanted to work here?',
+    metrics: [
+      { label: 'Wire Prep Time', value: '↓ 80%', cls: 'up' },
+      { label: 'Labor Mix', value: 'Shifted', cls: 'amber' },
+      { label: 'Talent Funnel', value: 'Reopened', cls: 'up' },
+      { label: 'Margin', value: '↑ rebuilding', cls: 'up' }
+    ],
+    visual: 'automation'
+  },
+  {
+    n: '06',
+    yearShort: '2021',
+    yearFull: '2021 – 2023',
+    label: 'INTEGRATED PRODUCTION',
+    title: 'The <em>integrated</em> shop.',
+    summary: 'EPLAN, automation, and lean stopped being three things and became one thing. Pull system. Production cells. The shop runs on data, not on heroics. The senior wireman became the troubleshooter, not the bottleneck.',
+    prompt: '<strong>Story Beat — The Quiet Win</strong> Describe a normal Tuesday in the shop today. What\'s no longer happening that used to happen every week?',
+    metrics: [
+      { label: 'System State', value: 'Integrated', cls: 'amber' },
+      { label: 'Throughput', value: '↑ 2.3×', cls: 'up' },
+      { label: 'Rework', value: '↓ structural', cls: 'up' },
+      { label: 'Hero Dependency', value: '↓ low', cls: 'up' }
+    ],
+    visual: 'integrated'
+  },
+  {
+    n: '07',
+    yearShort: '2024',
+    yearFull: '2024 – 2026',
+    label: 'NEXGEN — MENTOR',
+    title: 'The <em>mentor</em> phase.',
+    summary: 'Other shops started calling. Not for panels — for the playbook. The realization landed: the journey itself is the asset. NexGen exists to package fifteen years of expensive lessons into a stage-by-stage road map you can join wherever you are.',
+    prompt: '<strong>Story Beat — Why This, Why Now</strong> Why are you teaching this instead of holding it? What does the industry look like in five years if no one says any of this out loud?',
+    metrics: [
+      { label: 'Offering', value: 'NexGen', cls: 'amber' },
+      { label: 'Audience', value: 'Panel Shops', cls: 'amber' },
+      { label: 'Format', value: 'Subscription', cls: 'amber' },
+      { label: 'Mission', value: 'Pay it forward', cls: 'amber' }
+    ],
+    visual: 'mentor'
+  },
+  {
+    n: '08',
+    yearShort: '2027+',
+    yearFull: '2027 and forward',
+    label: 'HORIZON',
+    title: 'The <em>horizon.</em>',
+    summary: 'Vision-system QC. AI-assisted design. Cobots in wire harness assembly. The next decade isn\'t a repeat of the last one — it\'s steeper. The shops that started the journey are the shops that get to choose what comes next.',
+    prompt: '<strong>Story Beat — The Invitation</strong> What\'s the one thing a shop owner reading this in 2026 has to do this week to be on the right side of 2030?',
+    metrics: [
+      { label: 'Inspection', value: 'AI Vision', cls: 'amber' },
+      { label: 'Design', value: 'AI Assisted', cls: 'amber' },
+      { label: 'Assembly', value: 'Cobot-Aug.', cls: 'amber' },
+      { label: 'Window', value: 'Closing', cls: 'down' }
+    ],
+    visual: 'horizon'
+  }
+];
+
+// ═══════════════════════════════════════════════════════════════════════
+// SVG VISUALS PER ERA
+// ═══════════════════════════════════════════════════════════════════════
+const visuals = {
+  paper: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <!-- workbench -->
+      <line class="sch-line" x1="50" y1="320" x2="350" y2="320"/>
+      <line class="sch-line" x1="80" y1="320" x2="80" y2="380"/>
+      <line class="sch-line" x1="320" y1="320" x2="320" y2="380"/>
+      <!-- crinkled paper -->
+      <path class="sch-line-amber" d="M120 180 L280 175 L285 285 L115 290 Z"/>
+      <line class="sch-line" x1="135" y1="200" x2="265" y2="198"/>
+      <line class="sch-line" x1="135" y1="220" x2="240" y2="218"/>
+      <line class="sch-line" x1="135" y1="240" x2="270" y2="238"/>
+      <line class="sch-line" x1="135" y1="260" x2="225" y2="258"/>
+      <text class="sch-text-amber" x="125" y="170">SCHEMATIC.PDF — REV 4 (HANDWRITTEN)</text>
+      <!-- toolbox -->
+      <rect class="sch-line" x="60" y="290" width="50" height="30"/>
+      <text class="sch-text" x="62" y="285">TOOLBOX</text>
+      <!-- wire spool, no machine -->
+      <circle class="sch-line" cx="350" cy="310" r="18"/>
+      <circle class="sch-line" cx="350" cy="310" r="6"/>
+      <text class="sch-text" x="328" y="350">WIRE</text>
+      <!-- header -->
+      <text class="sch-text-amber" x="50" y="60">MODE: MANUAL  /  SOURCE: TRIBAL  /  ERROR-RATE: ?</text>
+      <line class="sch-dim" x1="50" y1="75" x2="350" y2="75"/>
+      <text class="sch-text" x="50" y="100">FLOOR PLAN — UNDIFFERENTIATED</text>
+      <!-- person -->
+      <circle class="sch-line" cx="200" cy="120" r="8"/>
+      <line class="sch-line" x1="200" y1="128" x2="200" y2="160"/>
+      <line class="sch-line" x1="200" y1="140" x2="180" y2="155"/>
+      <line class="sch-line" x1="200" y1="140" x2="220" y2="155"/>
+      <text class="sch-text" x="180" y="115">SR. WIREMAN</text>
+    </svg>`,
+  fracture: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <!-- chart trending down -->
+      <text class="sch-text-amber" x="50" y="60">WIN RATE — TRAILING 24 MO.</text>
+      <line class="sch-dim" x1="60" y1="80" x2="60" y2="220"/>
+      <line class="sch-dim" x1="60" y1="220" x2="340" y2="220"/>
+      <polyline class="sch-line-amber" points="60,90 110,110 160,135 210,150 260,180 310,200 340,210" stroke-width="1.5" fill="none"/>
+      <circle cx="60" cy="90" r="3" fill="#F5A524"/>
+      <circle cx="340" cy="210" r="3" fill="#C95B5B"/>
+      <text class="sch-text" x="60" y="245">2010</text>
+      <text class="sch-text" x="320" y="245">2014</text>
+      <!-- crack -->
+      <line stroke="#C95B5B" stroke-width="1.5" stroke-dasharray="4 3" x1="40" y1="290" x2="120" y2="310"/>
+      <line stroke="#C95B5B" stroke-width="1.5" stroke-dasharray="4 3" x1="120" y1="310" x2="180" y2="290"/>
+      <line stroke="#C95B5B" stroke-width="1.5" stroke-dasharray="4 3" x1="180" y1="290" x2="260" y2="320"/>
+      <line stroke="#C95B5B" stroke-width="1.5" stroke-dasharray="4 3" x1="260" y1="320" x2="360" y2="295"/>
+      <text class="sch-text-amber" x="50" y="285">FAULT LINE</text>
+      <text class="sch-text" x="50" y="345">UNREPORTED  —  REWORK / SCRAP / RUSH-FREIGHT</text>
+      <text class="sch-text" x="50" y="360">UNFIXED      —  TRIBAL KNOWLEDGE / NO STANDARD WORK</text>
+      <text class="sch-text" x="50" y="375">UNFUNDED    —  CAPEX FOR PROCESS / NOT FOR SOFTWARE</text>
+    </svg>`,
+  lean: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <text class="sch-text-amber" x="50" y="50">FIRST INSTALL: 5S — SHADOW BOARD</text>
+      <!-- shadow board -->
+      <rect class="sch-line-amber" x="60" y="70" width="280" height="150"/>
+      <!-- tool outlines -->
+      <rect class="sch-line" x="80" y="95" width="20" height="60" rx="2"/>
+      <rect class="sch-line" x="115" y="95" width="20" height="60" rx="2"/>
+      <line class="sch-line" x1="155" y1="95" x2="180" y2="155"/>
+      <line class="sch-line" x1="180" y1="95" x2="155" y2="155"/>
+      <circle class="sch-line" cx="220" cy="125" r="22"/>
+      <rect class="sch-line" x="260" y="100" width="60" height="50" rx="3"/>
+      <text class="sch-text" x="80" y="180">EACH TOOL HAS ONE PLACE</text>
+      <text class="sch-text" x="80" y="195">EACH PLACE HAS ONE TOOL</text>
+      <!-- kanban cards -->
+      <rect class="sch-line-amber" x="60" y="250" width="60" height="40"/>
+      <text class="sch-text" x="65" y="270">PRT-A12</text>
+      <text class="sch-text" x="65" y="282">QTY 50</text>
+      <rect class="sch-line-amber" x="135" y="250" width="60" height="40"/>
+      <text class="sch-text" x="140" y="270">PRT-B07</text>
+      <text class="sch-text" x="140" y="282">QTY 25</text>
+      <rect class="sch-line-amber" x="210" y="250" width="60" height="40"/>
+      <text class="sch-text" x="215" y="270">PRT-C04</text>
+      <text class="sch-text" x="215" y="282">QTY 100</text>
+      <rect class="sch-line-amber" x="285" y="250" width="55" height="40"/>
+      <text class="sch-text-amber" x="290" y="275">PULL→</text>
+      <text class="sch-text" x="60" y="320">KANBAN — PARTS PULLED, NOT PUSHED</text>
+      <text class="sch-text-amber" x="60" y="360">SKEPTICS: 7  /  CONVERTED: 3  /  TBD: 4</text>
+    </svg>`,
+  eplan: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <text class="sch-text-amber" x="50" y="50">SOURCE-OF-TRUTH MIGRATION</text>
+      <!-- old -->
+      <rect class="sch-line" x="50" y="80" width="120" height="80"/>
+      <text class="sch-text" x="60" y="100">PAPER PDF</text>
+      <text class="sch-text" x="60" y="115">+ TRIBAL</text>
+      <text class="sch-text" x="60" y="135">RISK: HIGH</text>
+      <text class="sch-text" x="60" y="150">REWORK: HIGH</text>
+      <!-- arrow -->
+      <line class="sch-line-amber" x1="180" y1="120" x2="225" y2="120"/>
+      <polygon class="sch-fill-amber" points="225,120 215,115 215,125" fill="#F5A524"/>
+      <!-- new -->
+      <rect class="sch-line-amber" x="235" y="80" width="115" height="80"/>
+      <text class="sch-text-amber" x="245" y="100">EPLAN DB</text>
+      <text class="sch-text-amber" x="245" y="115">SINGLE TRUTH</text>
+      <text class="sch-text-amber" x="245" y="135">RISK: ↓</text>
+      <text class="sch-text-amber" x="245" y="150">REWORK: ↓</text>
+      <!-- downstream tree -->
+      <line class="sch-line" x1="200" y1="180" x2="200" y2="210"/>
+      <line class="sch-line" x1="100" y1="210" x2="300" y2="210"/>
+      <line class="sch-line" x1="100" y1="210" x2="100" y2="240"/>
+      <line class="sch-line" x1="170" y1="210" x2="170" y2="240"/>
+      <line class="sch-line" x1="240" y1="210" x2="240" y2="240"/>
+      <line class="sch-line" x1="300" y1="210" x2="300" y2="240"/>
+      <rect class="sch-line" x="60" y="240" width="80" height="35"/>
+      <text class="sch-text" x="68" y="255">AUTO-BOM</text>
+      <text class="sch-text" x="68" y="268">↳ ERP</text>
+      <rect class="sch-line" x="135" y="240" width="80" height="35"/>
+      <text class="sch-text" x="143" y="255">FROM-TO</text>
+      <text class="sch-text" x="143" y="268">WIRE LIST</text>
+      <rect class="sch-line" x="210" y="240" width="80" height="35"/>
+      <text class="sch-text" x="218" y="255">LABEL FILE</text>
+      <text class="sch-text" x="218" y="268">↳ PRINTER</text>
+      <rect class="sch-line" x="285" y="240" width="80" height="35"/>
+      <text class="sch-text" x="293" y="255">EXPORT</text>
+      <text class="sch-text" x="293" y="268">↳ KOMAX</text>
+      <text class="sch-text-amber" x="50" y="320">"REDESIGNED THE PROCESS, NOT JUST INSTALLED THE TOOL"</text>
+      <text class="sch-text" x="50" y="365">YEAR ONE: PAINFUL  /  YEAR TWO: COMPOUND  /  YEAR THREE: LOCK-IN</text>
+    </svg>`,
+  automation: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <text class="sch-text-amber" x="50" y="50">WIRE PROCESSING CELL — KOMAX-CLASS</text>
+      <!-- machine outline -->
+      <rect class="sch-line-amber" x="80" y="80" width="240" height="120" rx="3"/>
+      <!-- spools -->
+      <circle class="sch-line" cx="110" cy="115" r="14"/>
+      <circle class="sch-line" cx="110" cy="115" r="5"/>
+      <circle class="sch-line" cx="110" cy="155" r="14"/>
+      <circle class="sch-line" cx="110" cy="155" r="5"/>
+      <!-- wire path -->
+      <line class="sch-line-amber" x1="124" y1="135" x2="180" y2="135"/>
+      <!-- cut zone -->
+      <rect class="sch-line-amber" x="180" y="120" width="40" height="30"/>
+      <text class="sch-text-amber" x="184" y="142">CUT/STRIP</text>
+      <line class="sch-line-amber" x1="220" y1="135" x2="270" y2="135"/>
+      <!-- crimp -->
+      <rect class="sch-line-amber" x="270" y="120" width="40" height="30"/>
+      <text class="sch-text-amber" x="277" y="142">FERRULE</text>
+      <!-- output bin -->
+      <line class="sch-line" x1="290" y1="155" x2="290" y2="195"/>
+      <rect class="sch-line" x="270" y="195" width="40" height="15"/>
+      <text class="sch-text" x="270" y="225">SORTED</text>
+      <!-- HMI -->
+      <rect class="sch-line" x="240" y="80" width="55" height="35"/>
+      <text class="sch-text" x="247" y="100">HMI</text>
+      <text class="sch-text" x="247" y="111">JOB-2417</text>
+      <!-- metric block -->
+      <line class="sch-dim" x1="50" y1="240" x2="350" y2="240"/>
+      <text class="sch-text-amber" x="50" y="265">CYCLE-TIME (WIRE PREP)</text>
+      <text class="sch-text" x="50" y="285">BEFORE: 8 hrs / panel  →  AFTER: 1.5 hrs / panel  →  Δ −81%</text>
+      <text class="sch-text-amber" x="50" y="320">LABOR-MIX SHIFT</text>
+      <text class="sch-text" x="50" y="340">measure-and-cut ↓  /  troubleshoot-and-commission ↑</text>
+      <text class="sch-text" x="50" y="370">"THE NEXT-GEN WIREMAN STARTED SHOWING UP — THEY WANTED THE SCREENS"</text>
+    </svg>`,
+  integrated: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <text class="sch-text-amber" x="50" y="50">PRODUCTION CELL — INTEGRATED FLOW</text>
+      <!-- 4 stations -->
+      <rect class="sch-line-amber" x="40" y="100" width="70" height="55"/>
+      <text class="sch-text-amber" x="48" y="120">ENG / EPLAN</text>
+      <text class="sch-text" x="48" y="135">DB EXPORT</text>
+      <text class="sch-text" x="48" y="148">→ AUTO-PKG</text>
+      <line class="sch-line-amber" x1="110" y1="127" x2="135" y2="127"/>
+      <polygon fill="#F5A524" points="135,127 128,124 128,131"/>
+      <rect class="sch-line-amber" x="135" y="100" width="70" height="55"/>
+      <text class="sch-text-amber" x="143" y="120">WIRE CELL</text>
+      <text class="sch-text" x="143" y="135">KOMAX</text>
+      <text class="sch-text" x="143" y="148">SORTED OUT</text>
+      <line class="sch-line-amber" x1="205" y1="127" x2="230" y2="127"/>
+      <polygon fill="#F5A524" points="230,127 223,124 223,131"/>
+      <rect class="sch-line-amber" x="230" y="100" width="70" height="55"/>
+      <text class="sch-text-amber" x="240" y="120">ASSEMBLY</text>
+      <text class="sch-text" x="238" y="135">SEQUENCED</text>
+      <text class="sch-text" x="238" y="148">WORK INSTR.</text>
+      <line class="sch-line-amber" x1="300" y1="127" x2="325" y2="127"/>
+      <polygon fill="#F5A524" points="325,127 318,124 318,131"/>
+      <rect class="sch-line-amber" x="325" y="100" width="60" height="55"/>
+      <text class="sch-text-amber" x="333" y="120">QC / SHIP</text>
+      <text class="sch-text" x="333" y="135">FIRST-PASS</text>
+      <text class="sch-text" x="333" y="148">YIELD ↑</text>
+      <!-- pull arrow back -->
+      <line class="sch-line" x1="360" y1="180" x2="360" y2="200"/>
+      <line class="sch-line" x1="360" y1="200" x2="55" y2="200"/>
+      <line class="sch-line" x1="55" y1="200" x2="55" y2="160"/>
+      <polygon fill="#5BC0EB" points="55,155 52,162 58,162"/>
+      <text class="sch-text" x="155" y="195">PULL SIGNAL — DEMAND DRIVES UPSTREAM</text>
+      <!-- dashboard -->
+      <line class="sch-dim" x1="50" y1="230" x2="350" y2="230"/>
+      <text class="sch-text-amber" x="50" y="255">DAILY DASHBOARD</text>
+      <text class="sch-text" x="50" y="275">THROUGHPUT     ████████████████  +132%</text>
+      <text class="sch-text" x="50" y="290">REWORK         ███               −74%</text>
+      <text class="sch-text" x="50" y="305">FIRST-PASS     ████████████████  98.6%</text>
+      <text class="sch-text" x="50" y="320">HERO-DEPENDENCY ██                LOW</text>
+      <text class="sch-text-amber" x="50" y="365">"THE SHOP RUNS ON DATA, NOT ON HEROICS"</text>
+    </svg>`,
+  mentor: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <text class="sch-text-amber" x="50" y="50">NEXGEN — KNOWLEDGE TRANSFER ARCH.</text>
+      <!-- center node -->
+      <circle class="sch-line-amber" cx="200" cy="170" r="44" stroke-width="1.5"/>
+      <text class="sch-text-amber" x="178" y="165">NEXGEN</text>
+      <text class="sch-text-amber" x="180" y="180">METHOD</text>
+      <text class="sch-text" x="173" y="195">15 yrs ↓ packaged</text>
+      <!-- spokes to shops -->
+      <line class="sch-line" x1="200" y1="126" x2="120" y2="80"/>
+      <line class="sch-line" x1="200" y1="126" x2="280" y2="80"/>
+      <line class="sch-line" x1="244" y1="170" x2="340" y2="170"/>
+      <line class="sch-line" x1="156" y1="170" x2="60" y2="170"/>
+      <line class="sch-line" x1="200" y1="214" x2="120" y2="260"/>
+      <line class="sch-line" x1="200" y1="214" x2="280" y2="260"/>
+      <!-- shops -->
+      <rect class="sch-line" x="100" y="65" width="40" height="25"/>
+      <text class="sch-text" x="105" y="80">SHOP A</text>
+      <rect class="sch-line" x="260" y="65" width="40" height="25"/>
+      <text class="sch-text" x="265" y="80">SHOP B</text>
+      <rect class="sch-line" x="20" y="158" width="40" height="25"/>
+      <text class="sch-text" x="25" y="173">SHOP C</text>
+      <rect class="sch-line" x="340" y="158" width="40" height="25"/>
+      <text class="sch-text" x="345" y="173">SHOP D</text>
+      <rect class="sch-line" x="100" y="250" width="40" height="25"/>
+      <text class="sch-text" x="105" y="265">SHOP E</text>
+      <rect class="sch-line" x="260" y="250" width="40" height="25"/>
+      <text class="sch-text" x="265" y="265">SHOP F</text>
+      <!-- tier ladder -->
+      <line class="sch-dim" x1="50" y1="310" x2="350" y2="310"/>
+      <text class="sch-text-amber" x="50" y="330">TIER STRUCTURE — MEET SHOPS WHERE THEY ARE</text>
+      <text class="sch-text" x="50" y="350">FOUNDATION → ACCELERATE → INTEGRATE → SCALE</text>
+      <text class="sch-text" x="50" y="375">"THE JOURNEY ITSELF IS THE ASSET"</text>
+    </svg>`,
+  horizon: `
+    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <text class="sch-text-amber" x="50" y="50">HORIZON — 2027 → 2030</text>
+      <!-- stack of capabilities -->
+      <rect class="sch-line-amber" x="60" y="80" width="280" height="40"/>
+      <text class="sch-text-amber" x="75" y="105">AI VISION QC — every wire, every label, every panel</text>
+      <rect class="sch-line-amber" x="60" y="125" width="280" height="40"/>
+      <text class="sch-text-amber" x="75" y="150">AI-ASSISTED EPLAN DESIGN — code &amp; layout copilots</text>
+      <rect class="sch-line-amber" x="60" y="170" width="280" height="40"/>
+      <text class="sch-text-amber" x="75" y="195">COBOTS IN HARNESS ASSEMBLY — pilot → production</text>
+      <rect class="sch-line-amber" x="60" y="215" width="280" height="40"/>
+      <text class="sch-text-amber" x="75" y="240">DIGITAL TWIN — quote → simulate → commit</text>
+      <!-- horizon line -->
+      <line class="sch-line-amber" x1="40" y1="290" x2="360" y2="290" stroke-width="1.5"/>
+      <line class="sch-dim" x1="40" y1="300" x2="360" y2="300"/>
+      <text class="sch-text-amber" x="50" y="285">HORIZON</text>
+      <!-- arrow up -->
+      <line class="sch-line-amber" x1="200" y1="350" x2="200" y2="305"/>
+      <polygon fill="#F5A524" points="200,300 195,310 205,310"/>
+      <text class="sch-text" x="60" y="335">THE SHOPS THAT STARTED THE JOURNEY GET TO CHOOSE.</text>
+      <text class="sch-text" x="60" y="370">THE WINDOW TO START IS NOT INDEFINITE.</text>
+    </svg>`
+};
+
+// ═══════════════════════════════════════════════════════════════════════
+// CHAPTERS — STORY DISCOVERY PROMPTS
+// ═══════════════════════════════════════════════════════════════════════
+const chapters = [
+  {
+    n: '01',
+    title: 'Origin — <em>where you started.</em>',
+    tagline: 'The shop the day you arrived. The default world. The unspoken rules.',
+    badge: 'BEFORE THE BREAK',
+    prompts: [
+      {
+        q: 'Walk me through the shop the day you started. What did the floor look like, sound like, smell like?',
+        meta: ['Time: 3 minutes', 'Format: Spoken'],
+        evoke: 'Concrete sensory detail. We want the reader who is <em>still</em> running this kind of shop to feel quietly seen — not lectured.'
+      },
+      {
+        q: 'What was the unspoken rule everyone followed? Who held the most power on the floor and what gave them that power?',
+        meta: ['Time: 2 minutes', 'Format: Spoken'],
+        evoke: 'Tribal knowledge. The senior wireman as load-bearing wall. The fragility hiding inside what everyone called "experience."'
+      },
+      {
+        q: 'When you bid a job, what was your gut method for pricing it? Did the gut work?',
+        meta: ['Time: 2 minutes', 'Format: Spoken'],
+        evoke: 'The reader recognizes their own pricing process. Pre-tension before the fracture chapter.'
+      }
+    ]
+  },
+  {
+    n: '02',
+    title: 'Crisis — <em>the moment it broke.</em>',
+    tagline: 'The losing started. The customer left. The senior guy retired. The math stopped working.',
+    badge: 'THE FRACTURE',
+    prompts: [
+      {
+        q: 'Describe the single moment you knew the old way was finished. Where were you? What was said?',
+        meta: ['Time: 4 minutes', 'Format: Spoken'],
+        evoke: 'A scene with a date, a name, a dollar amount, or a face. Specificity is the entire game in this chapter — vague crisis is no crisis.'
+      },
+      {
+        q: 'What did you try first that didn\'t work? What was the wishful thinking you had to give up before you could move forward?',
+        meta: ['Time: 3 minutes', 'Format: Spoken'],
+        evoke: 'Honesty about false starts. This earns the reader\'s trust for everything that follows.'
+      },
+      {
+        q: 'Who told you the truth that nobody around you wanted to say out loud?',
+        meta: ['Time: 2 minutes', 'Format: Spoken'],
+        evoke: 'A mentor, a customer, a number on a P&L. The "outside voice" that broke the spell.'
+      }
+    ]
+  },
+  {
+    n: '03',
+    title: 'Conviction — <em>the bet you made.</em>',
+    tagline: 'EPLAN. Lean. Wire processing. The big checks and the long Year One.',
+    badge: 'THE BIG INVESTMENTS',
+    prompts: [
+      {
+        q: 'When you wrote the first big check — for software, for a machine, for training — what did you tell yourself to make it OK?',
+        meta: ['Time: 3 minutes', 'Format: Spoken'],
+        evoke: 'The internal monologue of capital risk. The reader who is staring at a quote right now needs to hear how you made peace with the number.'
+      },
+      {
+        q: 'Who fought you on it inside the company? How did you handle the resistance — and what did you get wrong about handling it?',
+        meta: ['Time: 3 minutes', 'Format: Spoken'],
+        evoke: 'Change management is the unsexy, unsaid hard part. Naming it is a rare credibility move.'
+      },
+      {
+        q: 'What was the moment you knew the bet was going to pay off — even before the numbers said so?',
+        meta: ['Time: 2 minutes', 'Format: Spoken'],
+        evoke: 'The qualitative tell that preceded the quantitative tell. A wireman\'s comment. A customer noticing. A clean Friday afternoon.'
+      }
+    ]
+  },
+  {
+    n: '04',
+    title: 'Climb — <em>the slow compound.</em>',
+    tagline: 'The years where the investments stopped adding and started multiplying.',
+    badge: 'THE COMPOUNDING',
+    prompts: [
+      {
+        q: 'When did you stop noticing each individual improvement and start noticing the system?',
+        meta: ['Time: 2 minutes', 'Format: Spoken'],
+        evoke: 'The shift from heroics to flow. From "we pulled it off" to "the shop ran."'
+      },
+      {
+        q: 'What did automation do to the kind of person who wanted to work at ADS? Who started showing up that wasn\'t showing up before?',
+        meta: ['Time: 3 minutes', 'Format: Spoken'],
+        evoke: 'The talent flywheel. The under-30 wireman who wants the screens. The reader\'s own labor crisis getting reframed.'
+      },
+      {
+        q: 'What\'s a normal Tuesday in the shop today? What\'s no longer happening that used to happen every week?',
+        meta: ['Time: 3 minutes', 'Format: Spoken'],
+        evoke: 'The negative space — the absence of fires — is the proof. This is the most quietly powerful answer in the whole interview.'
+      }
+    ]
+  },
+  {
+    n: '05',
+    title: 'Inflection — <em>why teach it?</em>',
+    tagline: 'The phone calls from other shops. The realization. The decision to package it.',
+    badge: 'NEXGEN, BORN',
+    prompts: [
+      {
+        q: 'When did the first other-shop phone call come, and what did they ask you that made you realize the journey itself was the asset?',
+        meta: ['Time: 3 minutes', 'Format: Spoken'],
+        evoke: 'The origin story of NexGen. A specific call, a specific question. This is the answer that <em>justifies the existence</em> of the subscription.'
+      },
+      {
+        q: 'Why are you teaching this instead of holding it? What\'s the trade you\'re making and why is it worth it?',
+        meta: ['Time: 3 minutes', 'Format: Spoken'],
+        evoke: 'Mission. The reader needs to feel that you\'re not selling a course — you\'re paying something forward because the industry needs it.'
+      },
+      {
+        q: 'What does the panel-building industry look like in five years if nobody says any of this out loud?',
+        meta: ['Time: 3 minutes', 'Format: Spoken'],
+        evoke: 'Stakes. The cost of inaction. The competitive landscape — Europe, Mexico, Asia — pricing on a different cost curve.'
+      }
+    ]
+  },
+  {
+    n: '06',
+    title: 'Invitation — <em>what to do this week.</em>',
+    tagline: 'The specific, small, doable next step for the reader you most want to reach.',
+    badge: 'THE ASK',
+    prompts: [
+      {
+        q: 'If a shop owner reads this and does <em>one thing</em> this week, what is it — and why that thing first?',
+        meta: ['Time: 2 minutes', 'Format: Spoken'],
+        evoke: 'A concrete, low-friction next action. Not "book a call." Something they can actually do — a measurement, a walk, a question to ask their team.'
+      },
+      {
+        q: 'What\'s the message for the shop owner who reads all of this and feels behind? What do they need to hear from you?',
+        meta: ['Time: 2 minutes', 'Format: Spoken'],
+        evoke: 'Compassion and urgency at the same time. The reader who is behind is the reader who needs you most — and the reader most likely to leave the page.'
+      },
+      {
+        q: 'Finish this sentence and don\'t edit yourself: <em>"I built NexGen because…"</em>',
+        meta: ['Time: 1 minute', 'Format: Spoken'],
+        evoke: 'The closing line. This becomes the pull-quote at the bottom of the page and the tagline of every email that links to it.'
+      }
+    ]
+  }
+];
+
+// ═══════════════════════════════════════════════════════════════════════
+// RENDER TIMELINE MARKERS
+// ═══════════════════════════════════════════════════════════════════════
+const track = document.getElementById('scrubber-track');
+eras.forEach((era, i) => {
+  const pct = (i / (eras.length - 1)) * 100;
+  const m = document.createElement('div');
+  m.className = 'era-marker' + (i === 0 ? ' active' : '');
+  m.style.left = pct + '%';
+  m.dataset.idx = i;
+  m.innerHTML = `
+    <div class="era-label">${era.label}</div>
+    <div class="era-dot"></div>
+    <div class="era-year">${era.yearShort}</div>
+  `;
+  m.addEventListener('click', () => goToEra(i));
+  track.appendChild(m);
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// RENDER ERA CONTENT
+// ═══════════════════════════════════════════════════════════════════════
+let currentEra = 0;
+const stage = document.getElementById('era-stage');
+const visualEl = document.getElementById('era-visual');
+const contentEl = document.getElementById('era-content');
+const progressEl = document.getElementById('scrubber-progress');
+
+function renderEra(i) {
+  const era = eras[i];
+  visualEl.innerHTML = visuals[era.visual];
+
+  let metricsHtml = '<div class="era-metrics">';
+  era.metrics.forEach(m => {
+    metricsHtml += `
+      <div class="metric">
+        <div class="metric-label">${m.label}</div>
+        <div class="metric-value ${m.cls}">${m.value}</div>
+      </div>`;
+  });
+  metricsHtml += '</div>';
+
+  contentEl.innerHTML = `
+    <div class="era-num">ERA ${era.n} — ${era.label}</div>
+    <h3 class="era-title">${era.title}</h3>
+    <div class="era-years">${era.yearFull}</div>
+    <p class="era-summary">${era.summary}</p>
+    <div class="era-prompt">${era.prompt}</div>
+    ${metricsHtml}
+  `;
+
+  // update markers
+  document.querySelectorAll('.era-marker').forEach((m, idx) => {
+    m.classList.remove('active', 'passed');
+    if (idx < i) m.classList.add('passed');
+    else if (idx === i) m.classList.add('active');
+  });
+
+  // update progress bar
+  const pct = (i / (eras.length - 1)) * 100;
+  progressEl.style.width = pct + '%';
+}
+
+function goToEra(i) {
+  if (i < 0 || i >= eras.length) return;
+  currentEra = i;
+  stage.classList.add('transitioning');
+  setTimeout(() => {
+    renderEra(i);
+    stage.classList.remove('transitioning');
+  }, 250);
+}
+
+// initial
+renderEra(0);
+
+// ═══════════════════════════════════════════════════════════════════════
+// CONTROLS
+// ═══════════════════════════════════════════════════════════════════════
+document.getElementById('prev-btn').addEventListener('click', () => goToEra(currentEra - 1));
+document.getElementById('next-btn').addEventListener('click', () => goToEra(currentEra + 1));
+
+let playing = false;
+let playInterval = null;
+const playBtn = document.getElementById('play-btn');
+playBtn.addEventListener('click', () => {
+  playing = !playing;
+  if (playing) {
+    playBtn.textContent = '⏸ PAUSE';
+    playBtn.classList.add('playing');
+    playInterval = setInterval(() => {
+      const next = (currentEra + 1) % eras.length;
+      goToEra(next);
+    }, 4500);
+  } else {
+    playBtn.textContent = '▶ AUTO-PLAY';
+    playBtn.classList.remove('playing');
+    clearInterval(playInterval);
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════════════
+// RENDER CHAPTERS
+// ═══════════════════════════════════════════════════════════════════════
+const chapterGrid = document.getElementById('chapter-grid');
+chapters.forEach(ch => {
+  const el = document.createElement('div');
+  el.className = 'chapter';
+  let promptsHtml = '';
+  ch.prompts.forEach(p => {
+    promptsHtml += `
+      <div class="prompt-block">
+        <div class="prompt-q">${p.q}</div>
+        <div class="prompt-meta">${p.meta.map(m => `<span>${m}</span>`).join('')}</div>
+        <div class="prompt-evoke"><strong style="color:var(--text-dim);font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.15em;">Evoke →</strong> ${p.evoke}</div>
+      </div>`;
+  });
+  el.innerHTML = `
+    <div class="chapter-header">
+      <div>
+        <div class="chapter-num">CHAPTER ${ch.n}</div>
+        <h3 class="chapter-title">${ch.title}</h3>
+        <p class="chapter-tagline">${ch.tagline}</p>
+      </div>
+      <div class="chapter-emoji">${ch.badge}</div>
+    </div>
+    <div class="chapter-body">${promptsHtml}</div>
+  `;
+  chapterGrid.appendChild(el);
+});
+
+// keyboard nav
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight') goToEra(currentEra + 1);
+  if (e.key === 'ArrowLeft') goToEra(currentEra - 1);
+});
+</script>
+
+</body>
+</html>

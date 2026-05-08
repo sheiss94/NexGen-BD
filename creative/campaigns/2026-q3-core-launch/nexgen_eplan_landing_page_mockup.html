@@ -1,0 +1,301 @@
+
+<h2 class="sr-only">NexGen Panel Mentoring — EPLAN Partnership Landing Page Mockup with Choose Your Journey Assessment Tool</h2>
+
+<style>
+  .ng-wrap { font-family: var(--font-sans); max-width: 680px; }
+  .ng-hero { background: #1A2744; color: #fff; padding: 2rem 1.75rem 1.5rem; border-radius: var(--border-radius-lg); margin-bottom: 1rem; }
+  .ng-pill { display: inline-block; background: #E50043; color: #fff; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 12px; letter-spacing: 0.05em; }
+  .ng-h1 { font-size: 22px; font-weight: 500; margin: 0 0 8px; line-height: 1.3; }
+  .ng-accent { color: #00B4D8; }
+  .ng-sub { font-size: 14px; color: #8892A4; line-height: 1.6; margin: 0 0 1.25rem; }
+  .ng-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .ng-stat { background: #243560; border-radius: var(--border-radius-md); padding: 10px 12px; }
+  .ng-stat-num { font-size: 18px; font-weight: 500; color: #00B4D8; }
+  .ng-stat-lab { font-size: 11px; color: #8892A4; margin-top: 2px; }
+  .ng-section { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+  .ng-section-title { font-size: 11px; font-weight: 500; color: #008BD0; letter-spacing: 0.08em; margin: 0 0 12px; text-transform: uppercase; }
+  .ng-proof { display: flex; gap: 12px; align-items: flex-start; }
+  .ng-proof-num { font-size: 40px; font-weight: 500; color: #E50043; line-height: 1; white-space: nowrap; }
+  .ng-proof-text { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; }
+  .ng-proof-em { color: var(--color-text-primary); font-weight: 500; }
+  .ng-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ng-benefit { border-left: 3px solid #008BD0; padding: 8px 12px; background: var(--color-background-secondary); border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; }
+  .ng-benefit-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; }
+  .ng-benefit-body { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .ng-benefit.red { border-left-color: #E50043; }
+  .ng-tiers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 4px; }
+  .ng-tier { border-radius: var(--border-radius-md); overflow: hidden; border: 0.5px solid var(--color-border-tertiary); }
+  .ng-tier-head { padding: 10px 8px; text-align: center; }
+  .ng-tier-name { font-size: 11px; font-weight: 500; color: #fff; }
+  .ng-tier-body { padding: 10px 8px; background: var(--color-background-primary); }
+  .ng-tier-price { font-size: 20px; font-weight: 500; text-align: center; }
+  .ng-tier-feat { font-size: 11px; color: var(--color-text-secondary); line-height: 1.7; margin-top: 6px; }
+  .assess-step { display: none; }
+  .assess-step.active { display: block; }
+  .assess-q { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 12px; line-height: 1.5; }
+  .assess-opts { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .assess-opt { border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 10px 14px; font-size: 13px; cursor: pointer; background: var(--color-background-primary); color: var(--color-text-primary); text-align: left; transition: all 0.15s; }
+  .assess-opt:hover { background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-border-info); }
+  .assess-opt.selected { background: #1A2744; color: #fff; border-color: #1A2744; }
+  .assess-progress { display: flex; gap: 5px; margin-bottom: 14px; }
+  .assess-dot { height: 4px; flex: 1; border-radius: 2px; background: var(--color-border-tertiary); }
+  .assess-dot.done { background: #008BD0; }
+  .assess-dot.active { background: #00B4D8; }
+  .assess-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
+  .assess-result { text-align: center; padding: 8px 0; }
+  .assess-result-badge { display: inline-block; padding: 8px 20px; border-radius: 20px; font-size: 14px; font-weight: 500; color: #fff; margin-bottom: 10px; }
+  .assess-result-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 14px; }
+  .ng-cta { background: #1A2744; border-radius: var(--border-radius-lg); padding: 1.25rem 1.5rem; text-align: center; }
+  .ng-cta-title { font-size: 16px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+  .ng-cta-sub { font-size: 13px; color: #8892A4; margin-bottom: 14px; line-height: 1.6; }
+  .ng-btn-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .ng-btn { padding: 9px 20px; border-radius: var(--border-radius-md); font-size: 13px; font-weight: 500; cursor: pointer; border: none; }
+  .ng-btn-primary { background: #008BD0; color: #fff; }
+  .ng-btn-secondary { background: transparent; color: #fff; border: 0.5px solid #8892A4; }
+  .ng-btn-primary:hover { background: #007ab8; }
+</style>
+
+<div class="ng-wrap">
+
+  <div class="ng-hero">
+    <div class="ng-pill">EPLAN PARTNERSHIP</div>
+    <div class="ng-h1">Speed Adoption. Improve ROI.<br><span class="ng-accent">Strengthen Retention.</span></div>
+    <div class="ng-sub">NexGen Panel Mentoring helps EPLAN customers adopt sooner, standardize faster, and achieve measurable operational ROI — accelerating time to value for new users and rescuing struggling accounts.</div>
+    <div class="ng-stats">
+      <div class="ng-stat"><div class="ng-stat-num">11/12</div><div class="ng-stat-lab">EPLAN customers: no ROI achieved</div></div>
+      <div class="ng-stat"><div class="ng-stat-num">6,000+</div><div class="ng-stat-lab">UL shops in the US addressable</div></div>
+      <div class="ng-stat"><div class="ng-stat-num">1 of 12</div><div class="ng-stat-lab">ADS: only real EPLAN ROI story</div></div>
+    </div>
+  </div>
+
+  <div class="ng-section">
+    <div class="ng-section-title">Two ways NexGen helps EPLAN</div>
+    <div class="ng-2col">
+      <div class="ng-benefit">
+        <div class="ng-benefit-title">New customer acceleration</div>
+        <div class="ng-benefit-body">Shorten the path from purchase to adoption. Reduce trial-and-error. Embed EPLAN into real workflows faster.</div>
+      </div>
+      <div class="ng-benefit red">
+        <div class="ng-benefit-title">Existing customer ROI recovery</div>
+        <div class="ng-benefit-body">Identify why adoption stalled. Reconnect software to business outcomes. Protect accounts before they disengage or cancel.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ng-section">
+    <div class="ng-section-title">The proof problem</div>
+    <div class="ng-proof">
+      <div class="ng-proof-num">11/12</div>
+      <div class="ng-proof-text">EPLAN customers surveyed at an Omaha-area distributor event <span class="ng-proof-em">reported no significant ROI</span> from their investment. That is not a software problem. That is an adoption, implementation, and operationalization problem. <span class="ng-proof-em">NexGen closes that gap.</span></div>
+    </div>
+  </div>
+
+  <div class="ng-section">
+    <div class="ng-section-title">Subscription tiers</div>
+    <div class="ng-tiers">
+      <div class="ng-tier">
+        <div class="ng-tier-head" style="background:#008BD0;"><div class="ng-tier-name">EPLAN Essentials</div></div>
+        <div class="ng-tier-body">
+          <div class="ng-tier-price" style="color:#008BD0;">$300<span style="font-size:11px;color:var(--color-text-secondary);">/mo</span></div>
+          <div class="ng-tier-feat">EPLAN support calls<br>Email Q&A<br>50% hour rollover<br><em>New EPLAN users</em></div>
+        </div>
+      </div>
+      <div class="ng-tier">
+        <div class="ng-tier-head" style="background:#00B4D8;"><div class="ng-tier-name">Automation Leadership</div></div>
+        <div class="ng-tier-body">
+          <div class="ng-tier-price" style="color:#00B4D8;">$400<span style="font-size:11px;color:var(--color-text-secondary);">/mo</span></div>
+          <div class="ng-tier-feat">Leadership strategy calls<br>Process coaching<br>Email support<br><em>Shop managers</em></div>
+        </div>
+      </div>
+      <div class="ng-tier">
+        <div class="ng-tier-head" style="background:#F4A261;"><div class="ng-tier-name">Premium Access</div></div>
+        <div class="ng-tier-body">
+          <div class="ng-tier-price" style="color:#F4A261;">$900<span style="font-size:11px;color:var(--color-text-secondary);">/mo</span></div>
+          <div class="ng-tier-feat">Full EPLAN + Leadership<br>Priority scheduling<br>Add-on discounts<br><em>Growing shops</em></div>
+        </div>
+      </div>
+      <div class="ng-tier" style="border-color:#E50043;">
+        <div class="ng-tier-head" style="background:#E50043;"><div class="ng-tier-name">Elite Partnership</div></div>
+        <div class="ng-tier-body">
+          <div class="ng-tier-price" style="color:#E50043;">$2,500<span style="font-size:11px;color:var(--color-text-secondary);">/mo</span></div>
+          <div class="ng-tier-feat">1-on-1 executive calls<br>On-site options<br>M&A discussions<br><em>Owners & C-suite</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ng-section">
+    <div class="ng-section-title">Choose your journey — find your tier</div>
+    <div id="assess-container">
+      <div class="assess-progress" id="assess-progress"></div>
+
+      <div class="assess-step active" id="step-0">
+        <div class="assess-q">How does your team currently build panels?</div>
+        <div class="assess-opts">
+          <button class="assess-opt" onclick="selectOpt(0,0,1)">Fully manual — hand drilling, manual wire measurement & cutting, paper layouts</button>
+          <button class="assess-opt" onclick="selectOpt(0,1,2)">Partially manual — some tools but mostly individual craftsman process</button>
+          <button class="assess-opt" onclick="selectOpt(0,2,3)">Somewhat automated — wire processing system, basic CAD, structured workflow</button>
+          <button class="assess-opt" onclick="selectOpt(0,3,4)">Highly automated — EPLAN, eBUILD, CNC, digital documentation throughout</button>
+        </div>
+      </div>
+
+      <div class="assess-step" id="step-1">
+        <div class="assess-q">What design tools does your team use today?</div>
+        <div class="assess-opts">
+          <button class="assess-opt" onclick="selectOpt(1,0,1)">None — hand sketches or verbal instructions</button>
+          <button class="assess-opt" onclick="selectOpt(1,1,2)">Basic CAD — AutoCAD or similar, no electrical-specific tools</button>
+          <button class="assess-opt" onclick="selectOpt(1,2,3)">EPLAN installed — but underutilized, limited ROI seen</button>
+          <button class="assess-opt" onclick="selectOpt(1,3,4)">EPLAN + eBUILD + parts database — actively used in production</button>
+        </div>
+      </div>
+
+      <div class="assess-step" id="step-2">
+        <div class="assess-q">How is your panel building team structured?</div>
+        <div class="assess-opts">
+          <button class="assess-opt" onclick="selectOpt(2,0,1)">1–2 electricians, each builds full panels start to finish</button>
+          <button class="assess-opt" onclick="selectOpt(2,1,2)">Small team of panel builders, cell-based or sequential process</button>
+          <button class="assess-opt" onclick="selectOpt(2,2,3)">In-house engineers + panel builders with some process structure</button>
+          <button class="assess-opt" onclick="selectOpt(2,3,4)">Full engineering/design team, structured workflow, dedicated roles</button>
+        </div>
+      </div>
+
+      <div class="assess-step" id="step-3">
+        <div class="assess-q">What automation equipment does your shop currently use?</div>
+        <div class="assess-opts">
+          <button class="assess-opt" onclick="selectOpt(3,0,1)">None — all manual tools</button>
+          <button class="assess-opt" onclick="selectOpt(3,1,2)">Wire processing machine (Komax, etc.) or basic CNC</button>
+          <button class="assess-opt" onclick="selectOpt(3,2,3)">Wire processing + CNC machining center + some robotics</button>
+          <button class="assess-opt" onclick="selectOpt(3,3,4)">Full automation suite — wire processing, CNC, robotics, Smart Wiring integration</button>
+        </div>
+      </div>
+
+      <div class="assess-step" id="step-result">
+        <div class="assess-result">
+          <div id="result-badge" class="assess-result-badge"></div>
+          <div id="result-tier" style="font-size:18px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px;"></div>
+          <div id="result-desc" class="assess-result-desc"></div>
+          <button class="ng-btn ng-btn-primary" onclick="sendPrompt('I completed the NexGen assessment and scored in the ' + window._tierName + ' tier. Can you tell me more about what that package includes and what the onboarding process looks like?')">Explore this package ↗</button>
+          <div style="margin-top:10px;">
+            <button class="ng-btn ng-btn-secondary" style="font-size:12px;" onclick="resetAssess()">Retake assessment</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="assess-nav" id="assess-nav" style="display:none;">
+        <button class="ng-btn ng-btn-secondary" onclick="prevStep()" id="btn-back">Back</button>
+        <span id="step-label" style="font-size:12px;color:var(--color-text-secondary);"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ng-section" style="border-left: 3px solid #008BD0; border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0;">
+    <div class="ng-section-title">Testimonials</div>
+    <div style="display:grid;gap:8px;">
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.7;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);">"I learned more in 30 minutes than in four days of training." <span style="color:var(--color-text-primary);font-weight:500;">— Panel Shop Manager, Midwest</span></div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.7;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);">"This helped connect the software to the real work." <span style="color:var(--color-text-primary);font-weight:500;">— EPLAN User, Manufacturing</span></div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.7;padding:8px 0;">"They shortened the path from concept to execution." <span style="color:var(--color-text-primary);font-weight:500;">— Operations Director</span></div>
+    </div>
+  </div>
+
+  <div class="ng-cta">
+    <div class="ng-cta-title">Let's talk about how NexGen can help your customers succeed faster.</div>
+    <div class="ng-cta-sub">Built from real manufacturing experience. Designed to help EPLAN customers succeed in the real world.</div>
+    <div class="ng-btn-row">
+      <button class="ng-btn ng-btn-primary" onclick="sendPrompt('I want to book a conversation with NexGen Panel Mentoring about the EPLAN partnership program.')">Book a conversation ↗</button>
+      <button class="ng-btn ng-btn-secondary" onclick="sendPrompt('Tell me more about the NexGen customer acceleration roadmap for EPLAN users.')">See the roadmap ↗</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const scores = [0,0,0,0];
+  let currentStep = 0;
+  const totalSteps = 4;
+  window._tierName = '';
+
+  function buildProgress() {
+    const bar = document.getElementById('assess-progress');
+    bar.innerHTML = '';
+    for (let i = 0; i < totalSteps; i++) {
+      const d = document.createElement('div');
+      d.className = 'assess-dot' + (i < currentStep ? ' done' : i === currentStep ? ' active' : '');
+      bar.appendChild(d);
+    }
+  }
+
+  function selectOpt(stepIdx, optIdx, pts) {
+    scores[stepIdx] = pts;
+    const opts = document.querySelectorAll('#step-' + stepIdx + ' .assess-opt');
+    opts.forEach((o,i) => o.classList.toggle('selected', i === optIdx));
+    setTimeout(() => nextStep(), 300);
+  }
+
+  function nextStep() {
+    document.getElementById('step-' + currentStep).classList.remove('active');
+    currentStep++;
+    if (currentStep >= totalSteps) {
+      showResult();
+    } else {
+      document.getElementById('step-' + currentStep).classList.add('active');
+      document.getElementById('assess-nav').style.display = 'flex';
+      document.getElementById('step-label').textContent = 'Question ' + (currentStep + 1) + ' of ' + totalSteps;
+      buildProgress();
+    }
+  }
+
+  function prevStep() {
+    if (currentStep <= 0) return;
+    document.getElementById('step-' + (currentStep >= totalSteps ? 'result' : currentStep)).classList.remove('active');
+    currentStep--;
+    document.getElementById('step-' + currentStep).classList.add('active');
+    document.getElementById('assess-nav').style.display = currentStep > 0 ? 'flex' : 'none';
+    document.getElementById('step-label').textContent = 'Question ' + (currentStep + 1) + ' of ' + totalSteps;
+    buildProgress();
+  }
+
+  function showResult() {
+    const total = scores.reduce((a,b) => a+b, 0);
+    let tier, color, desc;
+    if (total <= 5) {
+      tier = 'EPLAN Essentials — $300/month'; color = '#008BD0';
+      desc = 'Your shop is early in its automation journey. NexGen will help you build the foundation: understanding EPLAN, establishing process structure, and setting the right goals for your team.';
+      window._tierName = 'EPLAN Essentials';
+    } else if (total <= 9) {
+      tier = 'Automation Leadership — $400/month'; color = '#00B4D8';
+      desc = 'You have tools in place but need strategic direction to get real ROI. NexGen will help you connect your existing software to measurable business outcomes and build a leadership culture around continuous improvement.';
+      window._tierName = 'Automation Leadership';
+    } else if (total <= 13) {
+      tier = 'Premium Access — $900/month'; color = '#F4A261';
+      desc = 'Your shop is actively automating and scaling. NexGen will help you integrate designs, standardize workflows across EPLAN + eBUILD, and accelerate the compounding advantage of being an early mover.';
+      window._tierName = 'Premium Access';
+    } else {
+      tier = 'Elite Partnership — $2,500/month'; color = '#E50043';
+      desc = 'You are running a sophisticated operation. NexGen can engage at the executive level — strategic planning, M&A evaluation, outsourcing conversations, and building NexGen as a competitive advantage for your business.';
+      window._tierName = 'Elite Partnership';
+    }
+    document.getElementById('result-badge').style.background = color;
+    document.getElementById('result-badge').textContent = 'Recommended tier';
+    document.getElementById('result-tier').textContent = tier;
+    document.getElementById('result-tier').style.color = color;
+    document.getElementById('result-desc').textContent = desc;
+    document.getElementById('step-result').classList.add('active');
+    document.getElementById('assess-nav').style.display = 'flex';
+    document.getElementById('btn-back').style.display = 'inline-block';
+    document.getElementById('step-label').textContent = 'Score: ' + total + ' / 16';
+    buildProgress();
+  }
+
+  function resetAssess() {
+    scores.fill(0);
+    currentStep = 0;
+    document.querySelectorAll('.assess-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step-0').classList.add('active');
+    document.getElementById('assess-nav').style.display = 'none';
+    document.querySelectorAll('.assess-opt').forEach(o => o.classList.remove('selected'));
+    buildProgress();
+  }
+
+  buildProgress();
+  document.getElementById('assess-nav').style.display = 'none';
+</script>
