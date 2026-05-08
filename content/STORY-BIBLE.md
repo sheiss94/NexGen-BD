@@ -299,3 +299,108 @@ After Prompt 2, the cadence is one prompt per week for seven weeks. Eight hours 
 - All polished excerpts (transcripts, scripts, captions) land in `content/` and are committed.
 - The story is owned by Brenden. Shain edits. Chip designs. None of those roles cross.
 - When in doubt, ask: *would the panel shop owner reading this recognize themselves?* If no, cut it.
+
+---
+
+## 10. The Epic Test
+
+Competent storytelling tells the events. Epic storytelling makes the reader *want* to know the storyteller. Most marketing copy lives in the gap between those two.
+
+Below is the test every piece of NexGen story copy gets measured against — the home page, the deck, the documentary script, every LinkedIn post, every email subject line. **A draft that hits fewer than 6 of the 9 isn't ready to ship.**
+
+### The Nine Moves
+
+#### 1. Open in the wound, not the setup
+*Don't:* "Fifteen years ago Brenden inherited a panel shop…"
+*Do:* "It was a Tuesday — March 11, 2014 — and the bid came back $90,000 under us, and Brenden sat in his truck in the parking lot for forty minutes before he could go home."
+The reader gets dropped inside the worst day of someone's life before they know who he is. They keep reading because they have to.
+
+#### 2. Name a villain
+A story without an antagonist is a memoir. NexGen's villain is **the lie that hard work, more equipment, and better hiring will eventually be enough**. Whenever you can, point at the lie out loud — the reader is also fighting it. They get to be your ally.
+
+Other named villains in our orbit:
+- *Tribal knowledge as a feature instead of a bug.*
+- *The training-industrial complex* — software demos that don't change anything, consultants who leave binders.
+- *"We've always done it this way."*
+- *The myth that adopting EPLAN is the same as using EPLAN.*
+
+#### 3. Specifics that prove you were there
+Generic specificity ("a Tuesday he couldn't sleep through") is forgettable. **Real specificity** is a date, a dollar amount, a customer name, a piece of equipment, a temperature, a face. The reader knows you can't make these up.
+
+When in doubt, ask: *would a journalist's fact-checker have something to call?* If the answer is no, your detail isn't specific enough yet.
+
+#### 4. Sensory anchor
+The reader's body has to feel something. Truck-cab silence. The smell of solder. The pitch of a wire feeder running right vs. running wrong. The cold blue glow of the EPLAN screen at 11 p.m. when the rest of the shop is dark. Stories travel through bodies; abstractions don't.
+
+#### 5. A line that tattoos itself
+Every great story has one line that gets quoted later. Plant it deliberately, then guard it.
+
+Candidates already in the well:
+- "*The drawing is the panel.*"
+- "*The machine doesn't quit at 4:30.*"
+- "*The most expensive thing in any shop is the wireman walking to ask the engineer a question.*"
+- "*I built this so you wouldn't have to break what I broke.*"
+- "*He already paid. The receipts are on the website.*"
+- "*The senior wiremen are still there — and they're craftsmen again, not load-bearing walls.*"
+
+The brand t-shirt line — the *one* — hasn't been written yet. It's hiding in something Brenden will say in the interviews.
+
+#### 6. The turn to the reader
+At some point the camera has to swivel. *"Somewhere right now there's another owner sitting in another truck doing math that doesn't work."* The story stops being about Brenden and becomes about the reader. That's when the reader leans in.
+
+This is the move most marketing forgets. Without the turn, you've written an *About Us* page. With the turn, you've written an *About You* page disguised as an About Us page.
+
+#### 7. Honesty about cost
+Sanitized stories aren't trusted. The marriage strain. The lost sleep. The bets that almost killed the company. The people who didn't survive the transition. The years lost. **The reader has to feel that the storyteller paid for the privilege of telling them this.**
+
+The cleaner the story, the less the reader believes it.
+
+#### 8. A vow
+The story ends with a commitment, not a conclusion. *"He built NexGen so the next owner doesn't have to pay full price for the lessons."* This is the contract — the reader feels that ignoring the offer would mean ignoring a debt.
+
+The vow has to be specific enough to be falsifiable. *"We'll help you scale"* is not a vow. *"You won't waste another quarter on software that doesn't get adopted"* is.
+
+#### 9. Cultural resonance
+NexGen is not just a coaching service. It's a small piece of the rebuild of American manufacturing know-how at a moment when the country is finally arguing about that out loud again. Plug into the bigger arc — re-shoring, the trades, working-class dignity, the death of "those who can't, teach" — and your story rides the bigger one without ever explicitly invoking it.
+
+A reader who senses they're being recruited into something larger than a tier subscription buys differently than a reader who thinks they're being sold to.
+
+---
+
+### Self-Scoring Worksheet
+
+Use this on every draft. Mark each as **Y / N / partial.**
+
+```
+[ ] 1. Open in the wound (not the setup)
+[ ] 2. Named villain (the lie, the system, the myth)
+[ ] 3. Specifics a journalist could fact-check
+[ ] 4. At least one sensory anchor
+[ ] 5. A line worth quoting six months later
+[ ] 6. The turn — the reader becomes the subject
+[ ] 7. Honest about cost
+[ ] 8. A specific, falsifiable vow
+[ ] 9. Cultural resonance — bigger than NexGen
+```
+
+**6/9 minimum to ship. 8/9 to publish on the home page.**
+
+---
+
+### What Unlocks Epic
+
+The Epic Test is a measuring stick, not a content generator. The actual molecules — the dates, names, dollars, faces, wifes-told-in-kitchens, lines-spoken-at-lunch — only Brenden has. Everything Shain or Claude writes before Brenden's interviews is *placeholder shape*. Useful as a mold; not the casting.
+
+The seven unlock questions (asked of Brenden, voice-memo length, no editing required):
+
+1. **What was the actual Tuesday?** Date, customer, dollar, lost-by-how-much.
+2. **Where were you when you learned?** Sensory anchor.
+3. **What did you do in the next 40 minutes? The next night?** Pacing — the waiting is where the reader connects.
+4. **Who were the two senior wiremen?** First names, character, are they still there?
+5. **What was the first wrong bet?** Software / equipment / consultant — cost and year.
+6. **What's the lie you most want to call out, in your own words?** The villain.
+7. **If you could stop one panel-shop owner from making the same mistake, what would you tell him at lunch?** The brand t-shirt line is hiding in here.
+
+These are 30 minutes of voice memo. Drop the file in `content/raw/audio-epic-unlocks.m4a` and everything downstream — the home page rewrite, the documentary script, the deck overhaul, the EPLAN partnership memo, the ad creative — gets a level of specificity competent storytelling can never reach.
+
+> *The story is sitting inside Brenden, intact. Our job is to extract it without sanding off the parts that hurt to remember. Those are the parts the reader trusts.*
