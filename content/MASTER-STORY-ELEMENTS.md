@@ -3,12 +3,17 @@
 **Single source of truth** for every story element, line, character, principle, and unlock we've developed for NexGen. This is the doc to keep open while writing site copy, sales decks, ad creative, video scripts, social posts, or anything else that has to carry the brand.
 
 **Author:** Shain Heiss · with Claude (consolidation)
-**Status:** v0.1 — ratifies what we developed 2026-05-08
+**Status:** v0.2 — gradient arc (replaced v0.1 single-event framing)
 **Owner of the molecules:** Brenden Fritz
 **Owner of the language:** Shain Heiss
 **Owner of the look:** Chip Thompson Design
 
 > If you're updating story content, edit *here first*, then propagate to `STORY-BIBLE.md`, `STORY-DIRECTION.html`, the live site, decks, and assets. This doc is upstream.
+
+## Version History
+
+- **v0.2 (2026-05-08, end of day):** Reframed from "one Tuesday / one $90K bid" to **multi-year gradient decline**. New core insight: it's not just adoption that matters — it's the **order of operations**. Lean / Systems / Culture / Commitment must precede EPLAN and automation, or the latter don't stick. v0.1 framing preserved in git history.
+- **v0.1 (2026-05-08, midday):** First synthesis after analyzing live site, EPLAN landing mockup, backstory architecture, and the seven CYOA tools.
 
 ---
 
@@ -34,17 +39,43 @@
 
 ## 1. The Story in One Paragraph
 
-### Epic version (the target — uses placeholder specifics until Brenden answers)
+### Epic version — v0.2 (the target — italicized specifics are placeholders)
 
-> It was a Tuesday — *March 11, 2014* — and the *Carmichael bid* came back from a shop in *Wisconsin* *ninety thousand dollars under* us, and Brenden Fritz sat in his truck in the parking lot for *forty minutes* before he could go home and tell his wife. The shop he'd inherited ran on paper, on coffee, on the memory of two senior wiremen who could quit on a Tuesday and end the company by Friday. The drawings were decoration. The schedule was a wish. And underneath it all was the lie every shop owner in America has been told for thirty years — that working harder, hiring smarter, and buying more equipment would eventually be enough. *It isn't. It never was.* What finally broke the lie wasn't a machine. It was a system: wire processing automation so the work didn't stop at 4:30, EPLAN so the drawing finally *was* the panel, Lean so a wireman didn't walk forty feet to ask the engineer a question that should have been answered the day before, and integrated production to hold the other three together like rebar in concrete. ADS runs *70% faster* now. **The senior wiremen are still there — and they're craftsmen again, not load-bearing walls.** NexGen Panel Mentoring exists because the gap was never the software, it was adoption — and because somewhere right now there's another owner sitting in another truck doing math that doesn't work. Brenden built NexGen so the next one doesn't have to pay full price for the lessons. *He already paid. The receipts are on the website.*
+> **There wasn't a Tuesday.** There wasn't a single phone call. There wasn't a spreadsheet number that finally made the math stop working. There were *two-and-a-half years* of losing bids — not by sixty percent, not by half — by **ten to twenty percent**. Close enough to keep bidding. Far enough that profitability slipped a little further every quarter, and then a little further the next one.
+>
+> Brenden Fritz spent the first year convinced his competitors were cutting corners. They weren't. **Their quality was better than his.** Their build times were shorter. Their costs were lower. Their margins were holding *while their prices were dropping*. They had figured out something he hadn't, and the longer it took him to admit it, the further behind he got.
+>
+> He tried everything a sensible owner tries. More automated equipment. Consultants who left binders. Higher-skilled engineers. Three salespeople in two years — none of them lasted, because there was nothing competitive to sell. He worked longer hours and leaned harder on the two senior wiremen who carried the entire production capability of the company in their heads. *None of it moved the needle by a single point.*
+>
+> What finally moved it wasn't a purchase. It was an **order of operations.** Lean first, to see the waste. Systems second, to codify what worked. Culture third, to get the floor to own it. Commitment fourth, to refuse to half-ass any of it. *Only then* did EPLAN start to land — because by then the systems could absorb it. *Only then* did automation pay off — because by then the workflows could feed it. The shops that had been winning his bids for years had built that sequence patiently. **Brenden had been trying to start at step five.**
+>
+> Today ADS runs *seventy percent faster* than it did. The senior wiremen are still here — and they're craftsmen again, not load-bearing walls. The salespeople have something competitive to sell. Margins are healthier than they've been in a decade. And every few months, another shop owner shows up asking the same question Brenden once asked and didn't get an answer to: *"How did you do this?"*
+>
+> NexGen Panel Mentoring is the answer that won't fit in a coffee meeting. It's the order of operations Brenden built by reverse-engineering his own loss column — so the next owner currently bidding ten percent over the shop down the road, working longer hours, hiring the wrong consultants, doesn't have to take three years to figure out what we already paid for.
+>
+> **He already paid. The receipts are on the website.**
 
-> *Italicized specifics are placeholders.* Brenden replaces them with the real ones during the seven-question interview.
+### What v0.2 changed (and why)
 
-### Competent version (what NOT to ship)
+| Element | v0.1 — single event | v0.2 — gradient |
+|---|---|---|
+| Time scale | One Tuesday in 2014 | 2.5 years of erosion |
+| Loss size | One bid lost by $90K | Many bids lost by 10-20% |
+| Antagonist | "The lie that more equipment is enough" | Same lie + *competitors who legitimately got better* (better quality, faster, lower cost, holding margins) |
+| Reader recognition | "I had that one bad day" | "I'm in that slow erosion right now" — far more universal |
+| The breakthrough | Four pillars (Wire / EPLAN / Lean / Integrated) | An **order of operations**: Lean → Systems → Culture → Commitment → *then* EPLAN → *then* automation |
+| The brand insight | "Adoption is the gap" | "Adoption requires foundations *first* — start at step one, not step five" |
+| Genesis of NexGen | Brenden survived, wants to help | Other shop owners kept asking. NexGen is the answer to a question that wouldn't stop coming. |
 
-> Fifteen years ago Brenden Fritz inherited a panel shop where two senior wiremen carried the entire production capability of the company in their heads — drawings were decoration, tribal knowledge was the real schematic. He hit the wall every owner eventually hits, and learned the hard way that software ahead of workflow doesn't stick, equipment ahead of standards doesn't scale, and consultants leave binders. What finally worked was a system: wire processing automation so the machine didn't quit at 4:30, EPLAN so the design data became the production data, Lean to kill the walking, and integrated production to make four pillars run as one operating system. ADS runs 70% faster today than it did then, and the people who used to *be* the system are free to be craftsmen again. NexGen Panel Mentoring exists because the gap was never the software — it was adoption. It's the road map Brenden wishes he'd had, so the next shop owner doesn't pay full price for fifteen years of lessons.
+### Why v0.1 is preserved in git history (not in this doc)
 
-> Why this is "competent" and not epic: it tells the events but doesn't drop the reader inside them. No specific date. No specific bid. No truck. No villain by name. No turn to the reader. No tattooable line. It's the brochure version. It's the version every consulting company writes about themselves. **Don't ship anything that looks like this.**
+The single-event framing was dramatic but counterfeit-feeling. Real businesses don't break in one Tuesday — they erode in 30 quarters. v0.2 trades cinematic drama for emotional precision. The truthful shape is the more recognizable shape, and recognition beats drama on every metric the brand actually cares about.
+
+### Competent version (what NOT to ship — preserved as a counter-example)
+
+> Fifteen years ago Brenden Fritz inherited a panel shop where two senior wiremen carried the entire production capability of the company in their heads — drawings were decoration, tribal knowledge was the real schematic. He hit the wall every owner eventually hits, and learned the hard way that software ahead of workflow doesn't stick, equipment ahead of standards doesn't scale, and consultants leave binders. What finally worked was a system…
+
+> Why this is "competent" and not epic: tells events without putting the reader inside them. No specific timeframe. No villain. No turn to the reader. No tattooable line. **Don't ship anything that looks like this.**
 
 ---
 
@@ -75,142 +106,157 @@ Every story beat answers: *is this me? am I where he was? am I where he ended up
 
 ---
 
-## 3. The Five-Act Spine
+## 3. The Five-Act Spine — v0.2
 
-The arc Brenden actually traveled, mapped to the arc the reader needs to feel.
+The arc Brenden actually traveled, mapped to the arc the reader needs to feel. Reframed from "single event" to "gradient + sequence."
 
-### ACT I — The Inheritance
+### ACT I — The Gradient
 
-**What happens:** Brenden walks into a shop he didn't design, full of people who'd been doing it the same way for 20 years, in an industry where "the way it's always been done" was the actual liability.
+**What happens:** For two-and-a-half years, ADS loses bids by ten to twenty percent. Close enough to stay in the game. Far enough that profitability slips quarter after quarter. Not a crisis — an erosion.
 
-**What the reader feels:** *That's my shop.*
-
-**Beats to populate (Brenden):**
-- The year he took over · his title · who was running it
-- The floor on day one — what was on the wall · the desk · the loading dock
-- Two senior wiremen, first names, what they did that no one else could
-- What "a good week" looked like · what "a bad week" looked like
-- Bid prices vs. close prices
-
-**Hook line candidates:**
-- *"The drawings were decoration."*
-- *"Tribal knowledge was the real schematic."*
-- *"Two senior wiremen who could quit on a Tuesday and end the company by Friday."*
-
-### ACT II — The Tuesday
-
-**What happens:** The single moment the system broke. Specific day. Specific dollar number. Specific phone call. The night before he couldn't sleep.
-
-**What the reader feels:** *I've had that night.*
-
-**Beats to populate (Brenden — this is the must-have one):**
-- The day · approximate is fine ("spring 2015" works)
-- Customer call? Lost bid? Stockout? Employee left? Be specific.
-- From the moment it happened back home that night — what he ate · what he said to his wife · whether he slept
-- The number on the spreadsheet that scared him · or the number he did in his head
-- What he told himself the next morning
-
-**Hook line candidates:**
-- *"Ninety thousand dollars under."*
-- *"Forty minutes in the truck before he could go home."*
-- *"The math stopped working."*
-
-### ACT III — The Wrong Bets
-
-**What happens:** The honest catalog of what he tried that didn't work — *before* what worked, worked.
-
-**What the reader feels:** *I've made those bets too.*
+**What the reader feels:** *I'm in that slow slide right now. I keep telling myself it'll turn. It hasn't.*
 
 **Beats to populate (Brenden):**
-- First software bought that didn't get adopted · cost
-- First equipment bought that didn't fit the workflow yet
-- A consultant or training paid for that left no trace
-- A process change announced that lasted three weeks
-- What each one taught him that he didn't see at the time
+- The first quarter he noticed something was wrong — what was the win/loss column doing?
+- The competitor (or competitors) he watched pull ahead — names, what he saw them doing
+- The first lie he told himself about why he was losing (cheaper parts? worse quality? favoritism?)
+- The moment he realized the comp wasn't cutting corners — they were better
+- What changed in his own quoting behavior over those years (lower margins to win? walked away from more bids?)
 
 **Hook line candidates:**
-- *"Software ahead of workflow doesn't stick."*
-- *"Equipment ahead of standards doesn't scale."*
-- *"Consultants leave binders."*
-- *"The bottleneck was never on the floor."*
+- *"There wasn't a Tuesday."*
+- *"Ten to twenty percent. Close enough to keep bidding. Far enough that profitability slipped."*
+- *"Their quality was better than his."*
+- *"Their margins were holding while their prices were dropping."*
 
-### ACT IV — The Four Pillars
+### ACT II — The Wrong Answers
 
-**What happens:** The system that finally worked, broken into four legs.
+**What happens:** Brenden tries everything a sensible owner tries — equipment, consultants, engineers, salespeople, longer hours — and watches none of it move the needle.
 
-**What the reader feels:** *That's a system I could actually build.*
-
-**Beats:** see Section 4 — each pillar is its own micro-story.
-
-**Hook line candidates:**
-- *"It was a system, not a purchase."*
-- *"Four pillars working as one operating system."*
-- *"Like rebar in concrete."*
-
-### ACT V — The Road You Don't Have To Pave Twice
-
-**What happens:** The pivot from "look what we did" to "you don't have to do this alone." NexGen as the road map Brenden wishes he'd had.
-
-**What the reader feels:** *I want what he had at the end. I don't want to pay full price for the lessons.*
+**What the reader feels:** *I've made every one of these bets. None of them have worked either.*
 
 **Beats to populate (Brenden):**
-- Throughput before vs. after
-- A quote he used to lose that he started winning
-- A person he used to need that he didn't anymore
-- A customer who said something that made it real (verbatim if possible)
-- The moment another shop owner first asked him for the playbook
+- First piece of automation equipment he bought (year, cost, what he expected, what happened)
+- First consultant he hired — fee, scope, what was promised, what was delivered
+- The "higher-skilled engineer" he brought in expecting to fix it
+- The salespeople — three in two years — and why none of them lasted
+- What he asked of the senior wiremen during this stretch (and what it cost him later)
+- What he was telling his wife / partner / leadership team during these years
 
 **Hook line candidates:**
+- *"Three salespeople in two years — none of them lasted, because there was nothing competitive to sell."*
+- *"Working longer hours and leaning harder on the two guys who already knew everything."*
+- *"None of it moved the needle by a single point."*
+- *"Software ahead of workflow doesn't stick. Equipment ahead of standards doesn't scale. Consultants leave binders."*
+
+### ACT III — The Order of Operations
+
+**What happens:** The breakthrough. Not a tool — a *sequence*. Lean first, to see waste. Systems second, to codify. Culture third, to get the floor to own it. Commitment fourth, to refuse to half-ass it. Only after those four does EPLAN start to land. Only after EPLAN does automation pay off.
+
+**What the reader feels:** *Wait. The order matters? I've been starting at step five too.*
+
+**Beats to populate (Brenden):**
+- The moment / book / person / kaizen that introduced lean to him in a way that stuck
+- The first system he codified — what was it? Who owned it?
+- The cultural shift — when did the floor stop waiting to be told and start proposing?
+- His "commitment" moment — what did he refuse to back down from, even when it was inconvenient?
+- The day EPLAN finally clicked — what changed about the shop that made it possible?
+- The first piece of automation that paid off after the foundation was laid
+
+**Hook line candidates:**
+- *"It wasn't a purchase. It was an order of operations."*
+- *"Brenden had been trying to start at step five."*
+- *"Only then did EPLAN start to land — because by then the systems could absorb it."*
+- *"The shops that had been winning his bids had built that sequence patiently."*
+
+### ACT IV — The Compounding
+
+**What happens:** The reflection. Looking back across the evolution. Continuous improvement isn't a project anymore — it's the engine. The wins compound: culture, finances, workplace, customers.
+
+**What the reader feels:** *That's what it looks like on the other side. I want that.*
+
+**Beats to populate (Brenden):**
+- Throughput before vs. after (hard numbers if possible)
+- Margin recovery — what year did profitability come back? Then exceed prior peak?
+- The senior wiremen — what role do they play now? Are they still here?
+- The salespeople — what changed when they had something competitive to sell?
+- One specific customer who said something that made it real (verbatim if you can)
+- The first time a competitor's customer called *you* asking for help
+
+**Hook line candidates:**
+- *"The senior wiremen are still here — and they're craftsmen again, not load-bearing walls."*
+- *"The salespeople have something competitive to sell."*
+- *"Margins are healthier than they've been in a decade."*
+- *"Continuous improvement stopped being a project. It became how we work."*
+
+### ACT V — The Ask (genesis of NexGen)
+
+**What happens:** Other shop owners notice. They ask the question Brenden once asked and didn't get an answer to: *how did you do this?* The answer doesn't fit in a coffee meeting. NexGen is the answer at scale.
+
+**What the reader feels:** *That's me asking the question. I want the answer.*
+
+**Beats to populate (Brenden):**
+- The first shop owner who asked. Name (or anonymized), context, what he asked
+- The second. The third. Did they all ask the same way?
+- What Brenden tried to give them at first (lunch advice? a tour? a binder?)
+- The moment he realized this needed to be a real product, not favors
+- What he wants NexGen to be for the person standing where he stood in 2014
+
+**Hook line candidates:**
+- *"Every few months, another shop owner shows up asking the same question."*
+- *"NexGen is the answer that won't fit in a coffee meeting."*
+- *"The order of operations Brenden built by reverse-engineering his own loss column."*
 - *"He already paid. The receipts are on the website."*
-- *"I built this so you wouldn't have to break what I broke."*
-- *"The senior wiremen are still there — and they're craftsmen again, not load-bearing walls."*
-- *"You don't have to pay full price for the lessons."*
 
 ---
 
-## 4. The Four Pillars (Micro-Stories)
+## 4. The Pillars — Foundation + Tools + Engine
 
-Each pillar is its own complete arc: pain → bet → result → hook → tier ladder.
+The single most important reframe in v0.2: **the pillars are NOT a flat list of four equal things.** They're a sequence with three levels. Most shops buy from level 2 before they've built level 1, and wonder why nothing sticks.
 
-### Pillar 1 — Wire Processing Automation
+### Level 1 — Foundation (must come first)
 
-| Element | Content |
-|---|---|
-| Pain | Wireman + tape measure + wire spool. 4:30 hits and the work stops. |
-| Bet | First Komax / wire processing machine. |
-| Result | Wire is precut, sequenced, labeled. Throughput up; arguments down. |
-| Hook line | *"The machine doesn't quit at 4:30."* |
-| Tier ladder | Panel Shop Automation tier (workflow strategy) → CM Hardware (sensors on the machine). |
+| # | Pillar | What it does | Hook line |
+|---|---|---|---|
+| 1 | **Lean** | Teaches the shop to *see* waste — walking, waiting, rework, motion | *"The walking is the waste."* |
+| 2 | **Systems** | Codifies what works so it doesn't depend on whoever's there that day | *"The system survives the resignation."* |
+| 3 | **Culture** | Floor stops waiting to be told and starts proposing | *"When the floor owns it, the owner stops carrying it."* |
+| 4 | **Commitment** | Refuses to half-ass any of the above when it's inconvenient | *"The discipline IS the differentiator."* |
 
-### Pillar 2 — EPLAN
+> **Without these four, EPLAN sits on the shelf. Automation creates faster waste. Consultants leave binders. The reader has to internalize this or the rest of the story doesn't matter.**
 
-| Element | Content |
-|---|---|
-| Pain | Drawings are decoration. Production builds from tribal knowledge that contradicts the drawings. |
-| Bet | EPLAN, with templates and discipline. |
-| Result | Design data IS production data. One source of truth, downstream consequences automatic. |
-| Hook line | *"The drawing is the panel."* |
-| Tier ladder | EPLAN Entry → EPLAN Sprint (project) → Premium Combined. |
+### Level 2 — Tools That Compound on the Foundation
 
-### Pillar 3 — Lean
+| # | Pillar | What it does | Hook line |
+|---|---|---|---|
+| 5 | **EPLAN** | Design data IS production data. One source of truth, downstream consequences automatic. | *"The drawing is the panel."* |
+| 6 | **Wire Processing Automation** | The machine doesn't quit at 4:30. Wire is precut, sequenced, labeled. | *"The machine doesn't quit at 4:30."* |
+| 7 | **Other automation** | CNC, robotics, smart wiring — each one only pays off if the foundation has prepared the workflow for it | *"Automation amplifies whatever it's pointed at — make sure that's a system, not a mess."* |
 
-| Element | Content |
-|---|---|
-| Pain | The wireman walks to the engineer's office to ask a question. Multiply by 50 questions per day. That's the most expensive thing in the shop. |
-| Bet | Lean — visual management, standard work, cell-based flow. |
-| Result | Questions get answered before they get asked. Walking goes away. Quality goes up. |
-| Hook line | *"The walking is the waste."* |
-| Tier ladder | Panel Shop Automation → Premium Combined. |
+### Level 3 — The Engine
 
-### Pillar 4 — Integrated Production
+| # | Pillar | What it does | Hook line |
+|---|---|---|---|
+| 8 | **Continuous Improvement** | Stops being a project. Becomes the operating principle. Compounds quarter over quarter. | *"Continuous improvement stopped being a project. It became how we work."* |
 
-| Element | Content |
-|---|---|
-| Pain | Three of the four pillars work but the seams between them leak. Engineering builds beautiful drawings the floor can't run. The floor builds in sequence the schedule doesn't expect. |
-| Bet | Tie the pillars into one operating system — workflows, handoffs, dashboards, KPIs. |
-| Result | Throughput jumps a step, then jumps another step. People stop being "the system." |
-| Hook line | *"The fourth pillar is what holds the other three up."* |
-| Tier ladder | Premium Combined → Elite One-on-One. |
+### The Brand Insight
+
+> **The shops that win are the shops that build levels 1 → 2 → 3 in that order.** The shops that lose buy from level 2 first because that's where the catalogs are. NexGen exists to teach owners which level they're actually on, and what they need to build before they buy.
+
+This is the line that cuts straight through the EPLAN-rep conversation, the prospect call, the shop assessment, and the partner pitch. It also matches the live site's tagline ("the gap isn't the software, it's adoption") with a sharper, more useful corollary: *adoption is downstream of foundation*.
+
+### How this maps to NexGen's tier ladder
+
+| Tier | Helps with | Reasoning |
+|---|---|---|
+| **Panel Shop Automation** ($400/mo) | Levels 1 & 3 — Lean, Systems, Culture, Commitment, CI | Software-agnostic, sequence-aware. Most shops should start here. |
+| **EPLAN Entry** ($300/mo) | Level 2 — EPLAN | Useful only if Level 1 is real. We'll tell people to start with Automation if they aren't ready. |
+| **Premium Combined** ($600/mo) | All three levels | The "we're committing to the whole journey" tier. |
+| **Elite One-on-One** ($2,500/mo) | All three levels + private sequencing | For owners building a multi-year transformation, not a quarter project. |
+| **Shop Assessment** ($5,500 one-time) | Diagnostic | Tells you which level you're actually on, before you buy a tier. |
+| **EPLAN Sprint** ($15,000 project) | Level 2 implementation | Only sold *after* Level 1 readiness is verified. |
+| **Engineering Fix / Build Fix** ($25-60K) | Level 2 amplifier | Brings ADS engineering into the customer's workflow. |
+| **Condition Monitoring** (CM Hardware/SaaS/Managed) | Level 3 amplifier | Continuous improvement at sensor scale. |
 
 ---
 
@@ -242,55 +288,91 @@ The owner who's been carrying the company on his back for ten years, who thinks 
 
 ## 6. The Lines
 
-Every line worth memorizing, in one place. Stars (★) mark candidates for the brand t-shirt line — the *one* line that becomes the brand.
+Every line worth memorizing, in one place. Stars (★) = candidates for the brand t-shirt line.
 
-### Top contenders (★ = brand-defining candidate)
+### The new top contenders (post-v0.2)
 
-- ★ *"The drawing is the panel."*
+- ★ *"The order is the lesson."*
+- ★ *"Brenden had been trying to start at step five."*
+- ★ *"The gap isn't the software. It's adoption — and adoption is downstream of foundation."*
 - ★ *"He already paid. The receipts are on the website."*
-- ★ *"I built this so you wouldn't have to break what I broke."*
-- ★ *"The gap was never the software. It was adoption."*
-- *"The machine doesn't quit at 4:30."*
-- *"The most expensive thing in any shop is the wireman walking to ask the engineer a question."*
-- *"The senior wiremen are still there — and they're craftsmen again, not load-bearing walls."*
-- *"It was a system, not a purchase."*
+- ★ *"NexGen is the answer that won't fit in a coffee meeting."*
+- *"Their quality was better than his."*
+- *"Their margins were holding while their prices were dropping."*
+- *"None of it moved the needle by a single point."*
+- *"The order of operations Brenden built by reverse-engineering his own loss column."*
 
-### Setting-the-stage lines (Acts I-II)
+### Act I — The Gradient (slow erosion)
 
-- *"The drawings were decoration."*
-- *"Tribal knowledge was the real schematic."*
-- *"The schedule was a wish."*
-- *"Two senior wiremen who could quit on a Tuesday and end the company by Friday."*
-- *"Ran on paper, on coffee, on the memory of two senior wiremen."*
+- *"There wasn't a Tuesday."*
+- *"There wasn't a single phone call. There wasn't a spreadsheet number that finally made the math stop working."*
+- *"Two-and-a-half years of losing bids — not by sixty percent, not by half — by ten to twenty percent."*
+- *"Close enough to keep bidding. Far enough that profitability slipped a little further every quarter."*
+- *"His competitors weren't cutting corners. They were better."*
+- *"They had figured out something he hadn't, and the longer it took him to admit it, the further behind he got."*
 
-### The Lie / villain naming lines (Act III)
+### Act II — The Wrong Answers
 
-- *"The lie every shop owner in America has been told for thirty years."*
+- *"He tried everything a sensible owner tries."*
+- *"More automated equipment. Consultants who left binders. Higher-skilled engineers."*
+- *"Three salespeople in two years — none of them lasted, because there was nothing competitive to sell."*
+- *"Working longer hours. Leaning harder on the two guys who already knew everything."*
+- *"None of it moved the needle by a single point."*
 - *"Software ahead of workflow doesn't stick."*
 - *"Equipment ahead of standards doesn't scale."*
 - *"Consultants leave binders."*
-- *"The bottleneck was never on the floor."*
 
-### Resolution lines (Act IV-V)
+### Act III — The Order of Operations (the breakthrough)
 
-- *"Like rebar in concrete."*
-- *"Four pillars working as one operating system."*
-- *"The people who used to BE the system are free to be craftsmen again."*
-- *"You don't have to pay full price for the lessons."*
+- *"It wasn't a purchase. It was an order of operations."*
+- *"Lean first, to see the waste. Systems second, to codify what worked. Culture third, to get the floor to own it. Commitment fourth, to refuse to half-ass any of it."*
+- *"Only then did EPLAN start to land — because by then the systems could absorb it."*
+- *"Only then did automation pay off — because by then the workflows could feed it."*
+- *"Brenden had been trying to start at step five."*
+- *"The shops winning his bids had built that sequence patiently."*
+
+### Act IV — The Compounding (continuous improvement)
+
+- *"The senior wiremen are still here — and they're craftsmen again, not load-bearing walls."*
+- *"The salespeople have something competitive to sell."*
+- *"Margins are healthier than they've been in a decade."*
+- *"Continuous improvement stopped being a project. It became how we work."*
+
+### Act V — The Ask (genesis of NexGen)
+
+- *"Every few months, another shop owner shows up asking the same question Brenden once asked and didn't get an answer to: 'How did you do this?'"*
+- *"NexGen is the answer that won't fit in a coffee meeting."*
+- *"The order of operations Brenden built by reverse-engineering his own loss column."*
+- *"He already paid. The receipts are on the website."*
+
+### Pillar hook lines
+
+- *"The walking is the waste."* (Lean)
+- *"The system survives the resignation."* (Systems)
+- *"When the floor owns it, the owner stops carrying it."* (Culture)
+- *"The discipline IS the differentiator."* (Commitment)
+- *"The drawing is the panel."* (EPLAN)
+- *"The machine doesn't quit at 4:30."* (Wire processing automation)
+- *"Automation amplifies whatever it's pointed at — make sure that's a system, not a mess."* (Other automation)
+- *"Continuous improvement stopped being a project. It became how we work."* (CI engine)
 
 ### Reader-turn lines
 
-- *"Somewhere right now there's another owner sitting in another truck doing math that doesn't work."*
-- *"You don't have to break what we broke."*
-- *"Most companies don't fail because they lack effort. They stall because the road is difficult to navigate alone."*
+- *"Somewhere right now there's another owner currently bidding ten percent over the shop down the road, working longer hours, hiring the wrong consultants."*
+- *"You don't have to take three years to figure out what we already paid for."*
+- *"Most owners don't fail for lack of effort. They stall because they're starting at step five."*
 
 ### Tagline (locked, on live site)
 
 > **Guiding Your Path to Excellence Through Experience.**
 
-### Core thesis (locked, on live site)
+### Core thesis (locked, on live site — refine but don't replace)
 
 > **The gap isn't the software. It's adoption.**
+
+### v0.2 corollary (proposed addition to the live site)
+
+> **And adoption is downstream of foundation.**
 
 ---
 
@@ -341,15 +423,19 @@ Every quantitative beat we have. Numbers make the story unforgeable.
 | **$30M** | 2029 target revenue | Internal goal |
 | **$70K / $12K** | Month-6 breakeven · Month-6 MRR | Internal goal |
 
-### Placeholder until Brenden answers
+### Placeholder until Brenden answers (v0.2)
 
 | Number | What it represents | Status |
 |---|---|---|
-| **$90,000** | Lost-by-how-much on The Tuesday | Placeholder · awaiting Brenden |
-| **40 minutes** | Time in the truck | Placeholder · awaiting Brenden |
-| **March 11, 2014** | The actual Tuesday | Placeholder · awaiting Brenden |
-| **2** | Senior wiremen at Day 1 | Placeholder · likely real but Brenden confirms |
+| **2.5 years** | Length of the gradient decline | Placeholder · Brenden confirms / refines |
+| **10-20%** | Bid-loss margin during the decline | Placeholder · Brenden confirms range |
+| **3** | Salespeople tried in 2 years | Placeholder · Brenden confirms count |
+| **2** | Senior wiremen carrying the production capability | Likely real · Brenden confirms |
 | **50** | Questions/day a wireman walks to ask the engineer (Lean pillar example) | Estimate · Brenden confirms |
+| **(year)** | The first year Brenden noticed the pattern | Placeholder · Brenden anchors |
+| **(year)** | The year lean broke through | Placeholder · Brenden anchors |
+| **(year)** | The year EPLAN finally landed | Placeholder · Brenden anchors |
+| **(year)** | The year margins came back | Placeholder · Brenden anchors |
 
 ### Membership pricing (locked, live)
 
@@ -439,36 +525,40 @@ Use this on every draft. Mark each Y / N / partial.
 
 ---
 
-## 11. The Seven Unlock Questions
+## 11. The Seven Unlock Questions — v0.2
 
-Asked of Brenden. Voice memo length. No editing required. The 30-minute drive home is enough.
+Asked of Brenden. Voice memo length. The 30-minute drive home is enough. Reframed for the gradient arc — these dig into the slow erosion, the wrong answers, the order-of-operations breakthrough, and the genesis of NexGen.
 
 ### The Questions
 
-1. **What was the actual Tuesday?** The day. The customer. The dollar amount. Lost-by-how-much.
-   *Anchors the entire story to one real event.*
+1. **The first quarter you knew something was wrong — what was it?** What was the win/loss column doing? What were you telling yourself about why?
+   *Anchors the gradient. Establishes the unease before the realization.*
 
-2. **Where were you when you learned?** Truck? Kitchen? Phone?
-   *The sensory anchor. Bodies remember bodies.*
+2. **The competitor (or competitors) you watched pull ahead.** Name them, anonymously if needed. What were they doing that you eventually realized you weren't? When did you stop assuming they were cutting corners and start assuming they were better?
+   *Names the antagonist as competence, not villainy. That's harder and more interesting.*
 
-3. **What did you do in the next forty minutes? The next night?**
-   *The waiting is where the reader connects.*
-
-4. **Who were the two senior wiremen?** First names. What were they like? Are they still there?
-   *If they're still there, that's the payoff line. If they left, that's a different story — also true.*
-
-5. **What was the first wrong bet — software, equipment, consultant?** Cost? Year?
+3. **What did you try FIRST that didn't work?** Walk me through the sequence — equipment, consultants, hires, salespeople. Approximate costs. Years. What you thought you were buying. What you actually got.
    *Vulnerability. The reader has made the same bets.*
 
-6. **What's the lie you most want to call out, in your own words?**
-   *Names the villain. Without one, the story is a memoir.*
+4. **The two senior wiremen.** First names. What did they each do? What would have happened if either of them had quit during the worst stretch? Are they still there now — and if so, what role do they play today vs. then?
+   *Sets up the most powerful payoff in the story. Or the most honest if it ends differently.*
 
-7. **If you could stop one panel-shop owner from making your same mistake, what would you tell him at lunch?**
-   *The brand t-shirt line is hiding in here.*
+5. **The breakthrough — when did you stop trying things and start building the system?** What broke through? Was there a book, a person, a kaizen, a moment? What was the first principle that finally clicked?
+   *The hinge of the entire story. Without this, there's no Act III.*
+
+6. **The order of operations — your version.** What came first, second, third in your turnaround? When did EPLAN start working for real? When did automation finally pay off? Why didn't they pay off earlier when you tried them?
+   *This is the brand insight. The reader has to feel why the order matters.*
+
+7. **The first time another shop owner asked you "how did you do this?"** Who, when, what did they ask, what did you tell them? Did they actually use what you told them — or did they go back and make the same wrong bets?
+   *The brand t-shirt line is hiding in here. So is the genesis of NexGen.*
 
 ### Bonus prompt — The Sensory Hook
 
-*Just ten things. List them.* The smell of the shop in summer. The sound the wire feeder makes when it's right. The font on the old work orders. The last thing you'd say to a panel shop owner sitting across from you at lunch. Anything that grounds the story in a body, not a deck.
+*Just ten things. List them.* The sound the wire feeder makes when it's running right. The font on the original work orders. The smell of the shop in summer. The last thing you'd say to a panel shop owner sitting across from you at lunch. Anything that grounds the story in a body, not a deck.
+
+### Bonus prompt — The Reflection
+
+*Looking back across the evolution — what surprised you most about what changed?* Was it the financial recovery? The cultural shift? The way the customers started asking different questions? The way your senior people were freed up? Don't summarize — pick one and tell the story behind it.
 
 ### Deliverable
 
@@ -533,12 +623,12 @@ Bare minimum, ready to paste.
 ### The Story in One Paragraph
 *See Section 1 — epic version.*
 
-### The Top Five Lines
-1. *"The gap isn't the software. It's adoption."*
-2. *"I built this so you wouldn't have to break what I broke."*
-3. *"He already paid. The receipts are on the website."*
-4. *"The drawing is the panel."*
-5. *"The senior wiremen are still there — and they're craftsmen again, not load-bearing walls."*
+### The Top Five Lines (v0.2)
+1. *"The order is the lesson."*
+2. *"Brenden had been trying to start at step five."*
+3. *"The gap isn't the software. It's adoption — and adoption is downstream of foundation."*
+4. *"He already paid. The receipts are on the website."*
+5. *"NexGen is the answer that won't fit in a coffee meeting."*
 
 ### The Three Numbers
 - **70%** — production speed gain at ADS
@@ -548,11 +638,21 @@ Bare minimum, ready to paste.
 ### The Tagline
 > Guiding Your Path to Excellence Through Experience.
 
-### The Four Pillars (the elevator)
-1. **Wire processing automation** — the machine doesn't quit at 4:30.
-2. **EPLAN** — the drawing is the panel.
-3. **Lean** — the walking is the waste.
-4. **Integrated production** — the fourth pillar holds the other three up.
+### The Pillars (v0.2 — sequence-aware elevator)
+
+**Foundation (build first):**
+1. **Lean** — the walking is the waste.
+2. **Systems** — the system survives the resignation.
+3. **Culture** — when the floor owns it, the owner stops carrying it.
+4. **Commitment** — the discipline IS the differentiator.
+
+**Tools (only compound on the foundation):**
+5. **EPLAN** — the drawing is the panel.
+6. **Wire processing automation** — the machine doesn't quit at 4:30.
+7. **Other automation** — amplifies whatever it's pointed at; make sure that's a system.
+
+**Engine (the result of doing the above in order):**
+8. **Continuous improvement** — stopped being a project. Became how we work.
 
 ### The Seven Questions for Brenden
 *See Section 11. They take 30 minutes to answer in a voice memo.*
