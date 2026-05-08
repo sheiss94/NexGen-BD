@@ -1,8 +1,8 @@
-# Brendan's Journey — The NexGen Story
+# Brenden's Journey — The NexGen Story
 
-**Author:** Brendan — Owner / President, Automated Drive Systems and NexGen Panel Mentoring.
+**Author:** Brenden — Owner / President, Automated Drive Systems and NexGen Panel Mentoring.
 **Voice:** First person. This is his company, his story, his mission, told from his perspective.
-**Status:** Working draft — updated regularly by Brendan as the story sharpens.
+**Status:** Working draft — updated regularly by Brenden as the story sharpens.
 **Use:** Master narrative source. Pulled from for case studies, the website, decks, the brand brief, and sales conversations. When the website, a deck, or a proposal needs the origin story, pull from here.
 
 ---
@@ -80,7 +80,7 @@ NexGen exists to help them get there faster, avoid expensive detours, and learn 
 ## Editing Notes
 
 - This file is the canonical version. When the website, a deck, or a proposal needs the origin story, pull from here.
-- When Brendan revises, commit with `[content] journey rev<n> - BR`.
+- When Brenden revises, commit with `[content] journey rev<n> - BR`.
 - Keep prior drafts in commit history — do not branch this file.
 
 ## Open Questions / Future Edits

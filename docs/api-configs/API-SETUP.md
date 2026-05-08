@@ -1,6 +1,6 @@
 # API Setup — Apollo & Salesforce
 
-This guide is for Brendan and any future developer. Follow exactly.
+This guide is for Brenden and any future developer. Follow exactly.
 
 ## Security Rule
 

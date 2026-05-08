@@ -34,7 +34,7 @@ Backup capture: physical badge scan + business card → manual entry into SF sam
 - [ ] Schedule 5 pre-show coffee meetings with EPLAN reps
 - [ ] Pack: cards, laptop, demo backup, badge, presenter remote
 
-### Brendan
+### Brenden
 - [ ] Deploy `nexgen-germany-v2.html` to production URL
 - [ ] Apollo + SF live in tool, end-to-end tested
 - [ ] QR code points to live URL (not staging)

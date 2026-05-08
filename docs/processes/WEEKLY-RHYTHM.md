@@ -6,16 +6,16 @@ How the three of us stay in sync without burying each other in meetings.
 
 | When | Meeting | Who | Format | Duration |
 |---|---|---|---|---|
-| **Monday 9:00 AM CT** | Tech sync | Shain + Brendan | Video | 30 min |
+| **Monday 9:00 AM CT** | Tech sync | Shain + Brenden | Video | 30 min |
 | **Wednesday 10:00 AM CT** | Creative review | Shain + Chip | Video | 45 min |
 | **Friday EOD** | Async wins post | Shain → both | Written (Slack/email) | 5 min |
 | **1st of month** | Strategy review | All three | Video | 60 min |
 
 ## Monday Tech Sync — Agenda
 
-1. What shipped last week (Brendan)
-2. What ships this week (Brendan)
-3. Blockers / decisions needed (Brendan)
+1. What shipped last week (Brenden)
+2. What ships this week (Brenden)
+3. Blockers / decisions needed (Brenden)
 4. Pipeline + lead flow signal (Shain)
 5. Action items committed before close
 

@@ -1,6 +1,6 @@
-# Brendan — Owner / President — Build Punch List
+# Brenden — Owner / President — Build Punch List
 
-Brendan owns ADS and NexGen. This is his repo and his mission. This file is the working punch list for the technical build that Brendan is driving forward — not an onboarding for a hired developer.
+Brenden owns ADS and NexGen. This is his repo and his mission. This file is the working punch list for the technical build that Brenden is driving forward — not an onboarding for a hired developer.
 
 ## Access
 
@@ -11,7 +11,7 @@ Brendan owns ADS and NexGen. This is his repo and his mission. This file is the 
 | Salesforce | Owner account | OID in SF Setup → Company Info |
 | Domain / DNS | Cloudflare — owner | Prod deploy |
 
-## Tech Surface Brendan Is Driving
+## Tech Surface Brenden Is Driving
 
 - `tools/cyoa/` — the four CYOA tools
 - `tools/hub/` — intelligence hub + system diagrams
@@ -30,7 +30,7 @@ Brendan owns ADS and NexGen. This is his repo and his mission. This file is the 
 | 4 | Test full lead flow end-to-end | Lead with fake email lands in SF + receives confirmation email |
 | 5 | Document deploy + env-var process in `docs/api-configs/API-SETUP.md` | Anyone could redeploy from the doc |
 
-## Deploy Targets (Brendan's call)
+## Deploy Targets (Brenden's call)
 
 - **Netlify** — fastest, env vars in dashboard
 - **Vercel** — best DX, serverless functions if needed
@@ -63,4 +63,4 @@ Examples:
 
 ## Weekly Sync
 
-**Monday 9am CT** — Brendan + Shain tech sync. What shipped, what ships next, what's blocked.
+**Monday 9am CT** — Brenden + Shain tech sync. What shipped, what ships next, what's blocked.
