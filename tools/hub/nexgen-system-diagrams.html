@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexGen — System Logic Diagrams</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#05080f;--surface:#090c15;--card:#0d1120;--card2:#111628;
+  --border:rgba(255,255,255,0.07);--border-hi:rgba(0,180,204,0.2);
+  --teal:#00b4cc;--teal2:#007a8a;--teal-dim:rgba(0,180,204,0.09);
+  --indigo:#818cf8;--indigo-dim:rgba(129,140,248,0.09);
+  --gold:#f0b429;--gold-dim:rgba(240,180,41,0.09);
+  --green:#10d9a0;--green-dim:rgba(16,217,160,0.09);
+  --red:#f87171;--purple:#a78bfa;
+  --white:#e8f0f7;--muted:#3a5060;--muted2:#6a8499;--muted3:#9ab3c6;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;}
+
+/* TOP BAR */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-logo{display:flex;align-items:center;gap:.75rem;}
+.topbar-logo img{height:26px;width:auto;}
+.topbar-title{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--teal);}
+.topbar-actions{display:flex;gap:.5rem;}
+.btn-action{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;padding:.4rem 1rem;border-radius:4px;border:1px solid var(--border-hi);background:none;color:var(--teal);cursor:pointer;transition:all .2s;}
+.btn-action:hover{background:var(--teal-dim);}
+.btn-action.active{background:var(--teal);color:var(--ink);border-color:var(--teal);}
+
+/* TAB SWITCHER */
+.tab-row{display:flex;gap:3px;background:var(--card2);padding:4px;border-radius:8px;width:fit-content;margin:1.5rem 2rem 0;}
+.tab{padding:.5rem 1.5rem;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted2);border:none;background:none;cursor:pointer;transition:all .2s;}
+.tab.active{background:var(--teal);color:var(--ink);font-weight:700;}
+
+/* DIAGRAM CONTAINER */
+.diagram-wrap{display:none;padding:2rem;}
+.diagram-wrap.active{display:block;}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:.75rem;margin-bottom:1.5rem;padding:1rem 1.25rem;background:var(--card);border:1px solid var(--border);border-radius:10px;}
+.legend-item{display:flex;align-items:center;gap:.4rem;font-size:.75rem;color:var(--muted2);}
+.legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+
+/* SVG WRAPPER */
+.svg-scroll{overflow-x:auto;overflow-y:auto;border-radius:12px;border:1px solid var(--border);}
+.svg-scroll svg{display:block;}
+
+/* SECTION BREAK */
+.diagram-section-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--teal);margin:2rem 0 .5rem;padding-top:1.5rem;border-top:1px solid var(--border);}
+.diagram-section-sub{font-size:.82rem;color:var(--muted2);line-height:1.6;margin-bottom:1.25rem;max-width:700px;}
+
+/* PRINT */
+@media print{
+  .topbar,.tab-row,.topbar-actions{display:none!important;}
+  .diagram-wrap{display:block!important;padding:.5rem;}
+  body{background:#fff;color:#000;}
+  .svg-scroll{border:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-logo">
+    <img src="https://panelmentor.com/wp-content/uploads/2024/12/NexGen_FullLogo_Transparent_NoBuffer.png"
+         alt="NexGen" onerror="this.outerHTML='<span style=\'font-family:Bebas Neue,sans-serif;font-size:1rem;letter-spacing:4px;color:#00b4cc\'>NEXGEN</span>'">
+    <span class="topbar-title">System Logic Diagrams</span>
+  </div>
+  <div class="topbar-actions">
+    <button class="btn-action" onclick="window.print()">⎙ Print / Save PDF</button>
+  </div>
+</div>
+
+<div class="tab-row">
+  <button class="tab active" onclick="showDiagram('tree')">Decision Tree</button>
+  <button class="tab" onclick="showDiagram('flywheel')">Knowledge Flywheel</button>
+  <button class="tab" onclick="showDiagram('both')">Both</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     DIAGRAM 1: DECISION TREE
+═══════════════════════════════════════════════════════ -->
+<div class="diagram-wrap active" id="diag-tree">
+
+  <p style="font-size:.82rem;color:var(--muted2);line-height:1.6;margin:0 0 1.25rem;max-width:720px;">
+    This diagram maps every question in the NexGen CYOA tool to its possible answers, shows how each audience path branches into a different set of 3 questions, and traces how all paths converge into the AI generation engine and final proposal output. Click any node to explore further.
+  </p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--muted2);"></div>Entry / shared steps</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--indigo);"></div>EPLAN / Partner path</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--teal);"></div>Shop Owner path</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gold);"></div>OEM path</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green);"></div>Engineering Leader path</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f97316;"></div>AI engine / output</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div>Offer ladder</div>
+  </div>
+
+  <div class="svg-scroll">
+  <svg width="1320" height="1860" viewBox="0 0 1320 1860" xmlns="http://www.w3.org/2000/svg" style="background:#07090f;">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#6a8499" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#00b4cc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#f0b429" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#10d9a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-indigo" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#818cf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- ── HELPERS (JS-style inline comments via title elements) ── -->
+
+  <!-- ═══ ENTRY ═══ -->
+  <!-- User entry -->
+  <rect x="510" y="20" width="300" height="44" rx="8" fill="#1a2235" stroke="#3a5060" stroke-width="0.5"/>
+  <text x="660" y="37" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#e8f0f7">User scans QR / opens link</text>
+  <text x="660" y="53" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#6a8499">Single URL · QR code · browser auto-detect EN/DE</text>
+  <line x1="660" y1="64" x2="660" y2="88" stroke="#3a5060" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- Splash + lang detect -->
+  <rect x="510" y="88" width="300" height="44" rx="8" fill="#1a2235" stroke="#3a5060" stroke-width="0.5"/>
+  <text x="660" y="105" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#e8f0f7">Splash screen + language detection</text>
+  <text x="660" y="121" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#6a8499">Detects DE browser → German UI · EN → English</text>
+  <line x1="660" y1="132" x2="660" y2="156" stroke="#3a5060" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- ═══ Q1: WHO ARE YOU ═══ -->
+  <rect x="460" y="156" width="400" height="56" rx="8" fill="rgba(0,180,204,0.1)" stroke="#00b4cc" stroke-width="1"/>
+  <text x="660" y="178" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" font-weight="700" fill="#e8f0f7">Q1 — Who are you at this show?</text>
+  <text x="660" y="198" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#6a8499">Routes entire experience · 5 options · no wrong answer</text>
+
+  <!-- ═══ 5 AUDIENCE BRANCHES ═══ -->
+  <!-- lines from Q1 bottom to 5 audience boxes -->
+  <!-- EPLAN -->
+  <line x1="530" y1="212" x2="110" y2="300" stroke="#818cf8" stroke-width="1" marker-end="url(#arr-indigo)"/>
+  <!-- Shop -->
+  <line x1="590" y1="212" x2="330" y2="300" stroke="#00b4cc" stroke-width="1" marker-end="url(#arr-teal)"/>
+  <!-- OEM -->
+  <line x1="660" y1="212" x2="660" y2="300" stroke="#f0b429" stroke-width="1" marker-end="url(#arr-gold)"/>
+  <!-- Engineer -->
+  <line x1="730" y1="212" x2="980" y2="300" stroke="#10d9a0" stroke-width="1" marker-end="url(#arr-green)"/>
+  <!-- Distributor -->
+  <line x1="790" y1="212" x2="1210" y2="300" stroke="#818cf8" stroke-width="1" marker-end="url(#arr-indigo)"/>
+
+  <!-- EPLAN Employee audience box -->
+  <rect x="20" y="300" width="180" height="56" rx="8" fill="rgba(129,140,248,0.12)" stroke="#818cf8" stroke-width="1"/>
+  <text x="110" y="322" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">EPLAN Employee</text>
+  <text x="110" y="338" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#818cf8">PARTNER PATH</text>
+  <text x="110" y="350" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Rep / sales / support</text>
+
+  <!-- Shop Owner audience box -->
+  <rect x="235" y="300" width="190" height="56" rx="8" fill="rgba(0,180,204,0.12)" stroke="#00b4cc" stroke-width="1"/>
+  <text x="330" y="322" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">Panel Shop Owner</text>
+  <text x="330" y="338" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#00b4cc">SHOP PATH</text>
+  <text x="330" y="350" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Owner / GM / plant manager</text>
+
+  <!-- OEM audience box -->
+  <rect x="565" y="300" width="190" height="56" rx="8" fill="rgba(240,180,41,0.12)" stroke="#f0b429" stroke-width="1"/>
+  <text x="660" y="322" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">OEM / Manufacturer</text>
+  <text x="660" y="338" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f0b429">OEM PATH</text>
+  <text x="660" y="350" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Mfr considering insourcing</text>
+
+  <!-- Engineering Leader audience box -->
+  <rect x="885" y="300" width="190" height="56" rx="8" fill="rgba(16,217,160,0.12)" stroke="#10d9a0" stroke-width="1"/>
+  <text x="980" y="322" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">Engineering Leader</text>
+  <text x="980" y="338" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#10d9a0">ENGINEERING PATH</text>
+  <text x="980" y="350" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">VP Eng / Eng. Manager</text>
+
+  <!-- Distributor audience box -->
+  <rect x="1115" y="300" width="185" height="56" rx="8" fill="rgba(129,140,248,0.12)" stroke="#818cf8" stroke-width="1"/>
+  <text x="1207" y="322" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">Distributor / Partner</text>
+  <text x="1207" y="338" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#818cf8">PARTNER PATH</text>
+  <text x="1207" y="350" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Same path as EPLAN rep</text>
+
+  <!-- SHARED: Name + company entry -->
+  <text x="660" y="388" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#3a5060">↓ All 5 paths pass through name + company entry · AI begins company research in background ↓</text>
+
+  <!-- ═══════════════════════════
+       PARTNER PATH (left column)
+  ══════════════════════════════ -->
+  <line x1="110" y1="356" x2="110" y2="410" stroke="#818cf8" stroke-width="1" marker-end="url(#arr-indigo)"/>
+  <!-- Distributor merges to partner path -->
+  <path d="M1207 356 Q1207 390 660 390 Q160 390 112 408" fill="none" stroke="#818cf8" stroke-width="0.8" stroke-dasharray="4 3" marker-end="url(#arr-indigo)"/>
+
+  <!-- P-Q1 -->
+  <rect x="20" y="410" width="220" height="64" rx="8" fill="rgba(129,140,248,0.08)" stroke="#818cf8" stroke-width="0.8"/>
+  <text x="30" y="428" font-family="JetBrains Mono,monospace" font-size="9" fill="#818cf8">P · Q2 — PARTNERSHIP GOAL</text>
+  <text x="130" y="448" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">What matters most to you?</text>
+  <text x="130" y="462" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Help customers succeed</text>
+  <text x="130" y="474" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Referral model · Co-mktg · Tech collab</text>
+  <line x1="130" y1="474" x2="130" y2="500" stroke="#818cf8" stroke-width="0.8" marker-end="url(#arr-indigo)"/>
+
+  <!-- P-Q2 -->
+  <rect x="20" y="500" width="220" height="64" rx="8" fill="rgba(129,140,248,0.08)" stroke="#818cf8" stroke-width="0.8"/>
+  <text x="30" y="518" font-family="JetBrains Mono,monospace" font-size="9" fill="#818cf8">P · Q3 — CUSTOMER ROI PAIN</text>
+  <text x="130" y="538" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Why do customers struggle?</text>
+  <text x="130" y="552" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Failed impl · Low adoption</text>
+  <text x="130" y="564" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">No floor connection · No ROI metrics</text>
+  <line x1="130" y1="564" x2="130" y2="590" stroke="#818cf8" stroke-width="0.8" marker-end="url(#arr-indigo)"/>
+
+  <!-- P-Q3 -->
+  <rect x="20" y="590" width="220" height="64" rx="8" fill="rgba(129,140,248,0.08)" stroke="#818cf8" stroke-width="0.8"/>
+  <text x="30" y="608" font-family="JetBrains Mono,monospace" font-size="9" fill="#818cf8">P · Q4 — NETWORK SCALE</text>
+  <text x="130" y="628" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">How many prospects in network?</text>
+  <text x="130" y="642" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Handful · Dozens · Hundreds</text>
+  <text x="130" y="654" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Thousands (EPLAN scale)</text>
+  <line x1="130" y1="654" x2="130" y2="690" stroke="#818cf8" stroke-width="0.8" marker-end="url(#arr-indigo)"/>
+
+  <!-- Partner proposal output -->
+  <rect x="20" y="690" width="220" height="56" rx="8" fill="rgba(129,140,248,0.15)" stroke="#818cf8" stroke-width="1"/>
+  <text x="130" y="712" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">Partner Proposal</text>
+  <text x="130" y="728" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9ab3c6">EPLAN × NexGen partnership story</text>
+  <text x="130" y="740" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9ab3c6">Sell more · retain more · expand accounts</text>
+
+  <!-- ═══════════════════════════
+       SHOP PATH (2nd column)
+  ══════════════════════════════ -->
+  <line x1="330" y1="356" x2="330" y2="410" stroke="#00b4cc" stroke-width="1" marker-end="url(#arr-teal)"/>
+
+  <!-- S-Q1 -->
+  <rect x="240" y="410" width="220" height="64" rx="8" fill="rgba(0,180,204,0.08)" stroke="#00b4cc" stroke-width="0.8"/>
+  <text x="250" y="428" font-family="JetBrains Mono,monospace" font-size="9" fill="#00b4cc">S · Q2 — JOURNEY STAGE</text>
+  <text x="350" y="448" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Where are you on the journey?</text>
+  <text x="350" y="462" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Assess · Standardize · Activate · Scale</text>
+  <text x="350" y="474" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#00b4cc">→ Places them on the ASSA bar in output</text>
+  <line x1="350" y1="474" x2="350" y2="500" stroke="#00b4cc" stroke-width="0.8" marker-end="url(#arr-teal)"/>
+
+  <!-- S-Q2 -->
+  <rect x="240" y="500" width="220" height="64" rx="8" fill="rgba(0,180,204,0.08)" stroke="#00b4cc" stroke-width="0.8"/>
+  <text x="250" y="518" font-family="JetBrains Mono,monospace" font-size="9" fill="#00b4cc">S · Q3 — BIGGEST EPLAN GAP</text>
+  <text x="350" y="538" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Gap between investment &amp; results?</text>
+  <text x="350" y="552" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Team inconsistency · No floor link</text>
+  <text x="350" y="564" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">No speed gain · Can't prove ROI</text>
+  <line x1="350" y1="564" x2="350" y2="590" stroke="#00b4cc" stroke-width="0.8" marker-end="url(#arr-teal)"/>
+
+  <!-- S-Q3 -->
+  <rect x="240" y="590" width="220" height="64" rx="8" fill="rgba(0,180,204,0.08)" stroke="#00b4cc" stroke-width="0.8"/>
+  <text x="250" y="608" font-family="JetBrains Mono,monospace" font-size="9" fill="#00b4cc">S · Q4 — PRIORITY ROLE</text>
+  <text x="350" y="628" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Who needs to move first?</text>
+  <text x="350" y="642" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Engineering · Production floor</text>
+  <text x="350" y="654" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Quoting / commercial · Leadership</text>
+  <line x1="350" y1="654" x2="350" y2="690" stroke="#00b4cc" stroke-width="0.8" marker-end="url(#arr-teal)"/>
+
+  <!-- Shop proposal output -->
+  <rect x="240" y="690" width="220" height="56" rx="8" fill="rgba(0,180,204,0.15)" stroke="#00b4cc" stroke-width="1"/>
+  <text x="350" y="712" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">Shop Proposal</text>
+  <text x="350" y="728" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9ab3c6">Journey stage + EPLAN gap + role-based offer</text>
+  <text x="350" y="740" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9ab3c6">Fewer fires · stronger margins · no heroics</text>
+
+  <!-- ═══════════════════════════
+       OEM PATH (center column)
+  ══════════════════════════════ -->
+  <line x1="660" y1="356" x2="660" y2="410" stroke="#f0b429" stroke-width="1" marker-end="url(#arr-gold)"/>
+
+  <!-- O-Q1 -->
+  <rect x="565" y="410" width="220" height="64" rx="8" fill="rgba(240,180,41,0.08)" stroke="#f0b429" stroke-width="0.8"/>
+  <text x="575" y="428" font-family="JetBrains Mono,monospace" font-size="9" fill="#f0b429">O · Q2 — CURRENT SITUATION</text>
+  <text x="675" y="448" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Panel manufacturing setup?</text>
+  <text x="675" y="462" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">100% outsourced · Hybrid</text>
+  <text x="675" y="474" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Building internal · Existing + modernize</text>
+  <line x1="675" y1="474" x2="675" y2="500" stroke="#f0b429" stroke-width="0.8" marker-end="url(#arr-gold)"/>
+
+  <!-- O-Q2 -->
+  <rect x="565" y="500" width="220" height="64" rx="8" fill="rgba(240,180,41,0.08)" stroke="#f0b429" stroke-width="0.8"/>
+  <text x="575" y="518" font-family="JetBrains Mono,monospace" font-size="9" fill="#f0b429">O · Q3 — PRIMARY DRIVER</text>
+  <text x="675" y="538" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">What's driving this decision?</text>
+  <text x="675" y="552" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Recover margin · Quality control</text>
+  <text x="675" y="564" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Speed / flex · Build next-gen capability</text>
+  <line x1="675" y1="564" x2="675" y2="590" stroke="#f0b429" stroke-width="0.8" marker-end="url(#arr-gold)"/>
+
+  <!-- O-Q3 -->
+  <rect x="565" y="590" width="220" height="64" rx="8" fill="rgba(240,180,41,0.08)" stroke="#f0b429" stroke-width="0.8"/>
+  <text x="575" y="608" font-family="JetBrains Mono,monospace" font-size="9" fill="#f0b429">O · Q4 — ANNUAL SCALE</text>
+  <text x="675" y="628" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Annual panel spend or revenue?</text>
+  <text x="675" y="642" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">&lt;$5M · $5–15M · $15–50M · $50M+</text>
+  <text x="675" y="654" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#f0b429">→ Anchors ROI model + payback calc</text>
+  <line x1="675" y1="654" x2="675" y2="690" stroke="#f0b429" stroke-width="0.8" marker-end="url(#arr-gold)"/>
+
+  <!-- OEM proposal output -->
+  <rect x="565" y="690" width="220" height="56" rx="8" fill="rgba(240,180,41,0.15)" stroke="#f0b429" stroke-width="1"/>
+  <text x="675" y="712" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">OEM Proposal</text>
+  <text x="675" y="728" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9ab3c6">Phased insourcing model · ADS bridge</text>
+  <text x="675" y="740" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9ab3c6">Zero revenue at risk · 15–25% cost reduction</text>
+
+  <!-- ═══════════════════════════
+       ENGINEERING PATH (4th column)
+  ══════════════════════════════ -->
+  <line x1="980" y1="356" x2="980" y2="410" stroke="#10d9a0" stroke-width="1" marker-end="url(#arr-green)"/>
+
+  <!-- E-Q1 -->
+  <rect x="885" y="410" width="220" height="64" rx="8" fill="rgba(16,217,160,0.08)" stroke="#10d9a0" stroke-width="0.8"/>
+  <text x="895" y="428" font-family="JetBrains Mono,monospace" font-size="9" fill="#10d9a0">E · Q2 — ENG. BOTTLENECK</text>
+  <text x="995" y="448" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Biggest engineering bottleneck?</text>
+  <text x="995" y="462" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">No standards · Parts lib chaos</text>
+  <text x="995" y="474" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Defect escapes · Slow release cycle</text>
+  <line x1="995" y1="474" x2="995" y2="500" stroke="#10d9a0" stroke-width="0.8" marker-end="url(#arr-green)"/>
+
+  <!-- E-Q2 -->
+  <rect x="885" y="500" width="220" height="64" rx="8" fill="rgba(16,217,160,0.08)" stroke="#10d9a0" stroke-width="0.8"/>
+  <text x="895" y="518" font-family="JetBrains Mono,monospace" font-size="9" fill="#10d9a0">E · Q3 — EPLAN DEPTH</text>
+  <text x="995" y="538" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">How deep is EPLAN integration?</text>
+  <text x="995" y="552" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Just schematics · Partial automation</text>
+  <text x="995" y="564" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Advanced but inconsistent · Full + want more</text>
+  <line x1="995" y1="564" x2="995" y2="590" stroke="#10d9a0" stroke-width="0.8" marker-end="url(#arr-green)"/>
+
+  <!-- E-Q3 -->
+  <rect x="885" y="590" width="220" height="64" rx="8" fill="rgba(16,217,160,0.08)" stroke="#10d9a0" stroke-width="0.8"/>
+  <text x="895" y="608" font-family="JetBrains Mono,monospace" font-size="9" fill="#10d9a0">E · Q4 — TARGET OUTCOME</text>
+  <text x="995" y="628" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">What does success look like?</text>
+  <text x="995" y="642" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Consistent outputs · Zero escapes</text>
+  <text x="995" y="654" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">50%+ faster release · Full digital handoff</text>
+  <line x1="995" y1="654" x2="995" y2="690" stroke="#10d9a0" stroke-width="0.8" marker-end="url(#arr-green)"/>
+
+  <!-- Engineering proposal output -->
+  <rect x="885" y="690" width="220" height="56" rx="8" fill="rgba(16,217,160,0.15)" stroke="#10d9a0" stroke-width="1"/>
+  <text x="995" y="712" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">Engineering Proposal</text>
+  <text x="995" y="728" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9ab3c6">Engineering Fix offer · Standards roadmap</text>
+  <text x="995" y="740" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#9ab3c6">Defect escape elimination · Release speed</text>
+
+  <!-- ═══════════════════════════
+       ROI CALCULATOR (NEW - Step 6)
+  ══════════════════════════════ -->
+  <!-- Converge lines from all 4 proposals down to ROI step -->
+  <line x1="130" y1="746" x2="130" y2="800" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="350" y1="746" x2="350" y2="800" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="675" y1="746" x2="675" y2="800" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="995" y1="746" x2="995" y2="800" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="130" y1="800" x2="995" y2="800" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="660" y1="800" x2="660" y2="824" stroke="#f97316" stroke-width="1" marker-end="url(#arr-orange)"/>
+
+  <text x="660" y="815" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#3a5060">↓ All paths reach the financial model step ↓</text>
+
+  <!-- ROI CALCULATOR BOX -->
+  <rect x="390" y="824" width="540" height="96" rx="10" fill="rgba(249,115,22,0.1)" stroke="#f97316" stroke-width="1.5"/>
+  <text x="410" y="844" font-family="JetBrains Mono,monospace" font-size="9" fill="#f97316">STEP 6 — ROI CALCULATOR (NEW FEATURE)</text>
+  <text x="660" y="866" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" font-weight="700" fill="#e8f0f7">12-slider financial model</text>
+  <text x="660" y="882" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Revenue · Margin % · Labor % · Technicians · Hrs/panel · Panels/mo</text>
+  <text x="660" y="897" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Labor rate · Quote turnaround · Ramp time · Timeline · EPLAN cost · % Repeatable</text>
+  <text x="660" y="912" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#f97316">Apollo pre-populates revenue slider from company enrichment data</text>
+  <line x1="660" y1="920" x2="660" y2="944" stroke="#f97316" stroke-width="1" marker-end="url(#arr-orange)"/>
+
+  <!-- ═══════════════════════════
+       AI ENGINE
+  ══════════════════════════════ -->
+  <rect x="390" y="944" width="540" height="80" rx="10" fill="rgba(0,180,204,0.1)" stroke="#00b4cc" stroke-width="1.5"/>
+  <text x="410" y="964" font-family="JetBrains Mono,monospace" font-size="9" fill="#00b4cc">STEP 7 — AI GENERATION ENGINE</text>
+  <text x="660" y="984" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="13" font-weight="700" fill="#e8f0f7">Claude AI prompt assembly</text>
+  <text x="660" y="1000" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Audience path + CYOA answers + Financial model + Apollo enrichment</text>
+  <text x="660" y="1016" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">AI web research findings + Tribal knowledge base + NexGen strategy context</text>
+  <line x1="660" y1="1024" x2="660" y2="1048" stroke="#00b4cc" stroke-width="1" marker-end="url(#arr-teal)"/>
+
+  <!-- ═══════════════════════════
+       PROPOSAL OUTPUT
+  ══════════════════════════════ -->
+  <rect x="310" y="1048" width="700" height="110" rx="10" fill="rgba(255,255,255,0.04)" stroke="#3a5060" stroke-width="1"/>
+  <text x="330" y="1068" font-family="JetBrains Mono,monospace" font-size="9" fill="#6a8499">PROPOSAL OUTPUT — 6 SECTIONS EVERY TIME</text>
+  <text x="450" y="1090" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Your Moment</text>
+  <text x="450" y="1105" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Specific to name,</text>
+  <text x="450" y="1117" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">company, stage</text>
+  <text x="600" y="1090" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Market Truth</text>
+  <text x="600" y="1105" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Blacksmith story</text>
+  <text x="600" y="1117" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">teaser + link</text>
+  <text x="750" y="1090" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Your Path</text>
+  <text x="750" y="1105" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Services for</text>
+  <text x="750" y="1117" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">this exact profile</text>
+  <text x="900" y="1090" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">The Numbers</text>
+  <text x="900" y="1105" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">ROI from their</text>
+  <text x="900" y="1117" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">actual sliders</text>
+  <line x1="660" y1="1158" x2="660" y2="1182" stroke="#3a5060" stroke-width="1" marker-end="url(#arr)"/>
+
+  <!-- ASSA Journey bar note -->
+  <text x="660" y="1172" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#3a5060">+ Journey stage bar (Assess→Standardize→Activate→Scale) + Recommended offer tier</text>
+
+  <!-- ═══════════════════════════
+       OFFER LADDER
+  ══════════════════════════════ -->
+  <text x="660" y="1200" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#3a5060">↓ Offer ladder shown on every result — recommended tier highlighted by path + answers ↓</text>
+
+  <rect x="55" y="1210" width="155" height="56" rx="8" fill="rgba(255,255,255,0.04)" stroke="#3a5060" stroke-width="0.8"/>
+  <text x="132" y="1234" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">NexGen Core</text>
+  <text x="132" y="1249" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Entry membership</text>
+  <text x="132" y="1260" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#9ab3c6">~$397/mo</text>
+
+  <rect x="225" y="1210" width="155" height="56" rx="8" fill="rgba(0,180,204,0.1)" stroke="#00b4cc" stroke-width="0.8"/>
+  <text x="302" y="1234" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">NexGen Pro</text>
+  <text x="302" y="1249" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">1:1 coaching</text>
+  <text x="302" y="1260" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#9ab3c6">High-touch</text>
+
+  <rect x="395" y="1210" width="155" height="56" rx="8" fill="rgba(16,217,160,0.1)" stroke="#10d9a0" stroke-width="0.8"/>
+  <text x="472" y="1234" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">Engineering Fix</text>
+  <text x="472" y="1249" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Standards + escapes</text>
+  <text x="472" y="1260" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#9ab3c6">Role-based</text>
+
+  <rect x="565" y="1210" width="155" height="56" rx="8" fill="rgba(240,180,41,0.1)" stroke="#f0b429" stroke-width="0.8"/>
+  <text x="642" y="1234" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">Build Fix</text>
+  <text x="642" y="1249" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Production flow</text>
+  <text x="642" y="1260" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#9ab3c6">Role-based</text>
+
+  <rect x="735" y="1210" width="155" height="56" rx="8" fill="rgba(249,115,22,0.1)" stroke="#f97316" stroke-width="0.8"/>
+  <text x="812" y="1234" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">Commercial Fix</text>
+  <text x="812" y="1249" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Quoting + PM</text>
+  <text x="812" y="1260" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#9ab3c6">Role-based</text>
+
+  <rect x="905" y="1210" width="155" height="56" rx="8" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="0.8"/>
+  <text x="982" y="1234" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="700" fill="#e8f0f7">Panel Hackers</text>
+  <text x="982" y="1249" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Flagship annual event</text>
+  <text x="982" y="1260" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#9ab3c6">Summit</text>
+
+  <!-- ═══════════════════════════
+       LEAD CAPTURE + SALESFORCE
+  ══════════════════════════════ -->
+  <line x1="660" y1="1266" x2="660" y2="1300" stroke="#3a5060" stroke-width="0.8" marker-end="url(#arr)"/>
+  <rect x="390" y="1300" width="540" height="64" rx="10" fill="rgba(255,255,255,0.03)" stroke="#3a5060" stroke-width="0.8"/>
+  <text x="410" y="1320" font-family="JetBrains Mono,monospace" font-size="9" fill="#6a8499">LEAD CAPTURE + SALESFORCE PIPELINE</text>
+  <text x="660" y="1340" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Email + phone → Apollo enrich → Salesforce Web-to-Lead</text>
+  <text x="660" y="1356" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Full data block in SF description: CYOA answers · financial model · research · KB context · tool source</text>
+
+  <!-- FLAGS / NOTES SECTION -->
+  <rect x="55" y="1400" width="1210" height="120" rx="10" fill="rgba(240,180,41,0.05)" stroke="rgba(240,180,41,0.25)" stroke-width="0.8"/>
+  <text x="75" y="1424" font-family="JetBrains Mono,monospace" font-size="9" fill="#f0b429">THREE GAPS TO ADDRESS (from diagram review)</text>
+  <text x="75" y="1448" font-family="DM Sans,sans-serif" font-size="11" fill="#e8f0f7">1. v2 shop path is missing a "12-month goal" question that v1 had — adds useful output language. Recommend adding back as S-Q4b.</text>
+  <text x="75" y="1470" font-family="DM Sans,sans-serif" font-size="11" fill="#e8f0f7">2. Revenue band only appears in OEM path. Shop owners don't answer it directly — consider adding a revenue question to the shop path for ROI model pre-population.</text>
+  <text x="75" y="1492" font-family="DM Sans,sans-serif" font-size="11" fill="#e8f0f7">3. Distributors and EPLAN reps share identical partner questions. As show grows, consider a separate distributor branch focused on channel economics vs. EPLAN retention language.</text>
+  <text x="75" y="1514" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">* Q numbering shows as Q2–Q4 per path because Q1 is always "Who are you?" and the name entry is between Q1 and the path questions.</text>
+
+  </svg>
+  </div><!-- /svg-scroll -->
+
+</div><!-- /diag-tree -->
+
+<!-- ═══════════════════════════════════════════════════════
+     DIAGRAM 2: KNOWLEDGE FLYWHEEL
+═══════════════════════════════════════════════════════ -->
+<div class="diagram-wrap" id="diag-flywheel">
+
+  <p style="font-size:.82rem;color:var(--muted2);line-height:1.6;margin:0 0 1.25rem;max-width:720px;">
+    This diagram shows two interconnected loops: how tribal knowledge enters the system and improves proposal output, and how session data from real users creates a continuous refinement cycle that makes every proposal smarter over time.
+  </p>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--teal);"></div>Tribal knowledge input</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--purple);"></div>Knowledge base / storage</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--gold);"></div>Session data capture</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--green);"></div>Refinement outputs</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f97316;"></div>AI engine</div>
+  </div>
+
+  <div class="svg-scroll">
+  <svg width="1100" height="1560" viewBox="0 0 1100 1560" xmlns="http://www.w3.org/2000/svg" style="background:#07090f;">
+  <defs>
+    <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#6a8499" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr2-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#00b4cc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr2-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#10d9a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr2-gold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#f0b429" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr2-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#a78bfa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr2-orange" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#f97316" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <!-- ═══ PART 1 TITLE ═══ -->
+  <text x="55" y="36" font-family="Bebas Neue,sans-serif" font-size="18" letter-spacing="3" fill="#00b4cc">PART 1 — TRIBAL KNOWLEDGE ENTERS AND IMPROVES PROPOSALS</text>
+  <line x1="55" y1="44" x2="1045" y2="44" stroke="rgba(0,180,204,0.2)" stroke-width="0.5"/>
+
+  <!-- TEAM MEMBER INPUT -->
+  <rect x="400" y="60" width="300" height="44" rx="8" fill="#1a2235" stroke="#3a5060" stroke-width="0.5"/>
+  <text x="550" y="78" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#e8f0f7">Shain or any team member</text>
+  <text x="550" y="94" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#6a8499">Captures insight from real experience</text>
+  <line x1="480" y1="104" x2="320" y2="148" stroke="#00b4cc" stroke-width="0.8" marker-end="url(#arr2-teal)"/>
+  <line x1="620" y1="104" x2="780" y2="148" stroke="#00b4cc" stroke-width="0.8" marker-end="url(#arr2-teal)"/>
+
+  <!-- TEXT MODE -->
+  <rect x="170" y="148" width="220" height="64" rx="8" fill="rgba(0,180,204,0.08)" stroke="#00b4cc" stroke-width="0.8"/>
+  <text x="280" y="172" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#e8f0f7">Text Input</text>
+  <text x="280" y="188" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6a8499">Type any insight directly</text>
+  <text x="280" y="202" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6a8499">10 category tags available</text>
+
+  <!-- VOICE MODE -->
+  <rect x="710" y="148" width="220" height="64" rx="8" fill="rgba(0,180,204,0.08)" stroke="#00b4cc" stroke-width="0.8"/>
+  <text x="820" y="172" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#e8f0f7">Voice Input</text>
+  <text x="820" y="188" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6a8499">Speak naturally</text>
+  <text x="820" y="202" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6a8499">Web Speech API → transcript</text>
+
+  <!-- MERGE -->
+  <line x1="280" y1="212" x2="280" y2="240" stroke="#00b4cc" stroke-width="0.8"/>
+  <line x1="820" y1="212" x2="820" y2="240" stroke="#00b4cc" stroke-width="0.8"/>
+  <line x1="280" y1="240" x2="548" y2="240" stroke="#00b4cc" stroke-width="0.8"/>
+  <line x1="820" y1="240" x2="552" y2="240" stroke="#00b4cc" stroke-width="0.8"/>
+  <line x1="550" y1="240" x2="550" y2="264" stroke="#00b4cc" stroke-width="0.8" marker-end="url(#arr2-teal)"/>
+
+  <!-- AI ANALYSIS -->
+  <rect x="350" y="264" width="400" height="64" rx="8" fill="rgba(249,115,22,0.08)" stroke="#f97316" stroke-width="0.8"/>
+  <text x="360" y="282" font-family="JetBrains Mono,monospace" font-size="9" fill="#f97316">REAL-TIME AI ANALYSIS</text>
+  <text x="550" y="302" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#e8f0f7">AI analyzes the input</text>
+  <text x="550" y="318" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Summarize · Categorize · Tag how to apply · Show preview before saving</text>
+  <line x1="550" y1="328" x2="550" y2="362" stroke="#f97316" stroke-width="0.8" marker-end="url(#arr2-orange)"/>
+
+  <!-- CATEGORY PILLS -->
+  <text x="550" y="352" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#3a5060">category applied →</text>
+  <rect x="55" y="368" width="116" height="32" rx="16" fill="rgba(0,180,204,0.1)" stroke="#00b4cc" stroke-width="0.5"/>
+  <text x="113" y="388" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#00b4cc">Client Insight</text>
+  <rect x="183" y="368" width="96" height="32" rx="16" fill="rgba(248,113,113,0.1)" stroke="#f87171" stroke-width="0.5"/>
+  <text x="231" y="388" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#f87171">Objection</text>
+  <rect x="291" y="368" width="116" height="32" rx="16" fill="rgba(16,217,160,0.1)" stroke="#10d9a0" stroke-width="0.5"/>
+  <text x="349" y="388" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#10d9a0">Success Story</text>
+  <rect x="419" y="368" width="96" height="32" rx="16" fill="rgba(240,180,41,0.1)" stroke="#f0b429" stroke-width="0.5"/>
+  <text x="467" y="388" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#f0b429">ROI Data</text>
+  <rect x="527" y="368" width="96" height="32" rx="16" fill="rgba(0,180,204,0.1)" stroke="#00b4cc" stroke-width="0.5"/>
+  <text x="575" y="388" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#00b4cc">EPLAN Tip</text>
+  <rect x="635" y="368" width="86" height="32" rx="16" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="0.5"/>
+  <text x="678" y="388" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#a78bfa">Lean</text>
+  <rect x="733" y="368" width="106" height="32" rx="16" fill="rgba(248,113,113,0.1)" stroke="#f87171" stroke-width="0.5"/>
+  <text x="786" y="388" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#f87171">Competitive</text>
+  <rect x="851" y="368" width="86" height="32" rx="16" fill="rgba(255,255,255,0.05)" stroke="#3a5060" stroke-width="0.5"/>
+  <text x="894" y="388" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#6a8499">Process</text>
+  <line x1="550" y1="400" x2="550" y2="424" stroke="#a78bfa" stroke-width="0.8" marker-end="url(#arr2-purple)"/>
+
+  <!-- KNOWLEDGE BASE -->
+  <rect x="300" y="424" width="500" height="64" rx="8" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="1"/>
+  <text x="320" y="444" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa">KNOWLEDGE BASE — PERSISTENT STORAGE</text>
+  <text x="550" y="464" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#e8f0f7">All entries saved · Searchable · Filterable · Exportable</text>
+  <text x="550" y="480" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Current: browser storage · Production: shared server DB</text>
+
+  <!-- TWO OUTPUTS FROM KB -->
+  <line x1="420" y1="488" x2="280" y2="532" stroke="#a78bfa" stroke-width="0.8" marker-end="url(#arr2-purple)"/>
+  <line x1="680" y1="488" x2="820" y2="532" stroke="#f97316" stroke-width="0.8" marker-end="url(#arr2-orange)"/>
+
+  <!-- AI INSIGHTS OUTPUT -->
+  <rect x="120" y="532" width="300" height="80" rx="8" fill="rgba(167,139,250,0.08)" stroke="#a78bfa" stroke-width="0.8"/>
+  <text x="140" y="552" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa">OUTPUT 1 — AI INSIGHTS REPORT</text>
+  <text x="270" y="572" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Strategic synthesis</text>
+  <text x="270" y="588" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">What prospects are telling us</text>
+  <text x="270" y="602" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Knowledge gaps to fill · Offer improvements</text>
+
+  <!-- PROMPT INJECTION OUTPUT -->
+  <rect x="680" y="532" width="300" height="80" rx="8" fill="rgba(249,115,22,0.08)" stroke="#f97316" stroke-width="0.8"/>
+  <text x="700" y="552" font-family="JetBrains Mono,monospace" font-size="9" fill="#f97316">OUTPUT 2 — PROPOSAL PROMPT INJECTION</text>
+  <text x="830" y="572" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Richer proposal output</text>
+  <text x="830" y="588" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">20 most recent/relevant KB entries</text>
+  <text x="830" y="602" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">injected into every AI prompt call</text>
+
+  <!-- ARROWS FROM OUTPUTS -->
+  <line x1="270" y1="612" x2="270" y2="648" stroke="#a78bfa" stroke-width="0.8" marker-end="url(#arr2-purple)"/>
+  <line x1="830" y1="612" x2="830" y2="648" stroke="#f97316" stroke-width="0.8" marker-end="url(#arr2-orange)"/>
+
+  <!-- Team reviews -->
+  <rect x="90" y="648" width="360" height="64" rx="8" fill="rgba(255,255,255,0.03)" stroke="#3a5060" stroke-width="0.5"/>
+  <text x="270" y="668" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Team reviews insights report</text>
+  <text x="270" y="684" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Updates questions · adds more KB entries</text>
+  <text x="270" y="700" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Refines offer positioning · Sharpens language</text>
+
+  <!-- Proposal uses KB -->
+  <rect x="650" y="648" width="360" height="64" rx="8" fill="rgba(0,180,204,0.08)" stroke="#00b4cc" stroke-width="0.8"/>
+  <text x="830" y="668" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Proposal uses KB context</text>
+  <text x="830" y="684" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Specific language · Real examples</text>
+  <text x="830" y="700" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Sharp proof points · Sounds like operator</text>
+
+  <!-- KEY NOTE -->
+  <rect x="90" y="740" width="920" height="52" rx="8" fill="rgba(240,180,41,0.05)" stroke="rgba(240,180,41,0.25)" stroke-width="0.8"/>
+  <text x="100" y="760" font-family="JetBrains Mono,monospace" font-size="9" fill="#f0b429">CURRENT LIMITATION</text>
+  <text x="550" y="778" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" fill="#9ab3c6">KB is currently browser-stored — each device has its own copy. Host on a shared server so all team members contribute to one growing knowledge base in real time.</text>
+
+  <!-- ═══ PART 2 TITLE ═══ -->
+  <text x="55" y="836" font-family="Bebas Neue,sans-serif" font-size="18" letter-spacing="3" fill="#f0b429">PART 2 — SESSION DATA CREATES THE IMPROVEMENT LOOP</text>
+  <line x1="55" y1="844" x2="1045" y2="844" stroke="rgba(240,180,41,0.2)" stroke-width="0.5"/>
+
+  <!-- USER COMPLETES TOOL -->
+  <rect x="350" y="860" width="400" height="44" rx="8" fill="#1a2235" stroke="#3a5060" stroke-width="0.5"/>
+  <text x="550" y="878" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#e8f0f7">User completes proposal tool</text>
+  <text x="550" y="894" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#6a8499">Any of the 3 tools · any path · any language</text>
+  <line x1="550" y1="904" x2="550" y2="928" stroke="#f0b429" stroke-width="0.8" marker-end="url(#arr2-gold)"/>
+
+  <!-- NEXGEN TRACK -->
+  <rect x="280" y="928" width="540" height="80" rx="8" fill="rgba(240,180,41,0.08)" stroke="#f0b429" stroke-width="0.8"/>
+  <text x="300" y="948" font-family="JetBrains Mono,monospace" font-size="9" fill="#f0b429">nexgenTrack() FIRES AUTOMATICALLY</text>
+  <text x="550" y="968" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Session data captured</text>
+  <text x="550" y="984" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Tool · Name · Company · Audience path · All CYOA answers · Outcome</text>
+  <text x="550" y="1000" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Step reached · Language · Financial model inputs · Timestamp</text>
+  <line x1="550" y1="1008" x2="550" y2="1032" stroke="#f0b429" stroke-width="0.8" marker-end="url(#arr2-gold)"/>
+
+  <!-- SESSION STORE -->
+  <rect x="330" y="1032" width="440" height="44" rx="8" fill="rgba(167,139,250,0.1)" stroke="#a78bfa" stroke-width="0.8"/>
+  <text x="550" y="1054" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#e8f0f7">Session persisted in storage</text>
+  <text x="550" y="1070" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#9ab3c6">Accumulates across all sessions · Powers dashboard</text>
+
+  <!-- 4 BRANCH LINES TO ANALYTICS -->
+  <line x1="420" y1="1076" x2="180" y2="1120" stroke="#3a5060" stroke-width="0.5" marker-end="url(#arr2)"/>
+  <line x1="470" y1="1076" x2="390" y2="1120" stroke="#3a5060" stroke-width="0.5" marker-end="url(#arr2)"/>
+  <line x1="630" y1="1076" x2="710" y2="1120" stroke="#3a5060" stroke-width="0.5" marker-end="url(#arr2)"/>
+  <line x1="680" y1="1076" x2="920" y2="1120" stroke="#3a5060" stroke-width="0.5" marker-end="url(#arr2)"/>
+
+  <!-- 4 ANALYTICS VIEWS -->
+  <rect x="55" y="1120" width="230" height="64" rx="8" fill="rgba(0,180,204,0.06)" stroke="#00b4cc" stroke-width="0.5"/>
+  <text x="170" y="1142" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Sessions Log</text>
+  <text x="170" y="1158" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Every user · outcome · time</text>
+  <text x="170" y="1174" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">sortable · exportable CSV</text>
+
+  <rect x="295" y="1120" width="230" height="64" rx="8" fill="rgba(0,180,204,0.06)" stroke="#00b4cc" stroke-width="0.5"/>
+  <text x="410" y="1142" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Funnel Analysis</text>
+  <text x="410" y="1158" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Step-by-step drop-off</text>
+  <text x="410" y="1174" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Shows where to improve flow</text>
+
+  <rect x="575" y="1120" width="230" height="64" rx="8" fill="rgba(0,180,204,0.06)" stroke="#00b4cc" stroke-width="0.5"/>
+  <text x="690" y="1142" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Answer Patterns</text>
+  <text x="690" y="1158" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Most common choices</text>
+  <text x="690" y="1174" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">per question per tool</text>
+
+  <rect x="815" y="1120" width="230" height="64" rx="8" fill="rgba(0,180,204,0.06)" stroke="#00b4cc" stroke-width="0.5"/>
+  <text x="930" y="1142" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Dashboard Stats</text>
+  <text x="930" y="1158" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">Sessions · leads · conversion</text>
+  <text x="930" y="1174" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="9" fill="#6a8499">outcome donut · tool breakdown</text>
+
+  <!-- CONVERGE TO TEAM REVIEWS -->
+  <line x1="170" y1="1184" x2="170" y2="1224" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="410" y1="1184" x2="410" y2="1224" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="690" y1="1184" x2="690" y2="1224" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="930" y1="1184" x2="930" y2="1224" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="170" y1="1224" x2="930" y2="1224" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="550" y1="1224" x2="550" y2="1248" stroke="#10d9a0" stroke-width="0.8" marker-end="url(#arr2-green)"/>
+
+  <!-- TEAM REVIEWS -->
+  <rect x="200" y="1248" width="700" height="64" rx="8" fill="rgba(255,255,255,0.03)" stroke="#3a5060" stroke-width="0.5"/>
+  <text x="550" y="1268" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="600" fill="#e8f0f7">Team reviews analytics</text>
+  <text x="550" y="1284" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Which pain is most common · Where users drop off · Which offer selects most · Which path converts best</text>
+  <text x="550" y="1300" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Language signals from answer patterns · Gaps in KB coverage</text>
+  <line x1="370" y1="1312" x2="220" y2="1356" stroke="#10d9a0" stroke-width="0.8" marker-end="url(#arr2-green)"/>
+  <line x1="550" y1="1312" x2="550" y2="1356" stroke="#10d9a0" stroke-width="0.8" marker-end="url(#arr2-green)"/>
+  <line x1="730" y1="1312" x2="880" y2="1356" stroke="#10d9a0" stroke-width="0.8" marker-end="url(#arr2-green)"/>
+
+  <!-- 3 REFINEMENT OUTPUTS -->
+  <rect x="60" y="1356" width="300" height="64" rx="8" fill="rgba(16,217,160,0.08)" stroke="#10d9a0" stroke-width="0.8"/>
+  <text x="210" y="1376" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Refine questions</text>
+  <text x="210" y="1392" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Remove drop-off steps</text>
+  <text x="210" y="1408" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Reword low-engagement options</text>
+
+  <rect x="400" y="1356" width="300" height="64" rx="8" fill="rgba(16,217,160,0.08)" stroke="#10d9a0" stroke-width="0.8"/>
+  <text x="550" y="1376" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Update KB + AI prompt</text>
+  <text x="550" y="1392" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Add tribal knowledge to cover</text>
+  <text x="550" y="1408" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">most common prospect profiles</text>
+
+  <rect x="740" y="1356" width="300" height="64" rx="8" fill="rgba(16,217,160,0.08)" stroke="#10d9a0" stroke-width="0.8"/>
+  <text x="890" y="1376" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="11" font-weight="600" fill="#e8f0f7">Sharpen offers</text>
+  <text x="890" y="1392" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Adjust tier recommendations</text>
+  <text x="890" y="1408" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="10" fill="#9ab3c6">Reprice · Reposition · Highlight</text>
+
+  <!-- FLYWHEEL RETURN ARROW -->
+  <line x1="210" y1="1420" x2="210" y2="1476" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="550" y1="1420" x2="550" y2="1476" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="890" y1="1420" x2="890" y2="1476" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="210" y1="1476" x2="890" y2="1476" stroke="#3a5060" stroke-width="0.5"/>
+  <line x1="550" y1="1476" x2="550" y2="1500" stroke="#00b4cc" stroke-width="1" marker-end="url(#arr2-teal)"/>
+
+  <!-- FLYWHEEL RESULT -->
+  <rect x="200" y="1500" width="700" height="44" rx="8" fill="rgba(0,180,204,0.12)" stroke="#00b4cc" stroke-width="1"/>
+  <text x="550" y="1518" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="12" font-weight="700" fill="#e8f0f7">Better proposals → more leads → more data → better proposals</text>
+  <text x="550" y="1534" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#00b4cc">THE FLYWHEEL — self-reinforcing improvement loop</text>
+
+  </svg>
+  </div><!-- /svg-scroll -->
+
+</div><!-- /diag-flywheel -->
+
+<!-- BOTH -->
+<div class="diagram-wrap" id="diag-both" style="display:none;">
+  <p style="font-size:.82rem;color:var(--muted2);margin-bottom:1rem;">Showing both diagrams stacked. Use Print / Save PDF for a complete document.</p>
+</div>
+
+<script>
+function showDiagram(id) {
+  document.querySelectorAll('.diagram-wrap').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+
+  if (id === 'both') {
+    const both = document.getElementById('diag-both');
+    both.classList.add('active');
+    both.innerHTML = `
+      <p style="font-size:.82rem;color:var(--muted2);margin-bottom:1rem;">Both diagrams — scroll to view. Use <strong>Print / Save PDF</strong> in the top right for a sharable document.</p>
+      ${document.getElementById('diag-tree').innerHTML}
+      <div style="margin:2rem 0;border-top:1px solid var(--border);"></div>
+      ${document.getElementById('diag-flywheel').innerHTML}`;
+  } else {
+    document.getElementById('diag-' + id).classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>

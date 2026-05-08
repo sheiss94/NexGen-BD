@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexGen Panel Mentoring — EPLAN World 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#060810;
+  --surface:#0b0e18;
+  --card:#101420;
+  --card2:#141929;
+  --border:rgba(255,255,255,0.06);
+  --border-hi:rgba(0,180,204,0.18);
+  /* NexGen teal */
+  --teal:#00b4cc;
+  --teal2:#0096b0;
+  --teal-dim:rgba(0,180,204,0.09);
+  --teal-glow:0 0 55px rgba(0,180,204,0.25);
+  /* Rittal/EPLAN show accent */
+  --show:#e63329;
+  --show-dim:rgba(230,51,41,0.1);
+  --white:#ecf1f7;
+  --muted:#455567;
+  --muted2:#7b93a6;
+  --green:#2dd4a0;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+.cur{position:fixed;width:10px;height:10px;background:var(--teal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .15s,height .15s;}
+.cur-ring{position:fixed;width:30px;height:30px;border:1px solid rgba(0,180,204,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .1s ease-out;}
+
+/* SCAN LINE EFFECT */
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--teal) 50%,transparent 100%);opacity:.5;animation:scan 4s ease-in-out infinite;z-index:100;pointer-events:none;}
+@keyframes scan{0%{top:0;opacity:.5}100%{top:100%;opacity:0}}
+
+/* GRID BG */
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(0,180,204,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,204,0.02) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+
+/* MESH */
+.mesh{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 45% at 10% 20%,rgba(0,180,204,0.08) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 60% at 90% 80%,rgba(230,51,41,0.05) 0%,transparent 60%);
+}
+
+/* SHOW BADGE TOP */
+.show-banner{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:rgba(6,8,16,0.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.7rem 2rem;
+}
+.show-banner-left{display:flex;align-items:center;gap:1rem;}
+.show-logo{height:28px;width:auto;}
+.show-divider{width:1px;height:20px;background:var(--border-hi);}
+.show-event{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2.5px;color:var(--teal);text-transform:uppercase;}
+.lang-toggle{display:flex;gap:.3rem;}
+.lang-btn{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.5px;padding:.3rem .6rem;border-radius:3px;border:1px solid var(--border);background:none;color:var(--muted);cursor:none;transition:all .2s;}
+.lang-btn.active{border-color:var(--teal);color:var(--teal);background:var(--teal-dim);}
+
+/* ===== SPLASH SCREEN ===== */
+#splash{
+  position:fixed;inset:0;z-index:400;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--ink);text-align:center;padding:2rem;
+  transition:opacity .8s,transform .8s;
+}
+#splash.exit{opacity:0;transform:scale(1.04);pointer-events:none;}
+
+.splash-inner{position:relative;z-index:2;max-width:600px;}
+
+/* Hexagon background decoration */
+.hex-grid{position:absolute;inset:0;overflow:hidden;z-index:0;opacity:.3;}
+.hex-grid svg{position:absolute;width:100%;height:100%;}
+
+.splash-logo{height:58px;width:auto;margin:0 auto 2.5rem;display:block;opacity:0;animation:fadeUp .8s .2s forwards;}
+.splash-event-badge{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:var(--show-dim);border:1px solid rgba(230,51,41,0.3);
+  padding:.35rem 1rem;border-radius:3px;margin-bottom:1.5rem;
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2.5px;color:var(--show);
+  text-transform:uppercase;opacity:0;animation:fadeUp .8s .4s forwards;
+}
+.splash-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.5rem,7vw,5.5rem);line-height:.95;letter-spacing:-1px;margin-bottom:1.25rem;opacity:0;animation:fadeUp .8s .6s forwards;}
+.splash-title em{font-style:normal;color:var(--teal);display:block;}
+.splash-sub{font-size:.95rem;color:var(--muted2);line-height:1.7;max-width:400px;margin:0 auto 2.5rem;opacity:0;animation:fadeUp .8s .8s forwards;}
+.splash-btn{
+  padding:1rem 3rem;background:var(--teal);color:var(--ink);
+  font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;
+  letter-spacing:2.5px;text-transform:uppercase;border:none;border-radius:4px;
+  cursor:none;transition:all .25s;opacity:0;animation:fadeUp .8s 1s forwards;
+  position:relative;overflow:hidden;
+}
+.splash-btn:hover{background:#00cce6;box-shadow:var(--teal-glow);transform:translateY(-2px);}
+.splash-sub-link{display:block;margin-top:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.5px;color:var(--muted);cursor:none;opacity:0;animation:fadeUp .8s 1.2s forwards;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== APP ===== */
+#app{display:none;min-height:100vh;align-items:center;justify-content:center;padding:5rem 2rem 3rem;position:relative;z-index:2;flex-direction:column;}
+
+/* PROGRESS */
+.prog-wrap{width:100%;max-width:800px;margin-bottom:2.5rem;}
+.prog-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;}
+.prog-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+.prog-pct{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1px;color:var(--teal);}
+.prog-bar-bg{width:100%;height:2px;background:var(--border-hi);border-radius:2px;overflow:hidden;}
+.prog-bar-fill{height:100%;background:linear-gradient(90deg,var(--teal2),var(--teal));border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+
+/* STAGE */
+.stage{width:100%;max-width:800px;position:relative;z-index:2;}
+
+/* AUDIENCE SELECTOR — special first screen */
+.audience-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin:2rem 0;}
+@media(max-width:580px){.audience-grid{grid-template-columns:1fr;}}
+
+.aud-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.5rem;cursor:none;transition:all .22s;text-align:left;
+  position:relative;overflow:hidden;
+}
+.aud-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;transform:scaleX(0);transition:transform .25s;transform-origin:left;}
+.aud-card.teal::before{background:var(--teal);}
+.aud-card.red::before{background:var(--show);}
+.aud-card:hover{transform:translateY(-3px);border-color:rgba(0,180,204,0.25);}
+.aud-card:hover::before,.aud-card.sel::before{transform:scaleX(1);}
+.aud-card.sel{border-color:rgba(0,180,204,0.4);background:var(--teal-dim);}
+.aud-icon{font-size:2rem;margin-bottom:.75rem;display:block;}
+.aud-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.3rem;}
+.aud-desc{font-size:.78rem;color:var(--muted2);line-height:1.4;}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--teal);padding:.25rem .65rem;border:1px solid rgba(0,180,204,0.2);border-radius:2px;margin-bottom:1.25rem;}
+.bdot{width:5px;height:5px;border-radius:50%;background:var(--teal);animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+
+/* QUESTION */
+.q-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.4rem,3.5vw,2rem);line-height:1.2;margin-bottom:.5rem;}
+.q-hint{font-size:.83rem;color:var(--muted2);line-height:1.6;margin-bottom:2rem;}
+
+/* OPTIONS */
+.opts{display:grid;gap:.6rem;margin-bottom:1.75rem;}
+.opt{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.4rem;cursor:none;transition:all .18s;display:flex;align-items:flex-start;gap:1rem;text-align:left;width:100%;position:relative;overflow:hidden;}
+.opt::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);transform:scaleY(0);transition:transform .2s;}
+.opt:hover{border-color:rgba(0,180,204,0.28);background:rgba(0,180,204,0.04);transform:translateX(3px);}
+.opt:hover::before,.opt.sel::before{transform:scaleY(1);}
+.opt.sel{border-color:var(--teal);background:var(--teal-dim);}
+.opt-i{font-size:1.35rem;flex-shrink:0;margin-top:1px;}
+.opt-t{font-size:.9rem;font-weight:600;margin-bottom:.2rem;color:var(--white);}
+.opt-d{font-size:.76rem;color:var(--muted2);line-height:1.4;}
+
+/* NAME INPUT */
+.name-input-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.75rem;}
+@media(max-width:500px){.name-input-row{grid-template-columns:1fr;}}
+.ni-group label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);display:block;margin-bottom:.35rem;}
+.ni-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem;font-family:'DM Sans',sans-serif;font-size:.92rem;color:var(--white);outline:none;transition:border-color .2s;}
+.ni-input:focus{border-color:rgba(0,180,204,0.45);}
+.ni-input::placeholder{color:var(--muted);}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;}
+.btn-back{font-size:.72rem;color:var(--muted);background:none;border:none;cursor:none;font-family:'JetBrains Mono',monospace;letter-spacing:1px;transition:color .2s;display:flex;align-items:center;gap:.4rem;}
+.btn-back:hover{color:var(--white);}
+.btn-next{padding:.8rem 2.4rem;background:var(--teal);color:var(--ink);border:none;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:none;transition:all .2s;}
+.btn-next:hover{background:#00cce6;box-shadow:var(--teal-glow);transform:translateY(-1px);}
+.btn-next:disabled{opacity:.3;transform:none;}
+
+/* TRANSITION */
+.tx{background:linear-gradient(135deg,var(--teal-dim),rgba(230,51,41,0.04));border:1px solid rgba(0,180,204,0.2);border-radius:14px;padding:2.5rem;text-align:center;margin:1rem 0 2.5rem;}
+.tx-icon{font-size:2.8rem;display:block;margin-bottom:1rem;}
+.tx-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.9rem;margin-bottom:.75rem;}
+.tx-body{font-size:.87rem;color:var(--muted2);line-height:1.7;max-width:440px;margin:0 auto;}
+
+/* ===== GENERATING ===== */
+#genScreen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;text-align:center;padding:3rem 2rem;position:relative;z-index:2;}
+.gen-logo{height:34px;width:auto;margin:0 auto 2rem;display:block;opacity:.65;}
+.gen-rings{position:relative;width:90px;height:90px;margin:0 auto 2.5rem;}
+.gr1{position:absolute;inset:0;border:2px solid var(--border-hi);border-top-color:var(--teal);border-radius:50%;animation:spin 1s linear infinite;}
+.gr2{position:absolute;inset:12px;border:1px solid rgba(0,180,204,0.12);border-bottom-color:var(--teal2);border-radius:50%;animation:spin 1.6s linear infinite reverse;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.9rem;margin-bottom:.5rem;}
+.gen-sub{font-size:.83rem;color:var(--muted2);max-width:340px;line-height:1.6;margin-bottom:1.75rem;}
+.gen-steps{display:flex;flex-direction:column;gap:.4rem;max-width:360px;width:100%;}
+.gen-step{display:flex;align-items:center;gap:.65rem;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:1.5px;color:var(--muted);padding:.4rem .7rem;border-radius:6px;transition:all .4s;}
+.gen-step.active{color:var(--teal);background:var(--teal-dim);}
+.gen-step.done{color:var(--green);}
+
+/* ===== RESULT ===== */
+#resultScreen{display:none;width:100%;max-width:900px;padding:5rem 0 3rem;position:relative;z-index:2;}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s;}
+.rv.in{opacity:1;transform:translateY(0);}
+
+/* Hero */
+.r-hero{border-radius:14px;padding:2.5rem;margin-bottom:1.25rem;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#080f1a,#0a131f);border:1px solid rgba(0,180,204,0.2);}
+.r-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--teal2),transparent);}
+.r-hero-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;}
+.r-tag{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--teal);background:var(--teal-dim);padding:.2rem .65rem;border-radius:2px;border:1px solid rgba(0,180,204,0.18);}
+.r-person{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.6rem,4vw,2.5rem);margin-bottom:.3rem;}
+.r-person span{color:var(--teal);}
+.r-role{font-size:.85rem;color:var(--muted2);margin-bottom:1.25rem;}
+
+/* Metrics */
+.r-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin-bottom:1.25rem;}
+.r-metric{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.25rem;text-align:center;}
+.r-metric.hi{border-color:rgba(0,180,204,0.28);background:var(--teal-dim);}
+.r-mval{font-family:'Bebas Neue',sans-serif;font-size:1.85rem;color:var(--teal);display:block;line-height:1;}
+.r-mlabel{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:.25rem;display:block;}
+
+/* Grid */
+.r-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:.85rem;}
+.r-panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem;}
+.r-panel.full{grid-column:1/-1;}
+.r-panel.show-hi{border-color:rgba(230,51,41,0.25);background:linear-gradient(135deg,var(--show-dim),var(--card));}
+.r-plabel{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:.85rem;display:block;}
+.r-plabel.red{color:var(--show);}
+.ai-body{font-size:.83rem;color:var(--muted2);line-height:1.75;}
+.ai-body h4{font-family:'Bebas Neue',sans-serif;font-size:.92rem;letter-spacing:2px;color:var(--white);margin:1rem 0 .3rem;}
+.ai-body strong{color:var(--teal);}
+.ai-body ul{list-style:none;display:flex;flex-direction:column;gap:.3rem;margin-top:.3rem;}
+.ai-body ul li::before{content:'→ ';color:var(--teal);}
+.bs-blurb{background:var(--card2);border-left:2px solid var(--teal);padding:.85rem 1.1rem;border-radius:0 8px 8px 0;margin:.75rem 0;font-size:.78rem;color:var(--muted2);line-height:1.6;font-style:italic;}
+.bs-link{display:inline-block;margin-top:.3rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.5px;color:var(--teal);text-decoration:none;border-bottom:1px solid rgba(0,180,204,0.3);}
+
+/* Partnership paths (for EPLAN reps/distributors) */
+.partner-banner{background:linear-gradient(135deg,rgba(230,51,41,0.1),var(--card));border:1px solid rgba(230,51,41,0.25);border-radius:12px;padding:1.5rem;margin-bottom:.85rem;}
+.partner-banner h4{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--show);margin-bottom:.5rem;}
+.partner-banner p{font-size:.82rem;color:var(--muted2);line-height:1.6;}
+
+/* LEAD CAPTURE */
+.r-lead{background:var(--ink);border:1px solid rgba(0,180,204,0.2);border-radius:14px;padding:2.5rem;text-align:center;margin-top:.85rem;}
+.r-lead h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.7rem;margin-bottom:.5rem;}
+.r-lead p{font-size:.85rem;color:var(--muted2);max-width:420px;margin:0 auto 2rem;line-height:1.6;}
+.lead-row{display:flex;gap:.65rem;max-width:480px;margin:0 auto 1.25rem;flex-wrap:wrap;}
+.lead-in{flex:1;min-width:180px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--white);outline:none;transition:border-color .2s;}
+.lead-in:focus{border-color:rgba(0,180,204,0.4);}
+.lead-in::placeholder{color:var(--muted);}
+.btn-cta{padding:.9rem 2.5rem;background:var(--teal);color:var(--ink);border:none;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:none;transition:all .2s;display:block;margin:0 auto;}
+.btn-cta:hover{background:#00cce6;box-shadow:var(--teal-glow);transform:translateY(-2px);}
+.submitted{display:none;padding:1.5rem;}
+.submitted h4{font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;color:var(--green);margin-bottom:.4rem;}
+.submitted p{font-size:.82rem;color:var(--muted2);}
+.restart{display:block;margin-top:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.5px;color:var(--muted);text-decoration:none;cursor:none;transition:color .2s;}
+.restart:hover{color:var(--teal);}
+
+/* SLIDE */
+.slide{display:none;}
+.slide.active{display:block;animation:sIn .35s ease forwards;}
+@keyframes sIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .r-grid,.r-metrics{grid-template-columns:1fr;}
+  .r-metrics{grid-template-columns:1fr 1fr;}
+  .show-banner{padding:.6rem 1rem;}
+  .r-hero{padding:1.5rem;}
+  #app{padding:4.5rem 1rem 2rem;}
+}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curRing"></div>
+<div class="mesh"></div>
+
+<!-- TOP BANNER -->
+<div class="show-banner">
+  <div class="show-banner-left">
+    <img class="show-logo" src="https://panelmentor.com/wp-content/uploads/2024/12/NexGen_FullLogo_Transparent_NoBuffer.png" alt="NexGen" onerror="this.outerHTML='<span style=\'font-family:Bebas Neue,sans-serif;font-size:1rem;letter-spacing:3px;color:#00b4cc\'>NEXGEN</span>'">
+    <div class="show-divider"></div>
+    <span class="show-event" id="showEventLabel">EPLAN World · Friedrichshafen 2025</span>
+  </div>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btnDE" onclick="setLang('de')">DE</button>
+  </div>
+</div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-inner">
+    <img class="splash-logo" src="https://panelmentor.com/wp-content/uploads/2024/12/NexGen_FullLogo_Transparent_NoBuffer.png" alt="NexGen Panel Mentoring" onerror="this.style.display='none'">
+    <div class="splash-event-badge" id="splashBadge">● EPLAN World 2025 · Friedrichshafen</div>
+    <h1 class="splash-title" id="splashTitle">Panel<br><em>Transformed.</em></h1>
+    <p class="splash-sub" id="splashSub">Scan. Answer 5 questions. Get a custom roadmap for modernizing your panel operation — built by AI in 60 seconds.</p>
+    <button class="splash-btn" id="splashBtn" onclick="startApp()">Start My Roadmap →</button>
+    <a class="splash-sub-link" id="splashLink" href="https://panelmentor.com" target="_blank">panelmentor.com</a>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="prog-wrap">
+    <div class="prog-info">
+      <span class="prog-label" id="progLabel">STEP 1 OF 6</span>
+      <span class="prog-pct" id="progPct">0%</span>
+    </div>
+    <div class="prog-bar-bg"><div class="prog-bar-fill" id="progFill" style="width:0%"></div></div>
+  </div>
+  <div class="stage" id="stageWrap"></div>
+</div>
+
+<!-- GENERATING -->
+<div id="genScreen">
+  <img class="gen-logo" src="https://panelmentor.com/wp-content/uploads/2024/12/NexGen_FullLogo_Transparent_NoBuffer.png" alt="NexGen" onerror="this.style.display='none'">
+  <div class="gen-rings"><div class="gr1"></div><div class="gr2"></div></div>
+  <h2 class="gen-title" id="genTitle">BUILDING YOUR ROADMAP</h2>
+  <p class="gen-sub" id="genSub">AI is generating your personalized NexGen proposal based on your answers.</p>
+  <div class="gen-steps">
+    <div class="gen-step" id="gs0">🔍 <span id="gst0">Analyzing your profile...</span></div>
+    <div class="gen-step" id="gs1">📊 <span id="gst1">Modeling industry benchmarks...</span></div>
+    <div class="gen-step" id="gs2">🧠 <span id="gst2">Matching NexGen services...</span></div>
+    <div class="gen-step" id="gs3">✍️ <span id="gst3">Writing your proposal...</span></div>
+    <div class="gen-step" id="gs4">🎯 <span id="gst4">Finalizing your roadmap...</span></div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="resultScreen"></div>
+
+<script>
+// ===== CURSOR =====
+const cur=document.getElementById('cur'),curRing=document.getElementById('curRing');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  setTimeout(()=>{curRing.style.left=e.clientX+'px';curRing.style.top=e.clientY+'px';},80);
+});
+
+// ===== LANGUAGE =====
+const T={
+  en:{
+    eventLabel:'EPLAN World · Friedrichshafen 2025',
+    splashBadge:'● EPLAN World 2025 · Friedrichshafen',
+    splashTitle:'Panel<br><em>Transformed.</em>',
+    splashSub:'Scan. Answer 5 questions. Get a custom roadmap for modernizing your panel operation — built by AI in 60 seconds.',
+    splashBtn:'Start My Roadmap →',
+    splashLink:'panelmentor.com',
+    whoAreYou:'Who are you at this show?',
+    whoHint:'We\'ll tailor everything to your specific role and goals.',
+    nameQ:'Before we dive in — what\'s your name and company?',
+    nameHint:'Your proposal will be personalized to you.',
+    yourName:'Your Name',
+    yourCompany:'Company',
+    continue:'Continue →',
+    buildProposal:'Build My Proposal →',
+    back:'← Back',
+    stepOf:'STEP',
+    of:'OF',
+    submitted:'YOU\'RE CONNECTED',
+    submittedMsg:'Shain will reach out within 24 hours. Visit panelmentor.com to learn more.',
+    connectBtn:'Connect with NexGen →',
+    restart:'↩ Start over',
+  },
+  de:{
+    eventLabel:'EPLAN World · Friedrichshafen 2025',
+    splashBadge:'● EPLAN World 2025 · Friedrichshafen',
+    splashTitle:'Schaltschrank<br><em>Transformiert.</em>',
+    splashSub:'Scannen. 5 Fragen beantworten. Individuelle Roadmap zur Modernisierung Ihrer Schaltschrankfertigung — in 60 Sekunden per KI erstellt.',
+    splashBtn:'Meine Roadmap erstellen →',
+    splashLink:'panelmentor.com',
+    whoAreYou:'Wer sind Sie auf dieser Messe?',
+    whoHint:'Wir passen alles auf Ihre Rolle und Ihre Ziele an.',
+    nameQ:'Bevor wir beginnen — wie heißen Sie und für welches Unternehmen arbeiten Sie?',
+    nameHint:'Ihr Angebot wird personalisiert.',
+    yourName:'Ihr Name',
+    yourCompany:'Unternehmen',
+    continue:'Weiter →',
+    buildProposal:'Mein Angebot erstellen →',
+    back:'← Zurück',
+    stepOf:'SCHRITT',
+    of:'VON',
+    submitted:'SIE SIND VERBUNDEN',
+    submittedMsg:'Shain meldet sich innerhalb von 24 Stunden. Besuchen Sie panelmentor.com für mehr Informationen.',
+    connectBtn:'Mit NexGen verbinden →',
+    restart:'↩ Neu starten',
+  }
+};
+
+let lang='en';
+function detectLang(){
+  const bl=navigator.language||navigator.userLanguage||'en';
+  return bl.toLowerCase().startsWith('de')?'de':'en';
+}
+
+function setLang(l){
+  lang=l;
+  document.getElementById('btnEN').className='lang-btn'+(l==='en'?' active':'');
+  document.getElementById('btnDE').className='lang-btn'+(l==='de'?' active':'');
+  applyLang();
+}
+
+function applyLang(){
+  const t=T[lang];
+  document.getElementById('showEventLabel').textContent=t.eventLabel;
+  document.getElementById('splashBadge').textContent=t.splashBadge;
+  document.getElementById('splashTitle').innerHTML=t.splashTitle;
+  document.getElementById('splashSub').textContent=t.splashSub;
+  document.getElementById('splashBtn').textContent=t.splashBtn;
+  document.getElementById('splashLink').textContent=t.splashLink;
+}
+
+// Auto detect on load
+lang=detectLang();
+setLang(lang);
+
+// ===== AUDIENCE DEFINITIONS =====
+const audiences={
+  eplan:{
+    icon:'⚡',
+    en:{title:'EPLAN Employee / Rep',desc:'I work for or represent EPLAN. Looking to understand how NexGen extends the EPLAN ecosystem.'},
+    de:{title:'EPLAN Mitarbeiter / Rep',desc:'Ich arbeite für oder repräsentiere EPLAN. Ich möchte verstehen, wie NexGen das EPLAN-Ökosystem erweitert.'},
+    path:'partner'
+  },
+  shop:{
+    icon:'🏭',
+    en:{title:'Panel Shop Owner / Manager',desc:'I run or manage a control panel manufacturing operation.'},
+    de:{title:'Schaltschrankbauer / Manager',desc:'Ich leite eine Schaltschrankfertigung.'},
+    path:'shop'
+  },
+  oem:{
+    icon:'🏢',
+    en:{title:'OEM / Manufacturer',desc:'We\'re a manufacturer. We outsource panel builds or are considering bringing it in-house.'},
+    de:{title:'OEM / Hersteller',desc:'Wir sind Hersteller. Wir vergeben Schaltschrankbau extern oder überlegen, ihn intern zu holen.'},
+    path:'oem'
+  },
+  dist:{
+    icon:'🔗',
+    en:{title:'Distributor / Integrator',desc:'I distribute components or integrate systems. Interested in NexGen as a service or partner offering.'},
+    de:{title:'Distributor / Integrator',desc:'Ich vertreibe Komponenten oder integriere Systeme. Interesse an NexGen als Service oder Partnerangebot.'},
+    path:'partner'
+  },
+  consult:{
+    icon:'🤝',
+    en:{title:'Consultant / Partner',desc:'I\'m a consultant or potential partner looking to understand NexGen\'s model and collaboration opportunities.'},
+    de:{title:'Berater / Partner',desc:'Ich bin Berater oder potenzieller Partner und möchte das NexGen-Modell und Kooperationsmöglichkeiten verstehen.'},
+    path:'partner'
+  },
+};
+
+// ===== QUESTION PATHS =====
+const paths={
+  shop:[
+    {field:'pain',
+     en:{badge:'YOUR SITUATION',q:'What\'s your biggest operational challenge?',hint:'Pick the one that costs you the most right now.'},
+     de:{badge:'IHRE SITUATION',q:'Was ist Ihre größte operative Herausforderung?',hint:'Wählen Sie das, was Sie aktuell am meisten kostet.'},
+     opts:[
+       {i:'⏱️',en:{t:'Lead times losing us bids',d:'Competitors deliver faster. We\'re losing on speed.'},de:{t:'Lieferzeiten kosten uns Aufträge',d:'Wettbewerber liefern schneller. Wir verlieren an Geschwindigkeit.'}},
+       {i:'💸',en:{t:'Margins under pressure',d:'Labor and materials keep rising. Profit shrinks.'},de:{t:'Margen unter Druck',d:'Lohn- und Materialkosten steigen. Gewinn schrumpft.'}},
+       {i:'👷',en:{t:'Skilled labor shortage',d:'Hiring is brutal, training slow, turnover high.'},de:{t:'Fachkräftemangel',d:'Einstellung schwierig, Schulung langsam, Fluktuation hoch.'}},
+       {i:'📋',en:{t:'Quoting is slow and inaccurate',d:'Estimates take days and still miss things.'},de:{t:'Angebote sind langsam und ungenau',d:'Kalkulationen dauern Tage und sind trotzdem lückenhaft.'}},
+     ]
+    },
+    {field:'eplan',
+     en:{badge:'YOUR TOOLS',q:'Where is your team with EPLAN?',hint:'No wrong answer — just different starting points.'},
+     de:{badge:'IHRE WERKZEUGE',q:'Wie weit ist Ihr Team mit EPLAN?',hint:'Keine falsche Antwort — nur unterschiedliche Ausgangspunkte.'},
+     opts:[
+       {i:'🆕',en:{t:'Not using EPLAN yet',d:'Still on AutoCAD or paper schematics.'},de:{t:'EPLAN noch nicht im Einsatz',d:'Noch mit AutoCAD oder Papierschemas.'}},
+       {i:'🌱',en:{t:'Have it, underusing it',d:'Basic schematics only. Not tapping the full platform.'},de:{t:'Vorhanden, aber wenig genutzt',d:'Nur einfache Schaltpläne. Nicht das volle Potenzial.'}},
+       {i:'💡',en:{t:'Moderate users',d:'Productive but know there\'s more to unlock.'},de:{t:'Moderate Nutzer',d:'Produktiv, aber wissen, dass mehr möglich ist.'}},
+       {i:'⚡',en:{t:'Advanced — want to go further',d:'Heavy users looking to push into full automation.'},de:{t:'Fortgeschrittene — wollen noch weiter',d:'Erfahrene Nutzer, die volle Automatisierung anstreben.'}},
+     ]
+    },
+    {field:'revenue',
+     en:{badge:'YOUR SCALE',q:'Annual panel revenue range?',hint:'This anchors the ROI model we\'ll build for you.'},
+     de:{badge:'IHR UMFANG',q:'Jährlicher Schaltschrank-Umsatz?',hint:'Damit verankern wir das ROI-Modell für Sie.'},
+     opts:[
+       {i:'📊',en:{t:'Under $5M / €5M',d:'Building the right foundation.'},de:{t:'Unter 5 Mio. €',d:'Die richtige Grundlage aufbauen.'}},
+       {i:'📈',en:{t:'$5M–$15M / €5–15M',d:'Growth stage, hitting the ceiling.'},de:{t:'5–15 Mio. €',d:'Wachstumsphase, an Grenzen stoßend.'}},
+       {i:'🏆',en:{t:'$15M–$50M / €15–50M',d:'Established, ready to scale.'},de:{t:'15–50 Mio. €',d:'Etabliert, bereit zu skalieren.'}},
+       {i:'🌐',en:{t:'$50M+ / €50M+',d:'Enterprise-level transformation.'},de:{t:'Über 50 Mio. €',d:'Transformation auf Enterprise-Ebene.'}},
+     ]
+    },
+  ],
+  oem:[
+    {field:'oem_status',
+     en:{badge:'YOUR SITUATION',q:'What\'s your current panel building situation?',hint:'Be specific — this shapes the entire proposal.'},
+     de:{badge:'IHRE SITUATION',q:'Wie ist Ihre aktuelle Schaltschrankbau-Situation?',hint:'Genauigkeit hilft — das prägt das gesamte Angebot.'},
+     opts:[
+       {i:'📤',en:{t:'100% outsourced currently',d:'External shop builds everything. We want to explore insourcing.'},de:{t:'100% ausgelagert',d:'Externer Betrieb baut alles. Wir wollen Insourcing erkunden.'}},
+       {i:'🔀',en:{t:'Mix of in-house and outsourced',d:'Some internal capacity but majority external.'},de:{t:'Mix intern und extern',d:'Etwas interne Kapazität, aber größtenteils extern.'}},
+       {i:'🏗️',en:{t:'Building internal capability now',d:'We\'ve started but need expert support to do it right.'},de:{t:'Bauen gerade interne Kapazitäten auf',d:'Wir haben begonnen, brauchen aber Expertenunterstützung.'}},
+       {i:'💰',en:{t:'Cost driven — need the margin back',d:'Outsourcing margin is too high. Insource economics make sense.'},de:{t:'Kostentreiber — wir wollen die Marge zurück',d:'Auslagerungsmarge zu hoch. Insourcing macht wirtschaftlich Sinn.'}},
+     ]
+    },
+    {field:'oem_volume',
+     en:{badge:'YOUR SCALE',q:'What\'s your annual panel spend with external shops?',hint:'This drives the insourcing ROI calculation.'},
+     de:{badge:'IHR UMFANG',q:'Wie hoch sind Ihre jährlichen Ausgaben für externe Schaltschrankbauer?',hint:'Das treibt die Insourcing-ROI-Berechnung.'},
+     opts:[
+       {i:'📊',en:{t:'Under $2M / €2M',d:'Evaluating if insourcing makes sense at this scale.'},de:{t:'Unter 2 Mio. €',d:'Prüfung, ob Insourcing in diesem Umfang sinnvoll ist.'}},
+       {i:'📈',en:{t:'$2M–$8M / €2–8M',d:'Strong case for insourcing — meaningful margin recovery.'},de:{t:'2–8 Mio. €',d:'Starkes Argument für Insourcing — erhebliche Margenrückgewinnung.'}},
+       {i:'🏆',en:{t:'$8M–$25M / €8–25M',d:'Major opportunity. Full phased transition model applies.'},de:{t:'8–25 Mio. €',d:'Große Chance. Vollständiges Phasenübergangsmodell greift.'}},
+       {i:'🌐',en:{t:'$25M+ / €25M+',d:'Enterprise insourcing — NexGen\'s flagship program.'},de:{t:'Über 25 Mio. €',d:'Enterprise-Insourcing — NexGens Flagship-Programm.'}},
+     ]
+    },
+    {field:'oem_goal',
+     en:{badge:'YOUR GOAL',q:'What matters most in the insourcing journey?',hint:'This shapes which NexGen services we prioritize.'},
+     de:{badge:'IHR ZIEL',q:'Was ist beim Insourcing am wichtigsten?',hint:'Das bestimmt, welche NexGen-Dienste wir priorisieren.'},
+     opts:[
+       {i:'💰',en:{t:'Recover the margin',d:'The financial case is primary. Show me the ROI.'},de:{t:'Marge zurückgewinnen',d:'Der finanzielle Fall ist vorrangig. Zeigen Sie mir den ROI.'}},
+       {i:'🎛️',en:{t:'Control and quality',d:'We want to own the process and ensure quality.'},de:{t:'Kontrolle und Qualität',d:'Wir wollen den Prozess besitzen und Qualität sichern.'}},
+       {i:'⚡',en:{t:'Speed and flexibility',d:'Faster lead times. More agile response to our production needs.'},de:{t:'Geschwindigkeit und Flexibilität',d:'Schnellere Lieferzeiten. Agilere Reaktion auf Produktionsbedarf.'}},
+       {i:'🚀',en:{t:'Full next-gen capability',d:'Don\'t just insource — build a world-class operation from day one.'},de:{t:'Vollständige Next-Gen-Fähigkeit',d:'Nicht nur insourcen — von Tag 1 eine erstklassige Operation aufbauen.'}},
+     ]
+    },
+  ],
+  partner:[
+    {field:'partner_interest',
+     en:{badge:'PARTNERSHIP',q:'What brings you to NexGen today?',hint:'We work with EPLAN ecosystem partners in several ways.'},
+     de:{badge:'PARTNERSCHAFT',q:'Was führt Sie heute zu NexGen?',hint:'Wir arbeiten mit EPLAN-Ökosystempartnern auf verschiedene Arten zusammen.'},
+     opts:[
+       {i:'🤝',en:{t:'Referral partnership',d:'I have clients who need what NexGen offers. Let\'s create a referral relationship.'},de:{t:'Empfehlungspartnerschaft',d:'Ich habe Kunden, die NexGen brauchen. Lassen Sie uns eine Empfehlungsbeziehung aufbauen.'}},
+       {i:'🔧',en:{t:'Technical collaboration',d:'Our tools/services and NexGen\'s are complementary. Explore integration.'},de:{t:'Technische Zusammenarbeit',d:'Unsere Tools/Services und NexGen\'s ergänzen sich. Integration erkunden.'}},
+       {i:'📣',en:{t:'Co-marketing opportunity',d:'Joint content, case studies, or show presence together.'},de:{t:'Co-Marketing-Möglichkeit',d:'Gemeinsame Inhalte, Fallstudien oder gemeinsame Messepräsenz.'}},
+       {i:'📚',en:{t:'Just learning more',d:'Understanding NexGen\'s model and approach before any next step.'},de:{t:'Einfach mehr erfahren',d:'Das NexGen-Modell und den Ansatz verstehen, bevor weitere Schritte folgen.'}},
+     ]
+    },
+    {field:'partner_scale',
+     en:{badge:'YOUR REACH',q:'How many potential panel shop clients are in your network?',hint:'This helps us understand the partnership opportunity size.'},
+     de:{badge:'IHRE REICHWEITE',q:'Wie viele potenzielle Schaltschrankbauer sind in Ihrem Netzwerk?',hint:'Das hilft uns, die Partnerschafs-Opportunity-Größe zu verstehen.'},
+     opts:[
+       {i:'👥',en:{t:'Handful (1–10)',d:'Close relationships with a few key players.'},de:{t:'Einige (1–10)',d:'Enge Beziehungen mit wenigen Schlüsselakteuren.'}},
+       {i:'📋',en:{t:'Dozens (10–50)',d:'Meaningful network across a region or specialty.'},de:{t:'Dutzende (10–50)',d:'Bedeutendes Netzwerk in einer Region oder Spezialität.'}},
+       {i:'🌍',en:{t:'Hundreds',d:'Large installed base or regional distributor scale.'},de:{t:'Hunderte',d:'Große Installationsbasis oder regionale Distributor-Skala.'}},
+       {i:'🌐',en:{t:'Global enterprise scale',d:'EPLAN-level reach — thousands of potential touchpoints.'},de:{t:'Globale Unternehmensskala',d:'EPLAN-Niveau Reichweite — Tausende potenzieller Berührungspunkte.'}},
+     ]
+    },
+    {field:'partner_region',
+     en:{badge:'YOUR REGION',q:'Where are your clients primarily located?',hint:'NexGen serves North America and is expanding — good to know where to prioritize.'},
+     de:{badge:'IHRE REGION',q:'Wo sind Ihre Kunden hauptsächlich ansässig?',hint:'NexGen bedient Nordamerika und expandiert — wichtig zu wissen, wo priorisiert werden soll.'},
+     opts:[
+       {i:'🇺🇸',en:{t:'North America',d:'US and Canada — NexGen\'s core market.'},de:{t:'Nordamerika',d:'USA und Kanada — NexGens Kernmarkt.'}},
+       {i:'🇪🇺',en:{t:'Europe (DACH / EU)',d:'Germany, Austria, Switzerland, and broader EU.'},de:{t:'Europa (DACH / EU)',d:'Deutschland, Österreich, Schweiz und breitere EU.'}},
+       {i:'🌏',en:{t:'Asia Pacific',d:'Emerging panel manufacturing hub.'},de:{t:'Asien-Pazifik',d:'Aufstrebender Schaltschrankfertigungs-Hub.'}},
+       {i:'🌐',en:{t:'Global',d:'Multi-region presence and client base.'},de:{t:'Global',d:'Mehrregionale Präsenz und Kundenbasis.'}},
+     ]
+    },
+  ],
+};
+
+// ===== STATE =====
+const state={audience:null,path:null,name:'',company:'',answers:{},lang:'en'};
+let currentSlide=0;
+let activeSlides=[];
+
+// ===== START =====
+function startApp(){
+  document.getElementById('splash').classList.add('exit');
+  setTimeout(()=>{
+    document.getElementById('splash').style.display='none';
+    document.getElementById('app').style.display='flex';
+    renderAudienceSelect();
+  },800);
+}
+
+function renderAudienceSelect(){
+  currentSlide=0;
+  updateProg(0,1);
+  const t=T[lang];
+  const wrap=document.getElementById('stageWrap');
+
+  const cards=Object.entries(audiences).map(([key,aud])=>{
+    const txt=aud[lang]||aud.en;
+    return `<button class="aud-card teal ${state.audience===key?'sel':''}" onclick="selectAudience('${key}')">
+      <span class="aud-icon">${aud.icon}</span>
+      <div class="aud-title">${txt.title}</div>
+      <div class="aud-desc">${txt.desc}</div>
+    </button>`;
+  }).join('');
+
+  wrap.innerHTML=`
+  <div class="slide active">
+    <div class="badge"><div class="bdot"></div>${t.whoAreYou.toUpperCase()}</div>
+    <div class="q-title">${t.whoAreYou}</div>
+    <div class="q-hint">${t.whoHint}</div>
+    <div class="audience-grid">${cards}</div>
+  </div>`;
+}
+
+function selectAudience(key){
+  state.audience=key;
+  state.path=audiences[key].path;
+  activeSlides=paths[state.path]||paths.shop;
+  document.querySelectorAll('.aud-card').forEach((c,i)=>{
+    c.classList.toggle('sel',Object.keys(audiences)[i]===key);
+  });
+  setTimeout(()=>renderNameSlide(),350);
+}
+
+function renderNameSlide(){
+  currentSlide=1;
+  updateProg(1,activeSlides.length+3);
+  const t=T[lang];
+  const wrap=document.getElementById('stageWrap');
+  wrap.innerHTML=`
+  <div class="slide active">
+    <div class="badge"><div class="bdot"></div>PERSONALIZATION</div>
+    <div class="q-title">${t.nameQ}</div>
+    <div class="q-hint">${t.nameHint}</div>
+    <div class="name-input-row">
+      <div class="ni-group">
+        <label>${t.yourName}</label>
+        <input class="ni-input" id="ni-name" type="text" placeholder="${t.yourName}" value="${state.name}" oninput="state.name=this.value;checkNameReady()">
+      </div>
+      <div class="ni-group">
+        <label>${t.yourCompany}</label>
+        <input class="ni-input" id="ni-co" type="text" placeholder="${t.yourCompany}" value="${state.company}" oninput="state.company=this.value;checkNameReady()">
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="renderAudienceSelect()">← ${t.back.replace('← ','')}</button>
+      <button class="btn-next" id="nameNext" onclick="renderQuestion(0)" disabled>${t.continue}</button>
+    </div>
+  </div>`;
+}
+
+function checkNameReady(){
+  const n=document.getElementById('ni-name')?.value.trim();
+  const c=document.getElementById('ni-co')?.value.trim();
+  const btn=document.getElementById('nameNext');
+  if(btn)btn.disabled=!(n&&c);
+}
+
+function renderQuestion(qIdx){
+  currentSlide=qIdx+2;
+  const total=activeSlides.length+3;
+  updateProg(currentSlide,total);
+  const sl=activeSlides[qIdx];
+  const t=T[lang];
+  const txt=sl[lang]||sl.en;
+  const isLast=qIdx===activeSlides.length-1;
+
+  const opts=sl.opts.map((o,i)=>{
+    const ot=o[lang]||o.en;
+    return `<button class="opt ${state.answers[sl.field]===i?'sel':''}" onclick="pick('${sl.field}',${i},${qIdx})">
+      <div class="opt-i">${o.i}</div>
+      <div><div class="opt-t">${ot.t}</div><div class="opt-d">${ot.d}</div></div>
+    </button>`;
+  }).join('');
+
+  document.getElementById('stageWrap').innerHTML=`
+  <div class="slide active">
+    <div class="badge"><div class="bdot"></div>${txt.badge}</div>
+    <div class="q-title">${txt.q}</div>
+    <div class="q-hint">${txt.hint}</div>
+    <div class="opts">${opts}</div>
+    <div class="nav">
+      <button class="btn-back" onclick="${qIdx===0?'renderNameSlide()':'renderQuestion('+(qIdx-1)+')'}">${t.back}</button>
+      <button class="btn-next" id="qNext" onclick="${isLast?'startGeneration()':'renderQuestion('+(qIdx+1)+')'}" ${state.answers[sl.field]===undefined?'disabled':''}>
+        ${isLast?t.buildProposal:t.continue}
+      </button>
+    </div>
+  </div>`;
+}
+
+function pick(field,idx,qIdx){
+  state.answers[field]=idx;
+  document.querySelectorAll('.opt').forEach((o,i)=>o.classList.toggle('sel',i===idx));
+  const btn=document.getElementById('qNext');
+  if(btn)btn.disabled=false;
+  const isLast=qIdx===activeSlides.length-1;
+  setTimeout(()=>{if(isLast)startGeneration();else renderQuestion(qIdx+1);},360);
+}
+
+function updateProg(cur,total){
+  const pct=Math.round((cur/total)*100);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progPct').textContent=pct+'%';
+  const t=T[lang];
+  document.getElementById('progLabel').textContent=`${t.stepOf} ${cur} ${t.of} ${total}`;
+}
+
+// ===== GENERATION =====
+async function startGeneration(){
+  document.getElementById('app').style.display='none';
+  const gen=document.getElementById('genScreen');
+  gen.style.display='flex';
+  for(let i=0;i<5;i++){await delay(600);document.getElementById('gs'+i).classList.add('active');}
+  const prompt=buildPrompt();
+  let content='';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    content=data.content[0].text;
+  }catch(e){console.error(e);}
+  for(let i=0;i<5;i++){
+    const el=document.getElementById('gs'+i);
+    el.classList.remove('active');el.classList.add('done');
+  }
+  await delay(650);
+  gen.style.display='none';
+  renderResult(content);
+}
+
+function buildPrompt(){
+  const audKey=state.audience;
+  const audData=audiences[audKey];
+  const audLabel=(audData[lang]||audData.en).title;
+  const pathSls=activeSlides;
+  const answerLines=pathSls.map(sl=>{
+    const idx=state.answers[sl.field];
+    if(idx===undefined)return null;
+    const opt=sl.opts[idx];
+    const txt=(opt[lang]||opt.en);
+    return `- ${(sl[lang]||sl.en).badge}: ${txt.t}`;
+  }).filter(Boolean).join('\n');
+
+  const isDE=lang==='de';
+  const langNote=isDE?'Respond entirely in German (Deutsch).':'Respond in English.';
+
+  return `You are a senior consultant and copywriter for NexGen Panel Mentoring (panelmentor.com), an American consultancy that transforms electrical control panel shops using EPLAN software, lean manufacturing, and automation. NexGen is exhibiting at EPLAN World in Friedrichshafen, Germany.
+
+${langNote}
+
+VISITOR PROFILE:
+- Name: ${state.name}
+- Company: ${state.company}
+- Role at show: ${audLabel}
+- Audience path: ${state.path}
+- Their answers:
+${answerLines}
+
+Write a compelling, personalized proposal with these EXACT sections using only HTML tags (<p><h4><ul><li><strong>):
+
+SECTION "YOUR MOMENT" — Address ${state.name} at ${state.company} directly. 2-3 punchy sentences that describe their specific situation based on their answers. Start with their name. Make it feel like NexGen has studied their operation.
+
+SECTION "THE INFLECTION POINT" — 2 sharp sentences max. Panel shops (or OEMs or the EPLAN ecosystem — tailor to their path) are at a crossroads. Automate and lead, or wait and fall behind. End with one sentence teasing that the full story is at panelmentor.com.
+
+SECTION "NEXGEN FOR ${state.path==='partner'?'PARTNERS':'YOU'}" — Specific recommendations for this exact visitor type (${audLabel}). 4-5 concrete bullet points. If partner path: focus on partnership/referral model, co-marketing, revenue share. If shop: EPLAN, lean, automation services. If OEM: phased insourcing model.
+
+SECTION "THE NUMBERS" — 3-4 bullet points of specific ROI or value metrics tailored to their profile and answers. Include dollar/euro figures where relevant. Be specific.
+
+SECTION "NEXT STEP" — One clear, specific call to action for this visitor. What should they do Monday morning? Keep it to 2 sentences.
+
+Be precise, executive-grade, and punchy. No filler.`;
+}
+
+// ===== RESULT =====
+function renderResult(aiText){
+  const screen=document.getElementById('resultScreen');
+  screen.style.display='block';
+  const t=T[lang];
+
+  const sections=parseSections(aiText);
+  const isPartner=state.path==='partner';
+  const isOEM=state.path==='oem';
+
+  const metricSets={
+    shop:[
+      {v:'30–40%',l:'Labor Cost Reduction'},
+      {v:'+10 pts',l:'Margin Improvement'},
+      {v:'<18 mo',l:'Full ROI Payback'},
+    ],
+    oem:[
+      {v:'15–25%',l:'Panel Cost Reduction'},
+      {v:'60%',l:'Faster Lead Times'},
+      {v:'$0',l:'Revenue at Risk During Transition'},
+    ],
+    partner:[
+      {v:'∞',l:'Referral Opportunity'},
+      {v:'6yr+',l:'NexGen Track Record'},
+      {v:'$10M+',l:'Avg. Client Revenue Band'},
+    ],
+  };
+  const metrics=(metricSets[state.path]||metricSets.shop);
+
+  screen.innerHTML=`
+  <div class="r-hero rv" id="rv0">
+    <div class="r-hero-top">
+      <img style="height:28px;width:auto;" src="https://panelmentor.com/wp-content/uploads/2024/12/NexGen_FullLogo_Transparent_NoBuffer.png" alt="NexGen" onerror="this.style.display='none'">
+      <span class="r-tag">EPLAN WORLD 2025 · PERSONALIZED PROPOSAL</span>
+    </div>
+    <div class="r-person">${state.name} <span>@ ${state.company}</span></div>
+    <div class="r-role">${(audiences[state.audience]?.[lang]||audiences[state.audience]?.en)?.title||''} — Custom NexGen Roadmap</div>
+  </div>
+
+  <div class="r-metrics rv" id="rv1">
+    ${metrics.map(m=>`<div class="r-metric hi"><span class="r-mval">${m.v}</span><span class="r-mlabel">${m.l}</span></div>`).join('')}
+  </div>
+
+  ${isPartner?`
+  <div class="partner-banner rv" id="rv1b">
+    <h4>NexGen × ${state.company} — Partnership Opportunity</h4>
+    <p>NexGen is actively building referral and co-marketing relationships with EPLAN ecosystem partners. Every panel shop in your network is a potential NexGen client. Let's build a model that works for both of us.</p>
+  </div>`:''}
+
+  <div class="r-grid rv" id="rv2">
+    <div class="r-panel">
+      <span class="r-plabel">Your Moment</span>
+      <div class="ai-body">${sections.moment||getFBMoment()}</div>
+    </div>
+    <div class="r-panel">
+      <span class="r-plabel">The Inflection Point</span>
+      <div class="ai-body">${sections.inflection||getFBInflection()}</div>
+      <div class="bs-blurb">The blacksmiths who adapted in 1910 built the 20th century. The ones who didn't are a footnote.
+        <br><a class="bs-link" href="https://panelmentor.com/about" target="_blank">Full story → panelmentor.com</a>
+      </div>
+    </div>
+    <div class="r-panel full">
+      <span class="r-plabel">NexGen ${isPartner?'Partnership Approach':'Solution'} for ${state.company}</span>
+      <div class="ai-body">${sections.solution||getFBSolution()}</div>
+    </div>
+    <div class="r-panel full show-hi">
+      <span class="r-plabel red">The Numbers — Your Opportunity</span>
+      <div class="ai-body">${sections.numbers||getFBNumbers()}</div>
+    </div>
+    <div class="r-panel full">
+      <span class="r-plabel">Your Next Step</span>
+      <div class="ai-body">${sections.next||getFBNext()}</div>
+    </div>
+  </div>
+
+  <div class="r-lead rv" id="rv3">
+    <h3>${lang==='de'?'LASSEN SIE UNS VERBINDEN':'LET\'S CONNECT'}</h3>
+    <p>${lang==='de'?`Hinterlassen Sie Ihre Kontaktdaten — Shain Heiss von NexGen meldet sich innerhalb von 24 Stunden bei ${state.name}.`:`Leave your details and Shain Heiss from NexGen will reach out to ${state.name} within 24 hours.`}</p>
+    <div id="leadForm">
+      <div class="lead-row">
+        <input class="lead-in" id="lEmail" type="email" placeholder="${lang==='de'?'E-Mail-Adresse':'Email address'}">
+        <input class="lead-in" id="lPhone" type="tel" placeholder="${lang==='de'?'Telefonnummer':'Phone number'}">
+      </div>
+      <button class="btn-cta" onclick="submitLead()">${t.connectBtn}</button>
+    </div>
+    <div class="submitted" id="submittedMsg">
+      <h4>✓ ${t.submitted}</h4>
+      <p>${t.submittedMsg}</p>
+    </div>
+    <a class="restart" href="javascript:location.reload()">↩ ${lang==='de'?'Neu starten':'Start over'}</a>
+  </div>`;
+
+  ['rv0','rv1','rv1b','rv2','rv3'].forEach((id,i)=>{
+    setTimeout(()=>document.getElementById(id)?.classList.add('in'),100+i*180);
+  });
+}
+
+function submitLead(){
+  const email=document.getElementById('lEmail').value;
+  if(!email){return;}
+  console.log('LEAD:',{name:state.name,company:state.company,audience:state.audience,lang,email,phone:document.getElementById('lPhone').value,answers:state.answers});
+  document.getElementById('leadForm').style.display='none';
+  document.getElementById('submittedMsg').style.display='block';
+}
+
+// SECTION PARSER
+function parseSections(text){
+  const s={};
+  [
+    {k:'moment',re:/YOUR MOMENT[\s\S]*?(?=THE INFLECTION POINT|$)/i},
+    {k:'inflection',re:/THE INFLECTION POINT[\s\S]*?(?=NEXGEN FOR|$)/i},
+    {k:'solution',re:/NEXGEN FOR[\s\S]*?(?=THE NUMBERS|$)/i},
+    {k:'numbers',re:/THE NUMBERS[\s\S]*?(?=NEXT STEP|$)/i},
+    {k:'next',re:/NEXT STEP[\s\S]*$/i},
+  ].forEach(({k,re})=>{
+    const m=text.match(re);
+    if(m){s[k]=m[0].replace(/^[A-Z\s"—\/·]+\n/,'').trim();}
+  });
+  if(!Object.keys(s).length)s.moment=text;
+  return s;
+}
+
+// FALLBACKS
+function getFBMoment(){return `<p><strong>${state.name}</strong>, based on your answers, ${state.company} is at exactly the kind of inflection point NexGen was built for. The combination of your current pain points and growth ambitions is precisely the profile we help transform — faster and with less risk than going it alone.</p>`;}
+function getFBInflection(){return `<p>The panel shops investing in EPLAN + automation + lean today will own the next decade. The ones waiting will be competing on price until they can't. <strong>The window is open — but not indefinitely.</strong></p>`;}
+function getFBSolution(){
+  if(state.path==='partner') return `<ul><li>Referral partnership — earn on every client you introduce to NexGen</li><li>Co-marketing: joint case studies, show presence, and content</li><li>Technical integration exploration for complementary tools</li><li>White-label consulting availability for your client projects</li></ul>`;
+  if(state.path==='oem') return `<ul><li>Insourcing feasibility study with full financial model</li><li>ADS absorbs manufacturing — zero disruption to your supply chain</li><li>Shop design, equipment procurement, and EPLAN buildout</li><li>Phased production handover over 12–24 months</li><li>Ongoing NexGen partnership for continuous improvement</li></ul>`;
+  return `<ul><li>EPLAN optimization — parts library, macros, BOM integration</li><li>Lean shop flow redesign using 2-Second Lean principles</li><li>Automated wire processing and harness building</li><li>AI data appliances for real-time production visibility</li><li>Custom quoting tool integration</li></ul>`;
+}
+function getFBNumbers(){
+  if(state.path==='partner') return `<ul><li><strong>$10M+ average client revenue</strong> — meaningful referral opportunity per introduction</li><li><strong>6+ years</strong> of proven transformation results at ADS</li><li><strong>Recurring revenue potential</strong> as clients expand NexGen engagement over time</li></ul>`;
+  if(state.path==='oem') return `<ul><li><strong>15–25% reduction</strong> in per-panel cost vs. external shop pricing</li><li><strong>60% faster lead times</strong> with in-house EPLAN-driven production</li><li><strong>Zero revenue at risk</strong> — ADS bridges manufacturing during transition</li><li><strong>Full ROI in 18–24 months</strong> for most OEM insourcing engagements</li></ul>`;
+  return `<ul><li><strong>30–40% labor cost reduction</strong> through automation and lean flow</li><li><strong>+8–12 margin points</strong> realizable within 12–18 months</li><li><strong>Lead times cut by up to 60%</strong> with EPLAN-guided production</li><li><strong>Full payback under 18 months</strong> — funded by your existing business</li></ul>`;
+}
+function getFBNext(){return `<p>Connect with Shain below — we'll schedule a 30-minute call to walk through a financial model built specifically for ${state.company}. No pitch, no pressure — just numbers.</p>`;}
+
+function delay(ms){return new Promise(r=>setTimeout(r,ms));}
+</script>
+</body>
+</html>

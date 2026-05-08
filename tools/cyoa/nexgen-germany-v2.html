@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexGen — EPLAN World 2025 · v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&family=Familjen+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* NexGen brand */
+  --ink: #05080f;
+  --surface: #090c15;
+  --card: #0d1120;
+  --card2: #111628;
+  --border: rgba(255,255,255,0.06);
+  --border-hi: rgba(0,180,204,0.18);
+  --teal: #00b4cc;
+  --teal2: #007a8a;
+  --teal-dim: rgba(0,180,204,0.09);
+  --teal-glow: 0 0 50px rgba(0,180,204,0.22);
+  /* v2 new accent — electric indigo for differentiation */
+  --indigo: #6366f1;
+  --indigo-dim: rgba(99,102,241,0.1);
+  --gold: #f0b429;
+  --gold-dim: rgba(240,180,41,0.09);
+  --green: #10d9a0;
+  --white: #e9f0f7;
+  --muted: #3d5265;
+  --muted2: #6b8499;
+  --muted3: #9ab3c6;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ink);
+  color:var(--white);
+  font-family:'Familjen Grotesk',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CUSTOM CURSOR */
+.cur{position:fixed;width:9px;height:9px;background:var(--teal);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:screen;transition:width .15s,height .15s;}
+.cur-ring{position:fixed;width:28px;height:28px;border:1px solid rgba(0,180,204,0.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .1s ease-out;}
+
+/* DIAGONAL STRIPE TEXTURE */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.018;
+  background-image:repeating-linear-gradient(
+    -55deg,
+    rgba(0,180,204,1) 0px, rgba(0,180,204,1) 1px,
+    transparent 1px, transparent 28px
+  );
+}
+
+/* MESH */
+.mesh{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 40% at 5% 15%,rgba(0,180,204,0.07) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 55% at 95% 85%,rgba(99,102,241,0.06) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 30% at 50% 50%,rgba(240,180,41,0.03) 0%,transparent 70%);
+}
+
+/* TOP BAR */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.7rem 2rem;
+  background:rgba(5,8,15,0.9);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.topbar-logo{height:26px;width:auto;}
+.topbar-right{display:flex;align-items:center;gap:.75rem;}
+.event-pill{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2px;
+  text-transform:uppercase;color:var(--teal);
+  background:var(--teal-dim);border:1px solid rgba(0,180,204,.2);
+  padding:.25rem .75rem;border-radius:20px;
+}
+.lang-row{display:flex;gap:3px;}
+.lb{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:1px;
+  padding:.25rem .55rem;border-radius:3px;border:1px solid var(--border);
+  background:none;color:var(--muted2);cursor:none;transition:all .2s;
+}
+.lb.on{border-color:var(--teal);color:var(--teal);background:var(--teal-dim);}
+
+/* ===== SPLASH ===== */
+#splash{
+  position:fixed;inset:0;z-index:500;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--ink);padding:2rem;text-align:center;
+  transition:opacity .85s,transform .85s;
+}
+#splash.out{opacity:0;transform:scale(1.04);pointer-events:none;}
+
+.splash-logo{height:54px;width:auto;margin:0 auto 2.5rem;display:block;opacity:0;animation:up .9s .15s forwards;}
+.splash-stage{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:4px;
+  text-transform:uppercase;color:var(--teal);margin-bottom:1.5rem;
+  opacity:0;animation:up .9s .3s forwards;
+}
+.splash-h{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3rem,9vw,7rem);
+  letter-spacing:4px;line-height:.92;
+  margin-bottom:1.5rem;
+  opacity:0;animation:up .9s .5s forwards;
+}
+.splash-h em{font-style:normal;color:var(--teal);display:block;}
+.splash-rule{
+  width:60px;height:1px;background:linear-gradient(90deg,var(--teal),transparent);
+  margin:0 auto 1.5rem;opacity:0;animation:up .9s .65s forwards;
+}
+.splash-sub{
+  font-family:'Instrument Serif',serif;font-style:italic;
+  font-size:1.1rem;color:var(--muted2);line-height:1.7;
+  max-width:500px;margin:0 auto 3rem;
+  opacity:0;animation:up .9s .75s forwards;
+}
+.splash-cta{
+  padding:1rem 3rem;background:var(--teal);color:var(--ink);
+  font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;
+  letter-spacing:2.5px;text-transform:uppercase;border:none;border-radius:4px;
+  cursor:none;transition:all .25s;opacity:0;animation:up .9s .95s forwards;
+  position:relative;overflow:hidden;
+}
+.splash-cta::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);transform:translateX(-100%);transition:transform .3s;}
+.splash-cta:hover::after{transform:translateX(0);}
+.splash-cta:hover{box-shadow:var(--teal-glow);transform:translateY(-2px);}
+
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== APP ===== */
+#app{display:none;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:5rem 1.5rem 3rem;position:relative;z-index:2;}
+
+/* PROGRESS */
+.prog-wrap{width:100%;max-width:820px;margin-bottom:3rem;}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.65rem;}
+.prog-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+.prog-pct{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--teal);}
+.prog-bg{height:2px;background:rgba(0,180,204,.12);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--teal2),var(--teal));border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+
+/* STAGE */
+.stage{width:100%;max-width:820px;}
+
+/* BADGE */
+.badge{
+  display:inline-flex;align-items:center;gap:.45rem;
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:3px;
+  text-transform:uppercase;color:var(--teal);
+  padding:.25rem .7rem;border:1px solid rgba(0,180,204,.2);border-radius:2px;
+  margin-bottom:1.25rem;
+}
+.bdot{width:5px;height:5px;border-radius:50%;background:var(--teal);animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.1}}
+
+/* QUESTIONS */
+.q-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);letter-spacing:3px;line-height:1.05;margin-bottom:.6rem;}
+.q-h em{color:var(--teal);font-style:normal;}
+.q-sub{font-family:'Instrument Serif',serif;font-style:italic;font-size:1rem;color:var(--muted2);line-height:1.6;margin-bottom:2.25rem;}
+
+/* OPTION CARDS */
+.opts{display:grid;gap:.65rem;margin-bottom:1.75rem;}
+.opt{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.2rem 1.5rem;cursor:none;transition:all .2s;
+  display:flex;align-items:flex-start;gap:1.1rem;text-align:left;width:100%;
+  position:relative;overflow:hidden;
+}
+.opt::after{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--teal);transform:scaleY(0);transition:transform .2s;transform-origin:center;}
+.opt:hover{border-color:rgba(0,180,204,.3);background:rgba(0,180,204,.04);transform:translateX(4px);}
+.opt:hover::after,.opt.sel::after{transform:scaleY(1);}
+.opt.sel{border-color:var(--teal);background:var(--teal-dim);}
+/* Stage-color variants */
+.opt.assess:hover,.opt.assess.sel{border-color:var(--teal);}
+.opt.assess::after{background:var(--teal);}
+.opt.stand:hover,.opt.stand.sel{border-color:var(--indigo);}
+.opt.stand::after{background:var(--indigo);}
+.opt.activ:hover,.opt.activ.sel{border-color:var(--gold);}
+.opt.activ::after{background:var(--gold);}
+.opt.scale:hover,.opt.scale.sel{border-color:var(--green);}
+.opt.scale::after{background:var(--green);}
+
+.opt-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px;line-height:1;}
+.opt-title{font-size:.95rem;font-weight:600;margin-bottom:.2rem;}
+.opt-desc{font-size:.78rem;color:var(--muted2);line-height:1.45;}
+
+/* STAGE PILLS (Assess/Standardize/Activate/Scale) */
+.stage-pills{
+  display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem;
+}
+.stage-pill{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;
+  text-transform:uppercase;padding:.3rem .85rem;border-radius:20px;
+  border:1px solid var(--border);color:var(--muted2);
+  transition:all .3s;
+}
+.stage-pill.active-assess{border-color:var(--teal);color:var(--teal);background:var(--teal-dim);}
+.stage-pill.active-stand{border-color:var(--indigo);color:var(--indigo);background:var(--indigo-dim);}
+.stage-pill.active-activ{border-color:var(--gold);color:var(--gold);background:var(--gold-dim);}
+.stage-pill.active-scale{border-color:var(--green);color:var(--green);background:rgba(16,217,160,.09);}
+
+/* NAME INPUT */
+.name-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.75rem;}
+@media(max-width:520px){.name-row{grid-template-columns:1fr;}}
+.ni-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);display:block;margin-bottom:.35rem;}
+.ni-in{width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.8rem 1rem;font-family:'Familjen Grotesk',sans-serif;font-size:.92rem;color:var(--white);outline:none;transition:border-color .2s;}
+.ni-in:focus{border-color:rgba(0,180,204,.45);}
+.ni-in::placeholder{color:var(--muted);}
+
+/* NAV */
+.nav{display:flex;align-items:center;justify-content:space-between;margin-top:.5rem;}
+.btn-back{font-size:.72rem;color:var(--muted);background:none;border:none;cursor:none;font-family:'JetBrains Mono',monospace;letter-spacing:1px;transition:color .2s;}
+.btn-back:hover{color:var(--white);}
+.btn-next{padding:.82rem 2.5rem;background:var(--teal);color:var(--ink);border:none;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:none;transition:all .2s;}
+.btn-next:hover{background:#00cce6;box-shadow:var(--teal-glow);transform:translateY(-1px);}
+.btn-next:disabled{opacity:.3;transform:none;}
+
+/* TRANSITION CARD */
+.tx{
+  background:linear-gradient(135deg,rgba(0,180,204,.08),rgba(99,102,241,.06));
+  border:1px solid rgba(0,180,204,.2);border-radius:16px;
+  padding:2.75rem;text-align:center;margin:1rem 0 2.5rem;
+}
+.tx-icon{font-size:2.8rem;display:block;margin-bottom:1rem;}
+.tx-h{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:4px;margin-bottom:.75rem;}
+.tx-body{font-size:.9rem;color:var(--muted2);line-height:1.75;max-width:480px;margin:0 auto;}
+.tx-body strong{color:var(--white);}
+
+/* ===== GENERATING ===== */
+#genScreen{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;text-align:center;padding:3rem 2rem;position:relative;z-index:2;}
+.gen-logo{height:32px;width:auto;margin:0 auto 2.5rem;display:block;opacity:.6;}
+.gen-ring-wrap{position:relative;width:96px;height:96px;margin:0 auto 2.5rem;}
+.gr{position:absolute;inset:0;border:2px solid rgba(0,180,204,.15);border-top-color:var(--teal);border-radius:50%;animation:spin 1.1s linear infinite;}
+.gr2{position:absolute;inset:14px;border:1px solid rgba(99,102,241,.15);border-bottom-color:var(--indigo);border-radius:50%;animation:spin 1.8s linear infinite reverse;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gen-h{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:4px;margin-bottom:.5rem;}
+.gen-sub{font-size:.84rem;color:var(--muted2);max-width:360px;line-height:1.6;margin-bottom:1.75rem;}
+.gen-steps{display:flex;flex-direction:column;gap:.4rem;max-width:380px;width:100%;}
+.gen-step{display:flex;align-items:center;gap:.65rem;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:1.5px;color:var(--muted);padding:.42rem .7rem;border-radius:6px;transition:all .4s;}
+.gen-step.on{color:var(--teal);background:var(--teal-dim);}
+.gen-step.done{color:var(--green);}
+
+/* ===== RESULT ===== */
+#resultScreen{display:none;width:100%;max-width:940px;padding:5rem 0 3rem;position:relative;z-index:2;}
+.rv{opacity:0;transform:translateY(16px);transition:opacity .55s,transform .55s;}
+.rv.in{opacity:1;transform:translateY(0);}
+
+/* HERO BAND */
+.r-hero{
+  border-radius:16px;padding:2.5rem 3rem;margin-bottom:1.5rem;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#080f1e,#0b1422);border:1px solid rgba(0,180,204,.22);
+}
+.r-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),var(--indigo),transparent);}
+.r-hero-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;}
+.r-logo{height:28px;width:auto;}
+.r-tag{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--teal);background:var(--teal-dim);padding:.22rem .65rem;border-radius:2px;border:1px solid rgba(0,180,204,.18);}
+.r-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:4px;margin-bottom:.3rem;}
+.r-name span{color:var(--teal);}
+.r-role{font-size:.85rem;color:var(--muted2);}
+
+/* JOURNEY STAGE INDICATOR */
+.journey-bar{
+  display:flex;gap:0;margin:1.5rem 0;
+  background:var(--card2);border-radius:8px;overflow:hidden;
+  border:1px solid var(--border);
+}
+.journey-step{
+  flex:1;padding:.65rem .5rem;text-align:center;position:relative;
+  transition:all .3s;
+}
+.journey-step.active{background:var(--teal-dim);border-right:1px solid rgba(0,180,204,.15);}
+.journey-step-num{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--muted);display:block;}
+.journey-step-name{font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:2px;color:var(--muted);}
+.journey-step.active .journey-step-name{color:var(--teal);}
+.journey-step.active .journey-step-num{color:var(--teal);}
+
+/* METRICS */
+.r-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.25rem;}
+.r-metric{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.3rem;text-align:center;}
+.r-metric.hi{border-color:rgba(0,180,204,.28);background:var(--teal-dim);}
+.r-mval{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--teal);display:block;line-height:1;}
+.r-mlabel{font-family:'JetBrains Mono',monospace;font-size:.57rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:.25rem;display:block;}
+
+/* OFFER LADDER CARDS */
+.offer-ladder{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;
+  margin-bottom:1.25rem;
+}
+.offer-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.4rem;position:relative;overflow:hidden;
+  transition:border-color .2s,transform .2s;
+}
+.offer-card:hover{transform:translateY(-2px);}
+.offer-card.recommended{border-color:rgba(0,180,204,.4);background:linear-gradient(135deg,rgba(0,180,204,.08),var(--card));}
+.offer-card.recommended::before{content:'RECOMMENDED';position:absolute;top:.65rem;right:.75rem;font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:1.5px;color:var(--teal);background:var(--teal-dim);padding:.15rem .45rem;border-radius:2px;}
+.offer-tier{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem;display:block;}
+.offer-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;margin-bottom:.5rem;}
+.offer-desc{font-size:.78rem;color:var(--muted2);line-height:1.5;}
+
+/* CONTENT GRID */
+.r-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.r-panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem;}
+.r-panel.full{grid-column:1/-1;}
+.r-panel.partner-hi{border-color:rgba(99,102,241,.3);background:linear-gradient(135deg,var(--indigo-dim),var(--card));}
+.r-panel.gold-hi{border-color:rgba(240,180,41,.25);background:var(--gold-dim);}
+.panel-label{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin-bottom:.85rem;display:block;}
+.panel-label.indigo{color:var(--indigo);}
+.panel-label.gold{color:var(--gold);}
+.ai-body{font-size:.84rem;color:var(--muted2);line-height:1.75;}
+.ai-body h4{font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:2px;color:var(--white);margin:1rem 0 .35rem;}
+.ai-body strong{color:var(--teal);}
+.ai-body em{color:var(--muted3);font-style:italic;}
+.ai-body ul{list-style:none;display:flex;flex-direction:column;gap:.35rem;margin-top:.35rem;}
+.ai-body ul li::before{content:'→ ';color:var(--teal);}
+
+/* EPLAN PARTNER PANEL */
+.eplan-banner{
+  background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(0,180,204,.06));
+  border:1px solid rgba(99,102,241,.3);border-radius:12px;padding:1.75rem;
+  margin-bottom:1rem;
+}
+.eplan-banner h4{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:var(--indigo);margin-bottom:.6rem;}
+.eplan-banner p{font-size:.83rem;color:var(--muted2);line-height:1.65;}
+.eplan-banner .metrics{display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;}
+.eplan-metric span:first-child{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--indigo);display:block;line-height:1;}
+.eplan-metric span:last-child{font-family:'JetBrains Mono',monospace;font-size:.57rem;letter-spacing:1px;color:var(--muted);}
+
+/* LEAD CAPTURE */
+.r-lead{background:var(--ink);border:1px solid rgba(0,180,204,.2);border-radius:14px;padding:2.5rem;text-align:center;margin-top:1rem;}
+.r-lead h3{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:4px;margin-bottom:.5rem;}
+.r-lead p{font-size:.84rem;color:var(--muted2);max-width:440px;margin:0 auto 1.75rem;line-height:1.6;}
+.lead-row{display:flex;gap:.65rem;max-width:480px;margin:0 auto 1.25rem;flex-wrap:wrap;}
+.lead-in{flex:1;min-width:180px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.75rem 1rem;font-family:'Familjen Grotesk',sans-serif;font-size:.9rem;color:var(--white);outline:none;transition:border-color .2s;}
+.lead-in:focus{border-color:rgba(0,180,204,.4);}
+.lead-in::placeholder{color:var(--muted);}
+.btn-cta{padding:.9rem 2.8rem;background:var(--teal);color:var(--ink);border:none;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:none;transition:all .2s;display:block;margin:0 auto;}
+.btn-cta:hover{background:#00cce6;box-shadow:var(--teal-glow);transform:translateY(-2px);}
+.submitted{display:none;padding:1.5rem;}
+.submitted h4{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--green);margin-bottom:.4rem;}
+.submitted p{font-size:.82rem;color:var(--muted2);}
+.restart{display:block;margin-top:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:1.5px;color:var(--muted);text-decoration:none;cursor:none;transition:color .2s;}
+.restart:hover{color:var(--teal);}
+
+/* SLIDE */
+.slide{display:none;}
+.slide.active{display:block;animation:sIn .35s ease forwards;}
+@keyframes sIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
+
+/* RESPONSIVE */
+@media(max-width:680px){
+  .r-grid,.r-metrics,.offer-ladder{grid-template-columns:1fr;}
+  .r-metrics{grid-template-columns:1fr 1fr;}
+  .r-hero{padding:1.75rem;}
+  .journey-bar{display:none;}
+  #app{padding:4.5rem 1rem 2rem;}
+}
+</style>
+</head>
+<body>
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curRing"></div>
+<div class="mesh"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <img class="topbar-logo"
+       src="https://panelmentor.com/wp-content/uploads/2024/12/NexGen_FullLogo_Transparent_NoBuffer.png"
+       alt="NexGen" onerror="this.outerHTML='<span style=\'font-family:Bebas Neue,sans-serif;font-size:1rem;letter-spacing:4px;color:#00b4cc\'>NEXGEN</span>'">
+  <div class="topbar-right">
+    <span class="event-pill" id="eventPill">EPLAN World 2025</span>
+    <div class="lang-row">
+      <button class="lb on" id="lbEN" onclick="setLang('en')">EN</button>
+      <button class="lb" id="lbDE" onclick="setLang('de')">DE</button>
+    </div>
+  </div>
+</div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <img class="splash-logo"
+       src="https://panelmentor.com/wp-content/uploads/2024/12/NexGen_FullLogo_Transparent_NoBuffer.png"
+       alt="NexGen Panel Mentoring" onerror="this.style.display='none'">
+  <p class="splash-stage" id="splashStage">EPLAN World · Friedrichshafen 2025</p>
+  <h1 class="splash-h" id="splashH">Software<br><em>is just the start.</em></h1>
+  <div class="splash-rule"></div>
+  <p class="splash-sub" id="splashSub">EPLAN delivers the platform. NexGen delivers the payoff. In 5 questions, we'll show you exactly where we fit — and what that means for your customers.</p>
+  <button class="splash-cta" id="splashCta" onclick="start()">Find Your Path →</button>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <span class="prog-label" id="progLabel">STEP 1 OF 7</span>
+      <span class="prog-pct" id="progPct">0%</span>
+    </div>
+    <div class="prog-bg"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  </div>
+  <div class="stage" id="stageWrap"></div>
+</div>
+
+<!-- GENERATING -->
+<div id="genScreen">
+  <img class="gen-logo"
+       src="https://panelmentor.com/wp-content/uploads/2024/12/NexGen_FullLogo_Transparent_NoBuffer.png"
+       alt="NexGen" onerror="this.style.display='none'">
+  <div class="gen-ring-wrap"><div class="gr"></div><div class="gr2"></div></div>
+  <h2 class="gen-h" id="genH">BUILDING YOUR ROADMAP</h2>
+  <p class="gen-sub" id="genSub">AI is matching your profile to the NexGen framework and crafting your personalized proposal.</p>
+  <div class="gen-steps">
+    <div class="gen-step" id="gs0">🔍 <span id="gst0">Mapping your journey stage...</span></div>
+    <div class="gen-step" id="gs1">📊 <span id="gst1">Calculating ROI opportunity...</span></div>
+    <div class="gen-step" id="gs2">🤝 <span id="gst2">Identifying EPLAN partnership alignment...</span></div>
+    <div class="gen-step" id="gs3">✍️ <span id="gst3">Writing your custom proposal...</span></div>
+    <div class="gen-step" id="gs4">🎯 <span id="gst4">Selecting your offer path...</span></div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="resultScreen"></div>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),curRing=document.getElementById('curRing');
+document.addEventListener('mousemove',e=>{
+  cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';
+  setTimeout(()=>{curRing.style.left=e.clientX+'px';curRing.style.top=e.clientY+'px';},80);
+});
+
+// ============================================================
+// NEXGEN STRATEGIC FRAMEWORK — v2
+// Positioning: "EPLAN provides the platform. NexGen delivers the payoff."
+// Journey: Assess → Standardize → Activate → Scale
+// ============================================================
+
+const STRATEGY = {
+  positioning: "NexGen helps manufacturers turn digital engineering into real operational results.",
+  eplan_value: "We help your customers realize the value they thought they were buying.",
+  partnership: "EPLAN provides the platform. NexGen delivers the payoff.",
+  journey: ["Assess","Standardize","Activate","Scale"],
+  offerLadder: {
+    core:        { name:"NexGen Core",        desc:"Recurring membership. Weekly group call, templates, KPI scorecards, peer community. The right starting point.",            tier:"ENTRY" },
+    pro:         { name:"NexGen Pro",          desc:"1:1 coaching. Diagnostic, quarterly roadmap, on-site intensives, full training library. For serious transformation.",       tier:"ADVANCED" },
+    engFix:      { name:"Engineering Fix",     desc:"For engineering leaders. Standards, parts governance, defect escape elimination, consistent digital outputs.",              tier:"ROLE-BASED" },
+    buildFix:    { name:"Build Fix",           desc:"For production teams. Cell flow, standard work, material readiness, technician training, throughput optimization.",        tier:"ROLE-BASED" },
+    commercialFix:{ name:"Commercial Fix",     desc:"For quoting and PM teams. Quote-to-order flow, scope clarity, scheduling handoff, customer communication.",                tier:"ROLE-BASED" },
+    panelHackers:{ name:"Panel Hackers Summit",desc:"Annual flagship event. Real shops, real results, before/after systems. The industry's best peer network.",                tier:"EVENT" },
+  }
+};
+
+// ============================================================
+// LANGUAGE SYSTEM
+// ============================================================
+let lang = 'en';
+
+function detectLang(){
+  const bl = navigator.language || 'en';
+  return bl.toLowerCase().startsWith('de') ? 'de' : 'en';
+}
+
+const T = {
+  en: {
+    splashStage: 'EPLAN World · Friedrichshafen 2025',
+    splashH: 'Software<br><em>is just the start.</em>',
+    splashSub: 'EPLAN delivers the platform. NexGen delivers the payoff. In 5 questions, we\'ll show you exactly where we fit — and what that means for your customers.',
+    splashCta: 'Find Your Path →',
+    whoQ: 'Who are you at EPLAN World?',
+    whoHint: 'This shapes everything that follows — your proposal, your metrics, your recommended path.',
+    nameQ: 'Before we build your roadmap — who are you?',
+    nameHint: 'Your proposal will be personalized to your role, your company, and your specific situation.',
+    yourName: 'Your Name',
+    yourCo: 'Company',
+    continue: 'Continue →',
+    build: 'Build My Roadmap →',
+    back: '← Back',
+    step: 'STEP', of: 'OF',
+    connect: 'Connect with NexGen →',
+    restart: '↩ Start over',
+  },
+  de: {
+    splashStage: 'EPLAN World · Friedrichshafen 2025',
+    splashH: 'Software<br><em>ist nur der Anfang.</em>',
+    splashSub: 'EPLAN liefert die Plattform. NexGen liefert den Return. In 5 Fragen zeigen wir, wo wir passen — und was das für Ihre Kunden bedeutet.',
+    splashCta: 'Meinen Weg finden →',
+    whoQ: 'Wer sind Sie auf der EPLAN World?',
+    whoHint: 'Das prägt alles Folgende — Ihr Angebot, Ihre Kennzahlen, Ihren empfohlenen Pfad.',
+    nameQ: 'Bevor wir Ihre Roadmap erstellen — wer sind Sie?',
+    nameHint: 'Ihr Angebot wird auf Ihre Rolle, Ihr Unternehmen und Ihre spezifische Situation zugeschnitten.',
+    yourName: 'Ihr Name',
+    yourCo: 'Unternehmen',
+    continue: 'Weiter →',
+    build: 'Meine Roadmap erstellen →',
+    back: '← Zurück',
+    step: 'SCHRITT', of: 'VON',
+    connect: 'Mit NexGen verbinden →',
+    restart: '↩ Neu starten',
+  }
+};
+
+function setLang(l) {
+  lang = l;
+  document.getElementById('lbEN').className = 'lb' + (l==='en'?' on':'');
+  document.getElementById('lbDE').className = 'lb' + (l==='de'?' on':'');
+  applyLang();
+}
+
+function applyLang() {
+  const t = T[lang];
+  document.getElementById('splashStage').textContent = t.splashStage;
+  document.getElementById('splashH').innerHTML = t.splashH;
+  document.getElementById('splashSub').textContent = t.splashSub;
+  document.getElementById('splashCta').textContent = t.splashCta;
+}
+
+lang = detectLang();
+setLang(lang);
+
+// ============================================================
+// AUDIENCE DEFINITIONS — v2 (role + maturity framing)
+// ============================================================
+const audiences = {
+  eplan_emp: {
+    icon: '⚡',
+    en: { title:'EPLAN Employee / Rep', desc:'I work for or represent EPLAN. I want to understand how NexGen helps my customers win — and how that helps me.' },
+    de: { title:'EPLAN Mitarbeiter / Rep', desc:'Ich arbeite für EPLAN. Ich möchte verstehen, wie NexGen meinen Kunden hilft — und wie das mir nutzt.' },
+    path: 'partner', color: 'var(--indigo)',
+  },
+  shop_owner: {
+    icon: '🏭',
+    en: { title:'Panel Shop Owner / Leader', desc:'I run a panel shop. I want fewer fires, stronger margins, and a business that doesn\'t depend on heroics.' },
+    de: { title:'Schaltschrankbauer / Leiter', desc:'Ich leite eine Schaltschrankfertigung. Ich will weniger Chaos, bessere Margen und ein robustes Geschäft.' },
+    path: 'shop', color: 'var(--teal)',
+  },
+  oem: {
+    icon: '🏢',
+    en: { title:'OEM / Manufacturer', desc:'We manufacture equipment. We outsource panel builds or want to bring production in-house the right way.' },
+    de: { title:'OEM / Hersteller', desc:'Wir produzieren Anlagen. Wir vergeben Schaltschrankbau oder wollen die Produktion sinnvoll ins Haus holen.' },
+    path: 'oem', color: 'var(--gold)',
+  },
+  engineer: {
+    icon: '📐',
+    en: { title:'Engineering Leader', desc:'I lead an engineering team. I want standardized outputs, fewer defect escapes, and less dependence on individual heroes.' },
+    de: { title:'Ingenieurleiter', desc:'Ich leite ein Ingenieurbüro. Ich will standardisierte Outputs und weniger Abhängigkeit von Einzelpersonen.' },
+    path: 'engineering', color: 'var(--green)',
+  },
+  dist: {
+    icon: '🔗',
+    en: { title:'Distributor / Integrator / Partner', desc:'I distribute components, integrate systems, or consult. Interested in NexGen as a partner or referral opportunity.' },
+    de: { title:'Distributor / Integrator / Partner', desc:'Ich vertreibe Komponenten oder berate. Interesse an NexGen als Partner oder Kooperationsmöglichkeit.' },
+    path: 'partner', color: 'var(--teal)',
+  },
+};
+
+// ============================================================
+// QUESTION PATHS — v2
+// Built around Assess → Standardize → Activate → Scale journey
+// ============================================================
+const paths = {
+
+  // ── SHOP OWNER PATH ──────────────────────────────────────
+  shop: [
+    { field:'journey_stage',
+      en:{ badge:'ASSESS', q:'Where are you in the digital manufacturing journey?', hint:'This places you on the Assess → Standardize → Activate → Scale roadmap.' },
+      de:{ badge:'ASSESS', q:'Wo stehen Sie auf dem Weg zur digitalen Fertigung?', hint:'Das positioniert Sie auf der Assess → Standardize → Activate → Scale-Roadmap.' },
+      stageColor:'assess',
+      opts:[
+        {i:'🔍',en:{t:'Just starting — evaluating EPLAN',d:'We know we need to modernize. Still figuring out where to begin.'},de:{t:'Gerade am Anfang — EPLAN evaluieren',d:'Wir wissen, dass wir modernisieren müssen. Noch nicht sicher, wo wir anfangen.'},s:'assess'},
+        {i:'📐',en:{t:'Have EPLAN — struggling to standardize',d:'We bought the software. The team isn\'t using it consistently. Outputs vary by person.'},de:{t:'EPLAN vorhanden — kämpfen mit Standardisierung',d:'Wir haben die Software. Das Team nutzt sie nicht einheitlich.'},s:'standardize'},
+        {i:'⚙️',en:{t:'Standardized — stuck in activation',d:'Standards exist. But connecting engineering to production is still slow and manual.'},de:{t:'Standardisiert — Aktivierung stockt',d:'Standards existieren. Aber Engineering und Produktion sind noch nicht wirklich verbunden.'},s:'activate'},
+        {i:'🚀',en:{t:'Activated — ready to scale',d:'The core works. Now we need to grow capacity, speed, and margin without chaos.'},de:{t:'Aktiviert — bereit zu skalieren',d:'Der Kern funktioniert. Jetzt wollen wir wachsen, ohne Chaos.'},s:'scale'},
+      ]
+    },
+    { field:'biggest_gap',
+      en:{ badge:'BIGGEST GAP', q:'What\'s the biggest gap between your EPLAN investment and your results?', hint:'Be specific — this shapes your proposal more than anything else.' },
+      de:{ badge:'GRÖSSTE LÜCKE', q:'Was ist die größte Lücke zwischen Ihrer EPLAN-Investition und den Ergebnissen?', hint:'Je konkreter, desto besser Ihr Angebot.' },
+      stageColor:'standardize',
+      opts:[
+        {i:'👷',en:{t:'Team isn\'t using it consistently',d:'Different engineers, different methods. No standards. Outputs are unpredictable.'},de:{t:'Team nutzt es nicht einheitlich',d:'Verschiedene Ingenieure, verschiedene Methoden. Keine Standards.'}},
+        {i:'🔗',en:{t:'Engineering doesn\'t connect to production',d:'Designs are digital but the shop floor still operates on paper and tribal knowledge.'},de:{t:'Engineering verbindet sich nicht mit der Produktion',d:'Designs sind digital, aber die Werkstatt läuft noch auf Papier.'}},
+        {i:'⏱️',en:{t:'Still too slow — lead times haven\'t improved',d:'We expected speed gains. They didn\'t materialize. The bottleneck moved but didn\'t shrink.'},de:{t:'Immer noch zu langsam — Durchlaufzeiten haben sich nicht verbessert',d:'Wir haben Geschwindigkeitsgewinne erwartet. Sie sind nicht eingetreten.'}},
+        {i:'💰',en:{t:'Can\'t calculate the ROI',d:'Leadership is questioning the investment. We don\'t have a clear before/after story.'},de:{t:'ROI nicht messbar',d:'Die Führung stellt die Investition in Frage. Wir haben keine klare Vorher/Nachher-Geschichte.'}},
+      ]
+    },
+    { field:'priority_role',
+      en:{ badge:'PRIORITY ROLE', q:'Who in your organization needs to move first?', hint:'NexGen is built around role-based transformation — we go where the bottleneck lives.' },
+      de:{ badge:'PRIORITÄTSROLLE', q:'Wer in Ihrer Organisation muss zuerst handeln?', hint:'NexGen ist auf rollenbasierte Transformation ausgerichtet.' },
+      stageColor:'activate',
+      opts:[
+        {i:'🏗️',en:{t:'Engineering team',d:'Standardization, parts governance, release quality, and defect escapes.'},de:{t:'Ingenieurteam',d:'Standardisierung, Teile-Governance, Freigabequalität und Fehlerabweichungen.'}},
+        {i:'🔨',en:{t:'Production floor',d:'Flow, standard work, throughput, material readiness, technician training.'},de:{t:'Produktionsboden',d:'Flow, Standardarbeit, Durchsatz, Materialbereitschaft.'}},
+        {i:'📋',en:{t:'Quoting and commercial team',d:'Quote accuracy, speed, order handoff, scope clarity.'},de:{t:'Angebots- und Vertriebsteam',d:'Angebotsgenauigkeit, Geschwindigkeit, Auftragsübergabe.'}},
+        {i:'👔',en:{t:'Leadership / ownership',d:'Strategy, metrics, accountability, growth model, decision-making clarity.'},de:{t:'Führung / Eigentümerschaft',d:'Strategie, Kennzahlen, Rechenschaftspflicht, Wachstumsmodell.'}},
+      ]
+    },
+  ],
+
+  // ── ENGINEERING PATH ──────────────────────────────────────
+  engineering: [
+    { field:'eng_problem',
+      en:{ badge:'ENGINEERING', q:'What\'s the biggest engineering bottleneck right now?', hint:'Tell us where quality, speed, or consistency breaks down.' },
+      de:{ badge:'ENGINEERING', q:'Was ist der größte Engineering-Engpass gerade?', hint:'Sagen Sie uns, wo Qualität, Geschwindigkeit oder Konsistenz versagt.' },
+      stageColor:'standardize',
+      opts:[
+        {i:'📐',en:{t:'No design standards — output varies by engineer',d:'Every project starts from scratch. Outputs depend too much on individual expertise.'},de:{t:'Keine Designstandards — Output variiert je nach Ingenieur',d:'Jedes Projekt beginnt von vorne.'}},
+        {i:'🗂️',en:{t:'Parts library is incomplete or chaotic',d:'Engineers build their own symbols, macros, and components. No central governance.'},de:{t:'Teilebibliothek unvollständig oder chaotisch',d:'Ingenieure bauen ihre eigenen Symbole und Makros.'}},
+        {i:'🔄',en:{t:'Defect escapes from engineering to production',d:'Errors surface on the floor that should have been caught upstream.'},de:{t:'Fehler gelangen von Engineering in die Produktion',d:'Fehler tauchen auf dem Boden auf, die vorher hätten abgefangen werden sollen.'}},
+        {i:'⏳',en:{t:'Release process is slow and manual',d:'Review, approval, and release takes too long. Production waits on engineering.'},de:{t:'Freigabeprozess ist langsam und manuell',d:'Überprüfung, Genehmigung und Freigabe dauern zu lange.'}},
+      ]
+    },
+    { field:'eng_eplan_depth',
+      en:{ badge:'EPLAN DEPTH', q:'How deeply is EPLAN integrated into your engineering workflow?', hint:'No wrong answer — this determines how quickly NexGen can accelerate you.' },
+      de:{ badge:'EPLAN-TIEFE', q:'Wie tief ist EPLAN in Ihren Engineering-Workflow integriert?', hint:'Keine falsche Antwort — das bestimmt, wie schnell NexGen Sie beschleunigen kann.' },
+      stageColor:'activate',
+      opts:[
+        {i:'🆕',en:{t:'Barely — just schematics',d:'We draw in EPLAN. That\'s about it. The broader platform is untouched.'},de:{t:'Kaum — nur Schaltpläne',d:'Wir zeichnen in EPLAN. Das war\'s. Die breitere Plattform ist unberührt.'}},
+        {i:'🌱',en:{t:'Moderate — some automation, no full system',d:'Parts libraries partially built. Some macros. No BOM integration or digital production handoff.'},de:{t:'Mittel — etwas Automatisierung, kein vollständiges System',d:'Teilebibliotheken teilweise aufgebaut. Keine BOM-Integration.'}},
+        {i:'💡',en:{t:'Advanced — integrated but inconsistent',d:'Good EPLAN usage in pockets. But standards aren\'t enforced and results vary across projects.'},de:{t:'Fortgeschritten — integriert, aber inkonsistent',d:'Gute EPLAN-Nutzung an einzelnen Stellen. Aber Standards werden nicht durchgesetzt.'}},
+        {i:'⚡',en:{t:'Full — want to go further',d:'Deep integration. Now I want to push into full digital-to-production automation.'},de:{t:'Vollständig — will weiter gehen',d:'Tiefe Integration. Jetzt will ich in vollständige Digital-zu-Produktion-Automatisierung vordringen.'}},
+      ]
+    },
+    { field:'eng_outcome',
+      en:{ badge:'TARGET OUTCOME', q:'What does engineering success look like in 12 months?', hint:'This becomes the headline of your NexGen proposal.' },
+      de:{ badge:'ZIELERGEBNIS', q:'Wie sieht Engineering-Erfolg in 12 Monaten aus?', hint:'Das wird die Überschrift Ihres NexGen-Angebots.' },
+      stageColor:'scale',
+      opts:[
+        {i:'📏',en:{t:'Every engineer produces consistent outputs',d:'Standards enforced. Outputs predictable regardless of who draws them.'},de:{t:'Jeder Ingenieur liefert konsistente Outputs',d:'Standards durchgesetzt. Outputs vorhersehbar.'}},
+        {i:'⚡',en:{t:'Zero defect escapes to production',d:'Engineering catches its own errors. Production stops waiting for rework.'},de:{t:'Null Fehler in die Produktion',d:'Engineering erkennt eigene Fehler. Produktion wartet nicht mehr auf Nacharbeit.'}},
+        {i:'🚀',en:{t:'Release cycle cut by 50%+',d:'From design to production-ready in half the current time.'},de:{t:'Freigabezyklus um 50%+ verkürzt',d:'Von Design bis produktionsbereit in der Hälfte der Zeit.'}},
+        {i:'🤖',en:{t:'Full digital-to-production handoff',d:'EPLAN outputs drive production directly. No manual translation or re-entry.'},de:{t:'Vollständige Digital-zu-Produktion-Übergabe',d:'EPLAN-Outputs steuern die Produktion direkt.'}},
+      ]
+    },
+  ],
+
+  // ── OEM PATH ──────────────────────────────────────────────
+  oem: [
+    { field:'oem_situation',
+      en:{ badge:'YOUR SITUATION', q:'What\'s your current panel manufacturing situation?', hint:'This determines whether we start with outsourcing strategy or internal buildout.' },
+      de:{ badge:'IHRE SITUATION', q:'Wie ist Ihre aktuelle Schaltschrankfertigungs-Situation?', hint:'Das bestimmt, ob wir mit Outsourcing-Strategie oder internem Aufbau beginnen.' },
+      stageColor:'assess',
+      opts:[
+        {i:'📤',en:{t:'100% outsourced — evaluating options',d:'We pay external shops. Costs are rising and we\'re questioning whether to bring it in-house.'},de:{t:'100% ausgelagert — Optionen evaluieren',d:'Wir bezahlen externe Betriebe. Kosten steigen.'}},
+        {i:'🔀',en:{t:'Hybrid — some in-house, mostly external',d:'We have some internal capacity but can\'t handle full volume or complexity yet.'},de:{t:'Hybrid — teils intern, hauptsächlich extern',d:'Wir haben etwas interne Kapazität, können aber noch kein volles Volumen bewältigen.'}},
+        {i:'🏗️',en:{t:'Building internal — need expert guidance',d:'Decision made to insource. Now need the right partner to build it correctly.'},de:{t:'Intern aufbauen — brauche Expertenführung',d:'Entscheidung für Insourcing gefallen. Jetzt brauche ich den richtigen Partner.'}},
+        {i:'🔧',en:{t:'Existing shop — needs modernization',d:'We have in-house capacity. But it\'s manual, slow, and can\'t scale with demand.'},de:{t:'Bestehende Werkstatt — braucht Modernisierung',d:'Wir haben interne Kapazität. Aber sie ist manuell, langsam und skaliert nicht.'}},
+      ]
+    },
+    { field:'oem_driver',
+      en:{ badge:'PRIMARY DRIVER', q:'What\'s driving this decision most?', hint:'The answer shapes which NexGen services we prioritize for you.' },
+      de:{ badge:'HAUPTTREIBER', q:'Was treibt diese Entscheidung am meisten an?', hint:'Die Antwort prägt, welche NexGen-Dienste wir für Sie priorisieren.' },
+      stageColor:'standardize',
+      opts:[
+        {i:'💰',en:{t:'Recovering margin from outsourcing',d:'External shops are eating our profit. Insourcing the economics are clear.'},de:{t:'Marge vom Outsourcing zurückgewinnen',d:'Externe Betriebe fressen unseren Gewinn.'}},
+        {i:'🎛️',en:{t:'Quality and consistency control',d:'External shops produce inconsistent results. We need to own the process.'},de:{t:'Qualitäts- und Konsistenzkontrolle',d:'Externe Betriebe liefern inkonsistente Ergebnisse.'}},
+        {i:'⚡',en:{t:'Lead time and responsiveness',d:'We need faster turnaround and more agile response to production changes.'},de:{t:'Durchlaufzeit und Reaktionsfähigkeit',d:'Wir brauchen schnellere Durchlaufzeiten.'}},
+        {i:'🚀',en:{t:'Building a next-gen capability',d:'Don\'t just insource — build a world-class, digitally-guided operation from day one.'},de:{t:'Eine Next-Gen-Fähigkeit aufbauen',d:'Nicht nur insourcen — eine erstklassige, digital geführte Operation aufbauen.'}},
+      ]
+    },
+    { field:'oem_spend',
+      en:{ badge:'ANNUAL SCALE', q:'What\'s your annual panel spend or revenue?', hint:'This anchors the financial model and payback timeline we\'ll build for you.' },
+      de:{ badge:'JÄHRLICHE SKALA', q:'Was sind Ihre jährlichen Schaltschrank-Ausgaben oder -Einnahmen?', hint:'Das verankert das Finanzmodell und die Amortisationszeit für Sie.' },
+      stageColor:'scale',
+      opts:[
+        {i:'📊',en:{t:'Under $5M / €5M',d:'Focused insourcing — build the right foundation.'},de:{t:'Unter 5 Mio. €',d:'Fokussiertes Insourcing — die richtige Grundlage aufbauen.'}},
+        {i:'📈',en:{t:'$5M–$15M / €5–15M',d:'Strong ROI case — meaningful margin recovery opportunity.'},de:{t:'5–15 Mio. €',d:'Starke ROI-Argumentation — erhebliches Margenrückgewinnungspotenzial.'}},
+        {i:'🏆',en:{t:'$15M–$50M / €15–50M',d:'Full phased transformation model. Biggest opportunity.'},de:{t:'15–50 Mio. €',d:'Vollständiges Phasenübergangsmodell. Größte Chance.'}},
+        {i:'🌐',en:{t:'$50M+ / €50M+',d:'Enterprise program. NexGen\'s flagship phased transition.'},de:{t:'Über 50 Mio. €',d:'Enterprise-Programm. NexGens Flagship-Phasenübergang.'}},
+      ]
+    },
+  ],
+
+  // ── PARTNER / EPLAN PATH ──────────────────────────────────
+  partner: [
+    { field:'partner_goal',
+      en:{ badge:'PARTNERSHIP GOAL', q:'What matters most to you about NexGen?', hint:'Be direct — there\'s no wrong answer. This routes you to the right conversation.' },
+      de:{ badge:'PARTNERSCHAFTSZIEL', q:'Was ist Ihnen an NexGen am wichtigsten?', hint:'Direkt sein — keine falsche Antwort. Das leitet Sie zum richtigen Gespräch.' },
+      stageColor:'assess',
+      opts:[
+        {i:'📈',en:{t:'Help my customers succeed with EPLAN',d:'My customers struggle to realize ROI. NexGen could be the missing implementation layer.'},de:{t:'Meinen Kunden helfen, mit EPLAN erfolgreich zu sein',d:'Meine Kunden kämpfen darum, ROI zu realisieren.'}},
+        {i:'🤝',en:{t:'Build a referral or co-selling model',d:'I have customers who need NexGen. I want to structure a referral or resell partnership.'},de:{t:'Ein Empfehlungs- oder Co-Selling-Modell aufbauen',d:'Ich habe Kunden, die NexGen brauchen.'}},
+        {i:'📣',en:{t:'Co-marketing and brand alignment',d:'Joint content, case studies, event presence. Our brands should be in front of the same people.'},de:{t:'Co-Marketing und Markenausrichtung',d:'Gemeinsame Inhalte, Fallstudien, Messepräsenz.'}},
+        {i:'🔧',en:{t:'Technical or delivery collaboration',d:'Our tools and NexGen\'s capabilities are complementary. Let\'s explore how they fit together.'},de:{t:'Technische oder Lieferkollaboration',d:'Unsere Tools und NexGens Fähigkeiten ergänzen sich.'}},
+      ]
+    },
+    { field:'eplan_customer_pain',
+      en:{ badge:'CUSTOMER REALITY', q:'What\'s the most common reason EPLAN customers struggle with ROI?', hint:'Your answer here defines the conversation NexGen can help you have differently.' },
+      de:{ badge:'KUNDENREALITÄT', q:'Was ist der häufigste Grund, warum EPLAN-Kunden mit ROI kämpfen?', hint:'Ihre Antwort hier definiert das Gespräch, das NexGen Ihnen anders ermöglicht.' },
+      stageColor:'standardize',
+      opts:[
+        {i:'🚧',en:{t:'Failed or stalled implementation',d:'They bought it. They struggled to implement. Momentum died. Now it\'s expensive shelf-ware.'},de:{t:'Gescheiterte oder ins Stocken geratene Implementierung',d:'Sie haben es gekauft. Die Implementierung war schwierig. Teures Regalware.'}},
+        {i:'👥',en:{t:'Team adoption is low or inconsistent',d:'Some engineers use it well. Most don\'t. Standards were never established.'},de:{t:'Team-Akzeptanz ist gering oder inkonsistent',d:'Einige Ingenieure nutzen es gut. Die meisten nicht.'}},
+        {i:'🔗',en:{t:'Never connected to the shop floor',d:'EPLAN lives in engineering. Production still runs on paper. The loop was never closed.'},de:{t:'Nie mit dem Shopfloor verbunden',d:'EPLAN lebt im Engineering. Produktion läuft noch auf Papier.'}},
+        {i:'📊',en:{t:'No ROI story to point to',d:'The customer can\'t tell you what got better. No before/after metrics. Leadership is skeptical.'},de:{t:'Keine ROI-Geschichte',d:'Der Kunde kann nicht sagen, was besser wurde. Keine Vorher/Nachher-Kennzahlen.'}},
+      ]
+    },
+    { field:'partner_scale',
+      en:{ badge:'YOUR REACH', q:'How many customers in your network could benefit from NexGen?', hint:'This helps us size the partnership opportunity and build the right model for you.' },
+      de:{ badge:'IHRE REICHWEITE', q:'Wie viele Kunden in Ihrem Netzwerk könnten von NexGen profitieren?', hint:'Das hilft uns, die Partnerschaftsgröße zu bestimmen.' },
+      stageColor:'scale',
+      opts:[
+        {i:'👥',en:{t:'A handful (1–10)',d:'Close relationships with a few key accounts where NexGen could make an immediate difference.'},de:{t:'Einige (1–10)',d:'Enge Beziehungen zu einigen Schlüsselkonten.'}},
+        {i:'📋',en:{t:'Dozens (10–50)',d:'Meaningful network. Regional or specialty-focused.'},de:{t:'Dutzende (10–50)',d:'Bedeutendes Netzwerk. Regional oder spezialitätsfokussiert.'}},
+        {i:'🌍',en:{t:'Hundreds',d:'Large installed base. Distributor or regional-scale reach.'},de:{t:'Hunderte',d:'Große Installationsbasis. Distributor- oder regionale Reichweite.'}},
+        {i:'🌐',en:{t:'Thousands (enterprise / EPLAN scale)',d:'Platform-level reach. This is a strategic partnership conversation.'},de:{t:'Tausende (Enterprise / EPLAN-Skala)',d:'Reichweite auf Plattformebene. Das ist ein strategisches Partnerschaftsgespräch.'}},
+      ]
+    },
+  ],
+};
+
+// ============================================================
+// STATE + FLOW ENGINE
+// ============================================================
+const state = { audience:null, path:null, name:'', company:'', answers:{}, lang:'en' };
+let currentIdx = 0;
+let activeSlides = [];
+const TOTAL_STEPS = 7;
+
+function start() {
+  document.getElementById('splash').classList.add('out');
+  setTimeout(() => {
+    document.getElementById('splash').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    renderAudience();
+  }, 850);
+}
+
+function updateProg(cur, total) {
+  const pct = Math.round((cur/total)*100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progPct').textContent = pct + '%';
+  const t = T[lang];
+  document.getElementById('progLabel').textContent = `${t.step} ${cur} ${t.of} ${total}`;
+}
+
+function renderAudience() {
+  currentIdx = 0;
+  updateProg(1, TOTAL_STEPS);
+  const t = T[lang];
+  const cards = Object.entries(audiences).map(([key, aud]) => {
+    const txt = aud[lang] || aud.en;
+    return `<button class="opt" onclick="pickAudience('${key}')" style="border-radius:12px;">
+      <div class="opt-icon">${aud.icon}</div>
+      <div>
+        <div class="opt-title">${txt.title}</div>
+        <div class="opt-desc">${txt.desc}</div>
+      </div>
+    </button>`;
+  }).join('');
+
+  document.getElementById('stageWrap').innerHTML = `
+    <div class="slide active">
+      <div class="badge"><div class="bdot"></div>YOUR ROLE</div>
+      <div class="q-h">${t.whoQ}</div>
+      <div class="q-sub">${t.whoHint}</div>
+      <div class="opts">${cards}</div>
+    </div>`;
+}
+
+function pickAudience(key) {
+  state.audience = key;
+  state.path = audiences[key].path;
+  activeSlides = paths[state.path] || paths.shop;
+  document.querySelectorAll('.opt').forEach((o,i) => {
+    o.classList.toggle('sel', Object.keys(audiences)[i] === key);
+  });
+  setTimeout(() => renderName(), 380);
+}
+
+function renderName() {
+  currentIdx = 1;
+  updateProg(2, TOTAL_STEPS);
+  const t = T[lang];
+  document.getElementById('stageWrap').innerHTML = `
+    <div class="slide active">
+      <div class="badge"><div class="bdot"></div>PERSONALIZATION</div>
+      <div class="q-h">${t.nameQ}</div>
+      <div class="q-sub">${t.nameHint}</div>
+      <div class="name-row">
+        <div><label class="ni-label">${t.yourName}</label><input class="ni-in" id="niName" type="text" placeholder="${t.yourName}" value="${state.name}" oninput="state.name=this.value;checkName()"></div>
+        <div><label class="ni-label">${t.yourCo}</label><input class="ni-in" id="niCo" type="text" placeholder="${t.yourCo}" value="${state.company}" oninput="state.company=this.value;checkName()"></div>
+      </div>
+      <div class="nav">
+        <button class="btn-back" onclick="renderAudience()">← ${t.back.replace('← ','')}</button>
+        <button class="btn-next" id="nameNext" onclick="renderQ(0)" disabled>${t.continue}</button>
+      </div>
+    </div>`;
+}
+
+function checkName() {
+  const n = document.getElementById('niName')?.value.trim();
+  const c = document.getElementById('niCo')?.value.trim();
+  const btn = document.getElementById('nameNext');
+  if (btn) btn.disabled = !(n && c);
+}
+
+function renderQ(qi) {
+  currentIdx = qi + 2;
+  updateProg(currentIdx + 1, TOTAL_STEPS);
+  const sl = activeSlides[qi];
+  const txt = sl[lang] || sl.en;
+  const t = T[lang];
+  const isLast = qi === activeSlides.length - 1;
+
+  // Stage pills
+  const stageMap = {assess:0,standardize:1,activate:2,scale:3};
+  const activeStage = sl.stageColor || 'assess';
+  const pills = STRATEGY.journey.map((s,i) => {
+    const cls = i === (stageMap[activeStage]??0) ? `stage-pill active-${activeStage}` : 'stage-pill';
+    return `<span class="${cls}">${i+1}. ${s}</span>`;
+  }).join('');
+
+  const opts = sl.opts.map((o, i) => {
+    const ot = o[lang] || o.en;
+    const stCls = o.s ? `opt ${o.s}` : `opt ${activeStage}`;
+    return `<button class="${stCls} ${state.answers[sl.field]===i?'sel':''}" onclick="pick('${sl.field}',${i},${qi})">
+      <div class="opt-icon">${o.i}</div>
+      <div><div class="opt-title">${ot.t}</div><div class="opt-desc">${ot.d}</div></div>
+    </button>`;
+  }).join('');
+
+  document.getElementById('stageWrap').innerHTML = `
+    <div class="slide active">
+      <div class="stage-pills">${pills}</div>
+      <div class="badge"><div class="bdot"></div>${txt.badge}</div>
+      <div class="q-h">${txt.q}</div>
+      <div class="q-sub">${txt.hint}</div>
+      <div class="opts">${opts}</div>
+      <div class="nav">
+        <button class="btn-back" onclick="${qi===0?'renderName()':'renderQ('+(qi-1)+')'}">${t.back}</button>
+        <button class="btn-next" id="qNext" onclick="${isLast?'startGen()':'renderQ('+(qi+1)+')'}" ${state.answers[sl.field]===undefined?'disabled':''}>
+          ${isLast ? t.build : t.continue}
+        </button>
+      </div>
+    </div>`;
+}
+
+function pick(field, idx, qi) {
+  state.answers[field] = idx;
+  document.querySelectorAll('.opt').forEach((o,i) => o.classList.toggle('sel', i===idx));
+  const btn = document.getElementById('qNext');
+  if (btn) btn.disabled = false;
+  const isLast = qi === activeSlides.length - 1;
+  setTimeout(() => { if(isLast) startGen(); else renderQ(qi+1); }, 360);
+}
+
+// ============================================================
+// AI GENERATION
+// ============================================================
+async function startGen() {
+  document.getElementById('app').style.display = 'none';
+  const gen = document.getElementById('genScreen');
+  gen.style.display = 'flex';
+  for(let i=0;i<5;i++){await delay(600);document.getElementById('gs'+i).classList.add('on');}
+  const prompt = buildPrompt();
+  let content = '';
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    content = data.content[0].text;
+  } catch(e) { console.error(e); }
+  for(let i=0;i<5;i++){
+    const el=document.getElementById('gs'+i);
+    el.classList.remove('on');el.classList.add('done');
+  }
+  await delay(650);
+  gen.style.display = 'none';
+  renderResult(content);
+}
+
+function getAnswerLabel(qi, field) {
+  const sl = activeSlides[qi];
+  if (!sl) return '';
+  const idx = state.answers[sl.field ?? field];
+  if (idx === undefined) return '';
+  const opt = sl.opts[idx];
+  return (opt?.[lang] || opt?.en)?.t || '';
+}
+
+function buildPrompt() {
+  const audTxt = (audiences[state.audience]?.[lang] || audiences[state.audience]?.en)?.title || state.audience;
+  const answerLines = activeSlides.map((sl,i) => {
+    const idx = state.answers[sl.field];
+    if (idx === undefined) return null;
+    const opt = sl.opts[idx];
+    const txt = (opt[lang] || opt.en);
+    return `- ${(sl[lang] || sl.en).badge}: ${txt.t}`;
+  }).filter(Boolean).join('\n');
+
+  const isPartner = state.path === 'partner';
+  const isDE = lang === 'de';
+
+  return `You are a senior strategist and copywriter for NexGen Panel Mentoring (panelmentor.com). NexGen transforms electrical control panel manufacturers using EPLAN software, automation, and lean manufacturing — built from 6+ years of proven results at ADS (Automated Drive Systems).
+
+${isDE ? 'Respond entirely in German (Deutsch).' : 'Respond in English.'}
+
+NEXGEN CORE POSITIONING:
+- "${STRATEGY.positioning}"
+- EPLAN partnership message: "${STRATEGY.partnership}"
+- Customer transformation journey: Assess → Standardize → Activate → Scale
+- Offer ladder: NexGen Core (entry membership) → NexGen Pro (1:1 coaching) → Engineering Fix / Build Fix / Commercial Fix (role-based) → Panel Hackers Summit (flagship event)
+- NOT just consulting — a category-defining operating system for the control-panel industry
+- Proof-based: labor savings 30-40%, margin improvement 8-12pts, lead times cut 60%, defect escapes eliminated, ramp time reduced
+
+VISITOR PROFILE:
+- Name: ${state.name}
+- Company: ${state.company}
+- Role at show: ${audTxt}
+- Audience path: ${state.path}
+- Answers:
+${answerLines}
+
+Write a personalized proposal with these EXACT sections using only HTML tags (<p><h4><ul><li><strong><em>):
+
+SECTION "YOUR MOMENT" — Address ${state.name} at ${state.company} directly. 2-3 punchy sentences. Reference their specific answers. Name their exact stage on the Assess→Standardize→Activate→Scale journey. Start with "${state.name}..."
+
+SECTION "THE MARKET TRUTH" — 2 sharp sentences only. The panel manufacturing industry is at an inflection point. Those who connect digital engineering to real operational results will dominate. Those who don't will compete on price alone. End with: "The full story is at panelmentor.com."
+
+SECTION "${isPartner ? 'THE PARTNERSHIP OPPORTUNITY' : 'YOUR NEXGEN PATH'}" — ${isPartner ? `This is the EPLAN/partner path. Lead with: "EPLAN provides the platform. NexGen delivers the payoff." Explain how NexGen helps EPLAN: sell more licenses (clearer path to ROI), retain more customers (implementation support), expand accounts (first win → deeper adoption), create proof stories. Include 4 specific bullets for how this partnership works.` : `Specific NexGen services for this profile. Reference the Assess→Standardize→Activate→Scale stage they're in. Recommend the right offer from the ladder (Core/Pro/Engineering Fix/Build Fix/Commercial Fix). 4-5 concrete deliverables.`}
+
+SECTION "THE NUMBERS" — 3-4 specific proof points with actual metrics. Tailor to their answers. Use formats like "Engineering defect escapes reduced by X%", "Quote turnaround cut from X days to Y", "New technician ramp time reduced by X weeks", "Labor cost reduced 30-40%". Make it concrete.
+
+SECTION "YOUR NEXT STEP" — One clear, specific call to action. 2 sentences max. What do they do Monday morning?
+
+Write with executive precision. No filler. Sound like someone who has been in their building.`;
+}
+
+// ============================================================
+// RESULT RENDER
+// ============================================================
+function renderResult(aiText) {
+  const screen = document.getElementById('resultScreen');
+  screen.style.display = 'block';
+
+  const t = T[lang];
+  const audTxt = (audiences[state.audience]?.[lang] || audiences[state.audience]?.en)?.title || '';
+  const isPartner = state.path === 'partner';
+  const isEplan = state.audience === 'eplan_emp';
+  const sections = parseSections(aiText);
+
+  // Determine journey stage from answers
+  const stageIdx = state.answers.journey_stage ?? state.answers.oem_situation ?? 0;
+  const stageNames = STRATEGY.journey;
+  const activeStage = Math.min(stageIdx, 3);
+
+  // Metrics by path
+  const metricSets = {
+    shop:[{v:'30–40%',l:'Labor Cost Reduction'},{v:'+10 pts',l:'Margin Improvement'},{v:'<18 mo',l:'Payback Period'}],
+    engineering:[{v:'<5%',l:'Target Defect Escape Rate'},{v:'50%+',l:'Faster Release Cycles'},{v:'60%',l:'Reduction in Standards Variance'}],
+    oem:[{v:'15–25%',l:'Panel Cost Reduction'},{v:'$0',l:'Revenue at Risk During Transition'},{v:'60%',l:'Faster Lead Times'}],
+    partner:[{v:'∞',l:'Referral Opportunity'},{v:'6yr+',l:'NexGen Track Record'},{v:'$10M+',l:'Avg. Client Revenue Band'}],
+  };
+  const metrics = metricSets[state.path] || metricSets.shop;
+
+  // Recommended offer
+  const offerRec = {
+    shop: state.answers.journey_stage >= 2 ? 'pro' : 'core',
+    engineering: 'engFix',
+    oem: 'pro',
+    partner: 'core',
+  }[state.path] || 'core';
+
+  screen.innerHTML = `
+  <div class="r-hero rv" id="rv0">
+    <div class="r-hero-top">
+      <img class="r-logo" src="https://panelmentor.com/wp-content/uploads/2024/12/NexGen_FullLogo_Transparent_NoBuffer.png" alt="NexGen" onerror="this.style.display='none'">
+      <span class="r-tag">EPLAN WORLD 2025 · PERSONALIZED PROPOSAL · v2</span>
+    </div>
+    <div class="r-name">${state.name} <span>@ ${state.company}</span></div>
+    <div class="r-role">${audTxt}</div>
+    <div class="journey-bar">
+      ${stageNames.map((s,i)=>`
+        <div class="journey-step ${i===activeStage?'active':''}">
+          <span class="journey-step-num">${i+1}</span>
+          <span class="journey-step-name">${s}</span>
+        </div>`).join('')}
+    </div>
+  </div>
+
+  <div class="r-metrics rv" id="rv1">
+    ${metrics.map(m=>`<div class="r-metric hi"><span class="r-mval">${m.v}</span><span class="r-mlabel">${m.l}</span></div>`).join('')}
+  </div>
+
+  ${isEplan || isPartner ? `
+  <div class="eplan-banner rv" id="rv1b">
+    <h4>EPLAN × NexGen — The Partnership Story</h4>
+    <p>EPLAN provides the digital platform. NexGen delivers the operational payoff. Together, we give manufacturers the full picture — from software purchase to real-world ROI. That means more successful customers, stronger retention, and deeper EPLAN account expansion.</p>
+    <div class="metrics">
+      <div class="eplan-metric"><span>↑ Adoption</span><span>Faster implementation</span></div>
+      <div class="eplan-metric"><span>↑ Retention</span><span>Customers who win, stay</span></div>
+      <div class="eplan-metric"><span>↑ Expansion</span><span>First win → more licenses</span></div>
+    </div>
+  </div>` : ''}
+
+  <div class="r-grid rv" id="rv2">
+    <div class="r-panel">
+      <span class="panel-label">Your Moment</span>
+      <div class="ai-body">${sections.moment || getFBMoment()}</div>
+    </div>
+    <div class="r-panel">
+      <span class="panel-label">The Market Truth</span>
+      <div class="ai-body">${sections.truth || getFBTruth()}</div>
+    </div>
+    <div class="r-panel full ${isPartner?'partner-hi':''}">
+      <span class="panel-label ${isPartner?'indigo':''}">${isPartner ? 'The Partnership Opportunity' : 'Your NexGen Path'}</span>
+      <div class="ai-body">${sections.path || getFBPath()}</div>
+    </div>
+    <div class="r-panel full gold-hi">
+      <span class="panel-label gold">The Numbers — What This Looks Like for ${state.company}</span>
+      <div class="ai-body">${sections.numbers || getFBNumbers()}</div>
+    </div>
+    <div class="r-panel full">
+      <span class="panel-label">Your Next Step</span>
+      <div class="ai-body">${sections.next || getFBNext()}</div>
+    </div>
+  </div>
+
+  <div class="offer-ladder rv" id="rv3">
+    ${Object.entries(STRATEGY.offerLadder).map(([key,offer])=>`
+      <div class="offer-card ${key===offerRec?'recommended':''}">
+        <span class="offer-tier">${offer.tier}</span>
+        <div class="offer-name">${offer.name}</div>
+        <div class="offer-desc">${offer.desc}</div>
+      </div>`).join('')}
+  </div>
+
+  <div class="r-lead rv" id="rv4">
+    <h3>${lang==='de'?'LASSEN SIE UNS VERBINDEN':'LET\'S CONNECT'}</h3>
+    <p>${lang==='de'?`${state.name} — Shain Heiss meldet sich innerhalb von 24 Stunden mit einem vollständigen Folgepaket.`:`${state.name} — Shain Heiss will follow up within 24 hours with a complete next-step package tailored to ${state.company}.`}</p>
+    <div id="leadForm">
+      <div class="lead-row">
+        <input class="lead-in" id="lEmail" type="email" placeholder="${lang==='de'?'E-Mail-Adresse':'Email address'}">
+        <input class="lead-in" id="lPhone" type="tel" placeholder="${lang==='de'?'Telefonnummer':'Phone / WhatsApp'}">
+      </div>
+      <button class="btn-cta" onclick="submitLead()">${t.connect}</button>
+    </div>
+    <div class="submitted" id="submittedMsg">
+      <h4>✓ ${lang==='de'?'VERBUNDEN':'CONNECTED'}</h4>
+      <p>${lang==='de'?'Shain meldet sich innerhalb von 24 Stunden. panelmentor.com':'Shain will be in touch within 24 hours. panelmentor.com'}</p>
+    </div>
+    <a class="restart" href="javascript:location.reload()">↩ ${t.restart}</a>
+  </div>`;
+
+  const ids = ['rv0','rv1','rv1b','rv2','rv3','rv4'];
+  ids.forEach((id,i) => setTimeout(() => document.getElementById(id)?.classList.add('in'), 100+i*180));
+}
+
+// SECTION PARSER
+function parseSections(text) {
+  const s = {};
+  [
+    {k:'moment',  re:/YOUR MOMENT[\s\S]*?(?=THE MARKET TRUTH|$)/i},
+    {k:'truth',   re:/THE MARKET TRUTH[\s\S]*?(?=THE PARTNERSHIP|YOUR NEXGEN PATH|$)/i},
+    {k:'path',    re:/(THE PARTNERSHIP OPPORTUNITY|YOUR NEXGEN PATH)[\s\S]*?(?=THE NUMBERS|$)/i},
+    {k:'numbers', re:/THE NUMBERS[\s\S]*?(?=YOUR NEXT STEP|$)/i},
+    {k:'next',    re:/YOUR NEXT STEP[\s\S]*$/i},
+  ].forEach(({k,re}) => {
+    const m = text.match(re);
+    if (m) s[k] = m[0].replace(/^[A-Z\s"—\/·]+\n/,'').trim();
+  });
+  if (!Object.keys(s).length) s.moment = text;
+  return s;
+}
+
+// FALLBACKS
+function getFBMoment(){
+  const stage = STRATEGY.journey[Math.min(state.answers.journey_stage??0,3)];
+  return `<p><strong>${state.name}</strong>, based on your answers, ${state.company} is squarely in the <strong>${stage}</strong> phase of the digital manufacturing journey. That\'s exactly where NexGen operates — and where the biggest gains are still available.</p>`;
+}
+function getFBTruth(){
+  return `<p>The manufacturers who close the loop between digital engineering and real production results will own the next decade. Everyone else will compete on price until they can't. <strong>NexGen is how you close that loop.</strong> <em>Full story → panelmentor.com</em></p>`;
+}
+function getFBPath(){
+  if(state.path==='partner') return `<p><strong>EPLAN provides the platform. NexGen delivers the payoff.</strong></p><ul><li>We help customers implement — not just purchase</li><li>We build the before/after ROI stories EPLAN needs for renewals and expansion</li><li>We reduce churn risk by making customers successful</li><li>We create the proof cases that make the next sale easier</li></ul>`;
+  const offer = STRATEGY.offerLadder[{shop:'core',engineering:'engFix',oem:'pro',partner:'core'}[state.path]||'core'];
+  return `<p>Based on your profile, we recommend starting with <strong>${offer.name}</strong>. ${offer.desc}</p><ul><li>EPLAN optimization and standards buildout</li><li>Production flow redesign using proven lean principles</li><li>Role-based training for your specific bottleneck</li><li>Measurable KPIs established at the start, tracked throughout</li></ul>`;
+}
+function getFBNumbers(){
+  const m = {shop:'30–40% labor cost reduction, +8–12 margin points, lead times cut 60%',engineering:'Defect escapes cut by 80%+, release cycles 50% faster, engineering variance eliminated',oem:'15–25% panel cost reduction vs. outsourcing, zero revenue at risk during transition, full ROI in 18–24 months',partner:'EPLAN customers who work with NexGen see measurable ROI within 90 days of engagement — the proof case your team needs'}[state.path]||'30–40% labor cost reduction, +10 margin points, lead times cut 60%, payback under 18 months';
+  return `<p><strong>${state.company}</strong> can expect: <strong>${m}</strong>. These are numbers from real NexGen engagements — not projections.</p>`;
+}
+function getFBNext(){
+  return `<p>Connect below. Shain will follow up within 24 hours with a financial model built specifically for ${state.company} — showing exactly what the NexGen engagement delivers, in your numbers, on your timeline.</p>`;
+}
+
+// LEAD CAPTURE + SALESFORCE
+const NEXGEN_CONFIG={
+  SF_OID:'YOUR_SALESFORCE_ORG_ID',
+  SF_ENDPOINT:'https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8',
+  SF_LEAD_SOURCE:'NexGen Germany Show — EPLAN World 2025 (v2)',
+  APOLLO_KEY:'YOUR_APOLLO_API_KEY',
+  APOLLO_PEOPLE_ENDPOINT:'https://api.apollo.io/v1/people/match',
+};
+
+async function apolloEnrich(fn,ln,co,email){
+  const e={title:'',linkedin:'',phone:'',industry:'',city:'',state:''};
+  if(!NEXGEN_CONFIG.APOLLO_KEY||NEXGEN_CONFIG.APOLLO_KEY.startsWith('YOUR_'))return e;
+  try{
+    const r=await fetch(NEXGEN_CONFIG.APOLLO_PEOPLE_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({api_key:NEXGEN_CONFIG.APOLLO_KEY,first_name:fn,last_name:ln,email,organization_name:co})});
+    if(r.ok){const d=await r.json();const p=d.person||{};e.title=p.title||'';e.linkedin=p.linkedin_url||'';e.phone=p.phone_numbers?.[0]?.sanitized_number||'';e.industry=p.organization?.industry||'';e.city=p.city||'';e.state=p.state||'';}
+  }catch(err){console.warn('Apollo:',err.message);}
+  return e;
+}
+
+function postToSF(data){
+  return new Promise(resolve=>{
+    const id='sf_'+Date.now();const ifr=document.createElement('iframe');ifr.name=id;ifr.style.cssText='display:none;';document.body.appendChild(ifr);
+    const form=document.createElement('form');form.method='POST';form.action=NEXGEN_CONFIG.SF_ENDPOINT;form.target=id;form.style.display='none';
+    const fields={oid:NEXGEN_CONFIG.SF_OID,retURL:window.location.href,lead_source:NEXGEN_CONFIG.SF_LEAD_SOURCE,first_name:data.fn,last_name:data.ln,email:data.email,phone:data.phone||data.apolloPhone||'',company:data.company,title:data.apolloTitle||'',city:data.apolloCity||'',state:data.apolloState||'',industry:data.apolloIndustry||'',description:data.notes};
+    Object.entries(fields).forEach(([k,v])=>{if(v==null)return;const i=document.createElement('input');i.type='hidden';i.name=k;i.value=String(v);form.appendChild(i);});
+    document.body.appendChild(form);form.submit();
+    setTimeout(()=>{document.body.removeChild(form);document.body.removeChild(ifr);resolve({ok:true});},2000);
+  });
+}
+
+async function submitLead(){
+  const email=document.getElementById('lEmail').value.trim();
+  const phone=document.getElementById('lPhone').value.trim();
+  if(!email)return;
+  const btn=document.querySelector('.btn-cta');if(btn){btn.disabled=true;btn.textContent=lang==='de'?'Wird übermittelt...':'Submitting...';}
+  const np=state.name.trim().split(' ');const fn=np[0];const ln=np.slice(1).join(' ')||'—';
+  const apollo=await apolloEnrich(fn,ln,state.company,email);
+  const audTxt=(audiences[state.audience]?.[lang]||audiences[state.audience]?.en)?.title||'';
+  const answerLines=activeSlides.map(sl=>{const idx=state.answers[sl.field];if(idx===undefined)return null;const opt=sl.opts[idx];return `${(sl[lang]||sl.en).badge}: ${(opt[lang]||opt.en).t}`;}).filter(Boolean).join('\n');
+  const notes=[
+    '=== NEXGEN v2 — EPLAN WORLD 2025 ===',
+    `Submitted: ${new Date().toLocaleString()}`,
+    `Language: ${lang.toUpperCase()}`,`Tool Version: v2`,
+    `Audience: ${audTxt}`,`Path: ${state.path}`,
+    `Journey Stage: ${STRATEGY.journey[Math.min(state.answers.journey_stage??0,3)]}`,
+    '',
+    '=== APOLLO ENRICHMENT ===',
+    apollo.title?`Title: ${apollo.title}`:'',apollo.industry?`Industry: ${apollo.industry}`:'',
+    (apollo.city||apollo.state)?`Location: ${apollo.city}, ${apollo.state}`:'',
+    apollo.linkedin?`LinkedIn: ${apollo.linkedin}`:'',
+    '',
+    '=== CYOA v2 ANSWERS ===',
+    answerLines,
+    '',
+    '=== STRATEGY CONTEXT ===',
+    `NexGen Positioning: "${STRATEGY.positioning}"`,
+    `Partnership Message: "${STRATEGY.partnership}"`,
+    `Recommended Offer: ${STRATEGY.offerLadder[{shop:'core',engineering:'engFix',oem:'pro',partner:'core'}[state.path]||'core']?.name}`,
+  ].filter(Boolean).join('\n');
+  await postToSF({fn,ln,email,phone,company:state.company,apolloTitle:apollo.title,apolloPhone:apollo.phone,apolloCity:apollo.city,apolloState:apollo.state,apolloIndustry:apollo.industry,notes});
+  console.log('✅ v2 Lead → Salesforce',{name:state.name,company:state.company,email,path:state.path,lang,apollo});
+  if(window.nexgenTrack||window.opener?.nexgenTrack){const tr=window.nexgenTrack||window.opener.nexgenTrack;tr({tool:'germany_v2',name:state.name,company:state.company,audience:state.audience,path:state.path,answers:state.answers,lang,outcome:'lead',stepReached:7});}
+  document.getElementById('leadForm').style.display='none';
+  document.getElementById('submittedMsg').style.display='block';
+}
+
+function delay(ms){return new Promise(r=>setTimeout(r,ms));}
+</script>
+</body>
+</html>
