@@ -3,7 +3,7 @@
 **Single source of truth** for every story element, line, character, principle, and unlock we've developed for NexGen. This is the doc to keep open while writing site copy, sales decks, ad creative, video scripts, social posts, or anything else that has to carry the brand.
 
 **Author:** Shain Heiss · with Claude (consolidation)
-**Status:** v0.2 — gradient arc (replaced v0.1 single-event framing)
+**Status:** v0.3 — synthesis with Brenden's authentic narrative woven in
 **Owner of the molecules:** Brenden Fritz
 **Owner of the language:** Shain Heiss
 **Owner of the look:** Chip Thompson Design
@@ -12,7 +12,8 @@
 
 ## Version History
 
-- **v0.2 (2026-05-08, end of day):** Reframed from "one Tuesday / one $90K bid" to **multi-year gradient decline**. New core insight: it's not just adoption that matters — it's the **order of operations**. Lean / Systems / Culture / Commitment must precede EPLAN and automation, or the latter don't stick. v0.1 framing preserved in git history.
+- **v0.3 (2026-05-08, evening):** Wove in Brenden's actual narrative from `docs/onboarding/BRENDEN-JOURNEY.md`. The **2014 SPS Drives Nuremberg trip** is now the inciting incident. The **Steinhauer ModCenter CNC** purchase is the first wrong answer. Brenden's **four authentic owner questions** are now the structural anchor of Act V. Three of his lines elevated to top brand contenders — *"Machines alone aren't enough,"* *"The goal was never to remove craftsmanship — it was to remove struggle,"* and *"Not because the people work harder, because the system works better."*
+- **v0.2 (2026-05-08, end of day):** Reframed from "one Tuesday / one $90K bid" to **multi-year gradient decline**. New core insight: **the order of operations.** Lean / Systems / Culture / Commitment must precede EPLAN and automation, or the latter don't stick.
 - **v0.1 (2026-05-08, midday):** First synthesis after analyzing live site, EPLAN landing mockup, backstory architecture, and the seven CYOA tools.
 
 ---
@@ -39,7 +40,70 @@
 
 ## 1. The Story in One Paragraph
 
-### Epic version — v0.2 (the target — italicized specifics are placeholders)
+### Epic version — v0.3 (the canonical version going forward)
+
+> In the spring of 2014, Brenden Fritz walked into the panel building hall at SPS Drives in Nuremberg, and saw — for the first time — what panel manufacturing could become. Software, automation, workflow, and manufacturing operating as **one connected system**. No one fighting through a pile of prints to push a job out the door. *The future of the industry was already in that room. Most of us in the United States just hadn't seen it yet.*
+>
+> He came home convinced the answer was machines. ADS bought its first **Steinhauer ModCenter CNC**, and the precision and consistency arrived almost overnight. He thought he'd found the lever.
+>
+> *He hadn't. Not the whole one.*
+>
+> Over the next *two-and-a-half years*, the quality got better and the throughput went up — and the bids kept coming back **ten to twenty percent under**. Close enough to keep bidding. Far enough that profitability slipped a little further every quarter, and a little further the next one. His competitors weren't cutting corners. **Their quality was better than his.** Their build times were shorter. Their costs were lower. *Their margins were holding while their prices were dropping.* They had figured out something he hadn't, and the longer it took him to admit it, the further behind he got.
+>
+> He tried everything a sensible owner tries. More automated equipment. Consultants who left binders. Higher-skilled engineers. *Three salespeople in two years* — none of them lasted, because there was nothing competitive to sell. Longer hours. Heavier reliance on the senior wiremen who carried the entire production capability of the company in their heads. *None of it moved the needle by a single point.*
+>
+> That's when the real lesson landed. **Machines alone aren't enough.** Software without process creates struggle. Automation without standards creates chaos. *The hardest part of modernization was never buying the technology* — it was rebuilding the workflow, training the people, standardizing the process, and staying committed long enough to reach the payoff.
+>
+> What finally moved it was an **order of operations.** ADS rebuilt around Lean manufacturing, standardization, cell-based production, employee engagement, and continuous improvement. *Then* EPLAN started to land — because by then the systems could absorb it. *Then* automation paid off — because by then the workflows could feed it. Eventually those initiatives stopped being separate things and started working together as **one connected system** — the same thing Brenden had seen in Nuremberg, but built for an American panel shop, by Americans, on the floor he'd inherited.
+>
+> **The goal was never to remove craftsmanship. The goal was to remove struggle.**
+>
+> Today ADS runs about *seventy percent faster* than it did. Not because the people work harder — *because the system works better*. Engineering flows into manufacturing. Information moves with clarity. Good people who used to be trapped inside inefficient systems are free to focus on quality, craftsmanship, and continuous improvement again.
+>
+> And every few months now, another owner shows up asking the same four questions Brenden once asked and didn't get answers to:
+>
+> > *How do we make EPLAN work in the real world?*
+> > *How do we move from tribal knowledge to scalable systems?*
+> > *How do we improve without overwhelming our team?*
+> > *How do we modernize without breaking everything?*
+>
+> NexGen Panel Mentoring is the answer that won't fit in a coffee meeting. It's the order of operations Brenden built by walking the harder version of the road first — so the next owner currently bidding ten percent over the shop down the road, working longer hours, hiring the wrong consultants, doesn't have to take three years to figure out what we already paid for.
+>
+> **He already paid. The receipts are on the website.**
+
+### What v0.3 added (and why it's the canonical version)
+
+| Element | v0.2 | v0.3 |
+|---|---|---|
+| Inciting incident | (abstract gradient) | **Spring 2014, SPS Drives, Nuremberg** — Brenden's actual moment of recognition |
+| First wrong answer | (abstract equipment purchase) | **Steinhauer ModCenter CNC** — his actual first machine |
+| Connecting thread | (gradient → order of operations) | "He saw it in Nuremberg → tried to buy his way to it → had to build it himself" |
+| Brand thesis | "Adoption is downstream of foundation" | "**Machines alone aren't enough.** Software without process creates struggle. Automation without standards creates chaos." (Brenden's actual words) |
+| The vow | (abstract) | **"The goal was never to remove craftsmanship. The goal was to remove struggle."** (Brenden's actual line) |
+| Genesis of NexGen | (other owners asked) | **Four verbatim questions** owners ask — preserved exactly as Brenden wrote them |
+
+### v0.2 thesis preserved — what's still true
+
+- The gradient framing (2.5 years of 10-20% bid losses) — this is the emotional truth
+- "Brenden had been trying to start at step five" — the order-of-operations insight
+- Three salespeople in two years — the wrong-answers list
+- "Their quality was better than his" — the honest competitor framing
+- Reader recognition stays intact — the gradient is what most owners are living *right now*
+
+### v0.1 (Tuesday/Carmichael) — preserved in git history only
+
+The single-event framing was dramatic but counterfeit-feeling. v0.3 trades drama for truth.
+
+### Earlier paragraph drafts
+
+For comparison, see git history at commits:
+- `b042640` — v0.1 (Tuesday)
+- `eed4255` — v0.2 (Gradient)
+- This commit — v0.3 (Synthesis)
+
+---
+
+### v0.2 paragraph (preserved for reference)
 
 > **There wasn't a Tuesday.** There wasn't a single phone call. There wasn't a spreadsheet number that finally made the math stop working. There were *two-and-a-half years* of losing bids — not by sixty percent, not by half — by **ten to twenty percent**. Close enough to keep bidding. Far enough that profitability slipped a little further every quarter, and then a little further the next one.
 >
@@ -106,15 +170,47 @@ Every story beat answers: *is this me? am I where he was? am I where he ended up
 
 ---
 
-## 3. The Five-Act Spine — v0.2
+## 3. The Five-Act Spine — v0.3
 
-The arc Brenden actually traveled, mapped to the arc the reader needs to feel. Reframed from "single event" to "gradient + sequence."
+Brenden's actual arc, anchored in his real journey markers (Nuremberg, the Steinhauer, the four questions). The gradient is preserved — but it now happens *after* the moment of recognition, which makes the misunderstanding more painful and more universal.
 
-### ACT I — The Gradient
+### ACT I — The Vision (2014, Nuremberg)
 
-**What happens:** For two-and-a-half years, ADS loses bids by ten to twenty percent. Close enough to stay in the game. Far enough that profitability slips quarter after quarter. Not a crisis — an erosion.
+**What happens:** Brenden walks into the panel building hall at SPS Drives and sees, for the first time, what panel manufacturing could become — software, automation, workflow, and manufacturing operating as one connected system. The future already exists. The U.S. just hasn't seen it yet. He comes home convinced the answer is machines. Buys the first Steinhauer ModCenter CNC. Precision and consistency arrive almost overnight.
+
+**What the reader feels:** *I had that moment too. I saw a better way. I bought what I thought was the answer.*
+
+**Beats to populate / verify with Brenden:**
+- The exact month of the Nuremberg trip (spring 2014?)
+- Who he traveled with · who he met
+- The specific demonstration that broke his frame
+- The decision to buy the Steinhauer — how long after the trip · what other machines he considered · what he told the leadership team
+- The first job that ran through the new CNC
+
+**Hook line candidates:**
+- *"The future of the industry was already in that room."*
+- *"Most of us in the United States just hadn't seen it yet."*
+- *"He came home convinced the answer was machines."*
+- *"He thought he'd found the lever. He hadn't. Not the whole one."*
+
+### ACT II — The Gradient (the misunderstanding plays out)
+
+**What happens:** For two-and-a-half years, the CNC delivers — quality up, throughput up — but bids keep coming back 10-20% under. Close enough to keep bidding. Far enough that profitability slips quarter after quarter. The competitors aren't cutting corners. They're *better.*
 
 **What the reader feels:** *I'm in that slow slide right now. I keep telling myself it'll turn. It hasn't.*
+
+**Beats to populate / verify with Brenden:**
+- The first quarter he noticed the pattern — what was the win/loss column doing?
+- The competitors he watched pull ahead — what they were doing differently
+- The first lie he told himself about why he was losing
+- The moment he realized they weren't cheating — they were better
+- What changed in his quoting behavior over those years
+
+**Hook line candidates:**
+- *"Two-and-a-half years of losing bids — not by sixty percent, not by half — by ten to twenty percent."*
+- *"Their quality was better than his."*
+- *"Their margins were holding while their prices were dropping."*
+- *"The longer it took him to admit it, the further behind he got."*
 
 **Beats to populate (Brenden):**
 - The first quarter he noticed something was wrong — what was the win/loss column doing?
@@ -129,83 +225,73 @@ The arc Brenden actually traveled, mapped to the arc the reader needs to feel. R
 - *"Their quality was better than his."*
 - *"Their margins were holding while their prices were dropping."*
 
-### ACT II — The Wrong Answers
+### ACT III — The Wrong Answers + The Real Lesson
 
-**What happens:** Brenden tries everything a sensible owner tries — equipment, consultants, engineers, salespeople, longer hours — and watches none of it move the needle.
+**What happens:** Brenden tries everything a sensible owner tries — more automation, consultants, engineers, three salespeople in two years, longer hours, more leaning on the senior wiremen. None of it works. *That's* when the real lesson lands: **machines alone aren't enough.** Software without process creates struggle. Automation without standards creates chaos. The hardest part of modernization isn't buying the technology — it's rebuilding the workflow.
 
-**What the reader feels:** *I've made every one of these bets. None of them have worked either.*
+**What the reader feels:** *I've made every one of these bets. And I haven't admitted yet why none of them stuck.*
 
-**Beats to populate (Brenden):**
-- First piece of automation equipment he bought (year, cost, what he expected, what happened)
-- First consultant he hired — fee, scope, what was promised, what was delivered
-- The "higher-skilled engineer" he brought in expecting to fix it
-- The salespeople — three in two years — and why none of them lasted
-- What he asked of the senior wiremen during this stretch (and what it cost him later)
-- What he was telling his wife / partner / leadership team during these years
+**Beats to populate / verify with Brenden:**
+- Pieces of automation that came after the Steinhauer — what each was supposed to fix
+- First consultant he hired — fee, scope, what was promised vs. what was delivered
+- The "higher-skilled engineer" hire — what he was supposed to fix
+- The three salespeople — what was their pitch, why did each one fail
+- The senior wiremen during this stretch — what he asked of them, what it cost
+- The moment he stopped blaming the market and started looking at his own system
 
 **Hook line candidates:**
-- *"Three salespeople in two years — none of them lasted, because there was nothing competitive to sell."*
-- *"Working longer hours and leaning harder on the two guys who already knew everything."*
+- ★ *"Machines alone aren't enough."* (Brenden's verbatim — top contender)
+- ★ *"Software without process creates struggle. Automation without standards creates chaos."* (Brenden's verbatim — top contender)
+- *"The hardest part of modernization was never buying the technology."*
 - *"None of it moved the needle by a single point."*
-- *"Software ahead of workflow doesn't stick. Equipment ahead of standards doesn't scale. Consultants leave binders."*
+- *"Three salespeople in two years — none of them lasted, because there was nothing competitive to sell."*
 
-### ACT III — The Order of Operations
+### ACT IV — The Order of Operations (the rebuild)
 
-**What happens:** The breakthrough. Not a tool — a *sequence*. Lean first, to see waste. Systems second, to codify. Culture third, to get the floor to own it. Commitment fourth, to refuse to half-ass it. Only after those four does EPLAN start to land. Only after EPLAN does automation pay off.
+**What happens:** ADS rebuilds around Lean manufacturing, standardization, cell-based production, employee engagement, and continuous improvement. *Then* EPLAN starts to land. *Then* automation pays off. Eventually the initiatives stop being separate things and start working as one connected system — *the same thing Brenden saw in Nuremberg, but built for an American panel shop, by Americans, on the floor he'd inherited.*
 
 **What the reader feels:** *Wait. The order matters? I've been starting at step five too.*
 
-**Beats to populate (Brenden):**
-- The moment / book / person / kaizen that introduced lean to him in a way that stuck
-- The first system he codified — what was it? Who owned it?
-- The cultural shift — when did the floor stop waiting to be told and start proposing?
-- His "commitment" moment — what did he refuse to back down from, even when it was inconvenient?
-- The day EPLAN finally clicked — what changed about the shop that made it possible?
+**Beats to populate / verify with Brenden:**
+- The book / person / kaizen / moment that made Lean stick
+- The first standard work that survived implementation
+- The shift to cell-based manufacturing — when did it click on the floor?
+- Employee engagement — what specifically did ADS do that worked
+- The day EPLAN finally landed — what had changed about the shop that made it possible?
 - The first piece of automation that paid off after the foundation was laid
+- When did the initiatives stop feeling like separate projects?
 
 **Hook line candidates:**
-- *"It wasn't a purchase. It was an order of operations."*
-- *"Brenden had been trying to start at step five."*
-- *"Only then did EPLAN start to land — because by then the systems could absorb it."*
-- *"The shops that had been winning his bids had built that sequence patiently."*
+- *"What finally moved it was an order of operations."*
+- *"Then EPLAN started to land — because by then the systems could absorb it."*
+- *"Then automation paid off — because by then the workflows could feed it."*
+- *"The same thing Brenden had seen in Nuremberg, but built American."*
+- ★ *"The goal was never to remove craftsmanship. The goal was to remove struggle."* (Brenden's verbatim — top brand contender)
 
-### ACT IV — The Compounding
+### ACT V — The Compounding + The Ask (genesis of NexGen)
 
-**What happens:** The reflection. Looking back across the evolution. Continuous improvement isn't a project anymore — it's the engine. The wins compound: culture, finances, workplace, customers.
-
-**What the reader feels:** *That's what it looks like on the other side. I want that.*
-
-**Beats to populate (Brenden):**
-- Throughput before vs. after (hard numbers if possible)
-- Margin recovery — what year did profitability come back? Then exceed prior peak?
-- The senior wiremen — what role do they play now? Are they still here?
-- The salespeople — what changed when they had something competitive to sell?
-- One specific customer who said something that made it real (verbatim if you can)
-- The first time a competitor's customer called *you* asking for help
-
-**Hook line candidates:**
-- *"The senior wiremen are still here — and they're craftsmen again, not load-bearing walls."*
-- *"The salespeople have something competitive to sell."*
-- *"Margins are healthier than they've been in a decade."*
-- *"Continuous improvement stopped being a project. It became how we work."*
-
-### ACT V — The Ask (genesis of NexGen)
-
-**What happens:** Other shop owners notice. They ask the question Brenden once asked and didn't get an answer to: *how did you do this?* The answer doesn't fit in a coffee meeting. NexGen is the answer at scale.
+**What happens:** ADS runs about 70% faster — *not because the people work harder, because the system works better.* Engineering flows into manufacturing. Information moves with clarity. Good people freed from broken processes return to craftsmanship. Other shop owners notice and start asking the four questions Brenden once asked and didn't get answers to. The answer won't fit in a coffee meeting. NexGen is the answer at scale.
 
 **What the reader feels:** *That's me asking the question. I want the answer.*
 
-**Beats to populate (Brenden):**
-- The first shop owner who asked. Name (or anonymized), context, what he asked
-- The second. The third. Did they all ask the same way?
+**Beats to populate / verify with Brenden:**
+- The first shop owner who asked. Anonymized OK. Context · what they asked
+- The second · the third · did they ask the same way?
 - What Brenden tried to give them at first (lunch advice? a tour? a binder?)
 - The moment he realized this needed to be a real product, not favors
-- What he wants NexGen to be for the person standing where he stood in 2014
+- The first member who paid for what had previously been free advice
+- One specific customer who said something that made it real (verbatim if possible)
+
+**The four questions (preserved verbatim from Brenden's narrative):**
+1. *How do we make EPLAN work in the real world?*
+2. *How do we move from tribal knowledge to scalable systems?*
+3. *How do we improve without overwhelming our team?*
+4. *How do we modernize without breaking everything?*
 
 **Hook line candidates:**
-- *"Every few months, another shop owner shows up asking the same question."*
+- ★ *"Not because the people work harder — because the system works better."* (Brenden's verbatim — top brand contender)
+- *"Good people who used to be trapped inside inefficient systems are free to focus on quality, craftsmanship, and continuous improvement again."*
 - *"NexGen is the answer that won't fit in a coffee meeting."*
-- *"The order of operations Brenden built by reverse-engineering his own loss column."*
 - *"He already paid. The receipts are on the website."*
 
 ---
