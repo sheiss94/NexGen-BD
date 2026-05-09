@@ -22,6 +22,7 @@
 
 ## Version History
 
+- **v0.3.1 (2026-05-08, late evening):** Patch absorbing under-emphasized elements from `content/nexgen-backstory.html` (the original architecture document). Five new lines elevated, "It started as a survival list" pillar framing added, "Find Where You Are" canonical CTA documented, and the four integration treatments from the backstory's Part 04 promoted into Section 12 (Surface Deployment). Triggered by Brenden's enthusiastic engagement: *"I really love this idea you had, the story is really the product and the brainchild for everything we offer in many ways."*
 - **v0.3 (2026-05-08, evening):** Wove in Brenden's actual narrative from `docs/onboarding/BRENDEN-JOURNEY.md`. The **2014 SPS Drives Nuremberg trip** is now the inciting incident. The **Steinhauer ModCenter CNC** purchase is the first wrong answer. Brenden's **four authentic owner questions** are now the structural anchor of Act V. Three of his lines elevated to top brand contenders — *"Machines alone aren't enough,"* *"The goal was never to remove craftsmanship — it was to remove struggle,"* and *"Not because the people work harder, because the system works better."*
 - **v0.2 (2026-05-08, end of day):** Reframed from "one Tuesday / one $90K bid" to **multi-year gradient decline**. New core insight: **the order of operations.** Lean / Systems / Culture / Commitment must precede EPLAN and automation, or the latter don't stick.
 - **v0.1 (2026-05-08, midday):** First synthesis after analyzing live site, EPLAN landing mockup, backstory architecture, and the seven CYOA tools.
@@ -341,6 +342,15 @@ The single most important reframe in v0.2: **the pillars are NOT a flat list of 
 
 This is the line that cuts straight through the EPLAN-rep conversation, the prospect call, the shop assessment, and the partner pitch. It also matches the live site's tagline ("the gap isn't the software, it's adoption") with a sharper, more useful corollary: *adoption is downstream of foundation*.
 
+### Pillar framing — "It started as a survival list" *(v0.3.1)*
+
+> *"What you're looking at on this page — the four pillars, the cost calculator, the subscription tiers — none of that started as a plan. It started as a survival list."*
+
+When introducing the pillars in copy or in conversation, **don't lead with a strategic frame.** Lead with the survival list. The reader recognizes a survival list — they're keeping one in their head right now. They don't recognize a "framework" — that's consultant language. The strategic structure (Foundation / Tools / Engine) is true; it's how we *retroactively understand* what worked. The survival list is how it was *lived*. The lived version travels further.
+
+**Phrasing examples:**
+- *"It wasn't a strategy. It was a survival list. Wire processing automation, because the machine doesn't quit at 4:30. EPLAN, because the design data is the production data. Lean, because the most expensive thing in any shop is the wireman walking to ask the engineer a question. And integrated production, because none of the first three matters if the fourth one isn't holding it together."*
+
 ### How this maps to NexGen's tier ladder
 
 | Tier | Helps with | Reasoning |
@@ -397,6 +407,17 @@ Every line worth memorizing, in one place. Stars (★) = candidates for the bran
 - *"Their margins were holding while their prices were dropping."*
 - *"None of it moved the needle by a single point."*
 - *"The order of operations Brenden built by reverse-engineering his own loss column."*
+
+### Newly elevated in v0.3.1 (from `content/nexgen-backstory.html`)
+
+These were authored by Shain in the original architecture document and were under-weighted in v0.3. Promoting them now.
+
+- ★ *"I didn't have a methodology. I had a problem. The methodology came later — and it came out of fifteen years of getting it wrong before getting it right."* (captures Acts I-III in one sentence)
+- ★ *"It started as a survival list."* (the four pillars framing — raw, true, not strategic-sounding)
+- ★ *"NexGen is the road map I wish I'd had — staged so you can start where you are, not where I ended up."* (this line is the bridge to the Self-Assessment — *staged* and *where you are* are the words to keep)
+- *"I'm not going to tell you this is easy. I'm going to tell you I've already paid for the lessons, and you don't have to pay full price again."* (longer, more honest version of the receipts line — useful for video script and audio narrative)
+- *"Tell the story once, tell it true. Then let the four pillars, the calculator, and the tiers do what they were designed to do."* (manifesto-level closer for internal docs and the deck)
+- *"Find Where You Are →"* (the canonical CTA from the backstory page to the assessment — use this exact phrase site-wide)
 
 ### Act I — The Gradient (slow erosion)
 
@@ -683,6 +704,29 @@ Same molecules — Brenden's dates, dollars, faces — cast into ten different m
 | Documentary (3-min hero + cuts) | Cinematic | Brenden walking shop floor · real photos · drone | Videographer, Q3 |
 | Annual Panel Hackers Summit | 90 minutes | Live walk-through + workshop | Brenden, Q4 each year |
 
+### Placement & Treatment Principles *(elevated to canon in v0.3.1)*
+
+From `content/nexgen-backstory.html` Part 04 — these are non-negotiable design principles for the live site rebuild.
+
+#### 1. Place the backstory before the tier selector
+The current site jumps straight to plans. The backstory has to live above the fold of "what we'll do together." A reader who finds themselves in the journey is a reader who is already pre-qualified for a tier — they just need to be told which one. CTA at the end of the backstory: **"Find Where You Are →"** — bridges into the Self-Assessment.
+
+#### 2. The timeline is a standalone embeddable asset
+The "Evolution of the Panel Shop — ADS / NexGen Timeline" is built as a self-contained widget. One object, many surfaces:
+- Drop into the live site backstory page
+- Screen-record for LinkedIn posts
+- First slide of every sales deck
+- Trade-show booth display
+- Audio narrative video bed
+
+Build it once. Live with it everywhere. **Same story everywhere.**
+
+#### 3. Map the timeline eras directly to the tiers
+Each era on the timeline answers the question *"is this you?"* — and each one points at the NexGen tier built for shops at that stage. No tier-shopping anxiety. Reader sees themselves, then sees the obvious next step. **This IS the recommendation engine in `tools/SELF-ASSESSMENT-SPEC.md` Section 6 — the timeline visualization and the assessment output are the same map, viewed from different angles.**
+
+#### 4. Record an audio version of the story
+Once Brenden's interview answers are in, record him reading the final draft over low background of shop-floor ambient sound. Embed on the page. **Voice-of-Brenden carries credibility no transcript ever will — and it pre-sells the podcast that's already in the pipeline.**
+
 ---
 
 ## 13. The Vow
@@ -707,6 +751,16 @@ The story ends with a commitment, not a conclusion.
 
 > *He already paid. The receipts are on the website.*
 
+### The Manifesto Closer (for internal docs, decks, the bible itself)
+
+> *"Tell the story once, tell it true. Then let the four pillars, the calculator, and the tiers do what they were designed to do."*
+
+### The Bridge to Action (canonical CTA from story → assessment)
+
+> **"Find Where You Are →"**
+
+This is the exact phrase that takes the reader from backstory to self-assessment. Use it on the website, in decks, in email signatures, in the EPLAN partnership memo. Don't paraphrase. *Find Where You Are* is the brand's three-word call to action.
+
 ---
 
 ## 14. Quick-Reference Pack
@@ -719,12 +773,15 @@ Bare minimum, ready to paste.
 ### The Story in One Paragraph
 *See Section 1 — epic version.*
 
-### The Top Five Lines (v0.2)
-1. *"The order is the lesson."*
-2. *"Brenden had been trying to start at step five."*
-3. *"The gap isn't the software. It's adoption — and adoption is downstream of foundation."*
-4. *"He already paid. The receipts are on the website."*
-5. *"NexGen is the answer that won't fit in a coffee meeting."*
+### The Top Five Lines (v0.3.1)
+1. *"Machines alone aren't enough."* (Brenden's verbatim — the brand thesis)
+2. *"The goal was never to remove craftsmanship. The goal was to remove struggle."* (Brenden's verbatim — the vow)
+3. *"I didn't have a methodology. I had a problem. The methodology came later."* (Shain's line — captures the wrong-answers arc)
+4. *"NexGen is the road map I wish I'd had — staged so you can start where you are, not where I ended up."* (the bridge to the assessment)
+5. *"He already paid. The receipts are on the website."* (the closer)
+
+### The Bridge CTA
+> **"Find Where You Are →"**
 
 ### The Three Numbers
 - **70%** — production speed gain at ADS
