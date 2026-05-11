@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NexGen — The Pit Crew Concept</title>
+<meta name="description" content="A racing-metaphor concept extension for the NexGen story. Building on the EPLAN landing. For Brenden + Chip." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-deep: #050810;
+    --bg-section: #0F1218;
+    --bg-card: #171A1F;
+    --bg-card-hover: #1F242C;
+    --text: #E5E7EB;
+    --text-soft: #A1AAB8;
+    --text-dim: #6B7280;
+    --accent: #2578E4;
+    --accent-dark: #1D5FB6;
+    --accent-light: #EAF3FF;
+    --accent-soft: rgba(37, 120, 228, 0.08);
+    --caution: #F5A623;
+    --caution-soft: rgba(245, 166, 35, 0.08);
+    --danger: #E64545;
+    --danger-soft: rgba(230, 69, 69, 0.08);
+    --go: #34D399;
+    --rule: rgba(229, 231, 235, 0.08);
+    --maxw: 1100px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg-deep);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent); color: white; }
+
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  section { padding: 7rem 1.5rem; }
+  .container { max-width: var(--maxw); margin: 0 auto; }
+
+  /* Checkered divider — for transitions between major sections */
+  .checkered {
+    height: 24px;
+    background-image:
+      linear-gradient(45deg, var(--text) 25%, transparent 25%),
+      linear-gradient(-45deg, var(--text) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--text) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--text) 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+    opacity: 0.06;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+    background: radial-gradient(ellipse at center 40%, #0F1218 0%, #050810 75%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, transparent 0%, rgba(37,120,228,0.04) 30%, rgba(37,120,228,0.04) 70%, transparent 100%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 22%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+    opacity: 0.5;
+    animation: stripe 4s ease-in-out infinite;
+  }
+  @keyframes stripe {
+    0%, 100% { transform: translateX(-100%); opacity: 0; }
+    50% { transform: translateX(0); opacity: 0.7; }
+    100% { transform: translateX(100%); opacity: 0; }
+  }
+  .hero .eyebrow { color: var(--accent); animation: rise 1.2s ease 0.15s both; position: relative; }
+  .hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(2.8rem, 9.5vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin: 2rem 0 1.5rem;
+    animation: rise 1.5s ease 0.4s both;
+    position: relative;
+    max-width: 1000px;
+  }
+  .hero h1 em { color: var(--accent); font-style: italic; }
+  .hero .sub {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+    color: var(--text-soft);
+    max-width: 800px;
+    line-height: 1.4;
+    animation: rise 1.5s ease 1.1s both;
+    position: relative;
+  }
+  .hero .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: pulse 2.4s ease infinite, fade 1s ease 2.6s both;
+    color: var(--text-dim);
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pulse { 0%,100% { transform: translateX(-50%) translateY(0); opacity: 0.7; } 50% { transform: translateX(-50%) translateY(8px); opacity: 1; } }
+
+  /* PREMISE / THESIS */
+  .premise { background: var(--bg-section); padding: 9rem 1.5rem; }
+  .premise h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4.2vw, 3.2rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 2.5rem;
+    max-width: 920px;
+  }
+  .premise h2 em { font-style: italic; color: var(--accent); }
+  .premise p.bridge {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(1.2rem, 1.7vw, 1.5rem);
+    line-height: 1.6;
+    max-width: 820px;
+    color: var(--text-soft);
+    margin-bottom: 2rem;
+  }
+  .premise .quote-block {
+    margin-top: 4rem;
+    padding: 3rem;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    border-radius: 0 4px 4px 0;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.2vw, 1.95rem);
+    line-height: 1.35;
+    color: var(--text);
+    max-width: 880px;
+  }
+  .premise .quote-block strong { color: var(--accent-light); font-weight: 500; }
+
+  /* THE FIVE LAPS */
+  .laps h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 1rem;
+    max-width: 800px;
+  }
+  .laps .lead {
+    color: var(--text-soft);
+    font-size: 1.15rem;
+    max-width: 700px;
+    margin-bottom: 4rem;
+  }
+  .laps .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .lap-card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 2rem 1.75rem;
+    border-radius: 4px;
+    transition: transform 0.4s cubic-bezier(.2,.8,.2,1), border-color 0.4s ease, background 0.4s ease;
+    position: relative;
+  }
+  .lap-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+  }
+  .lap-card .lap-num {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  .lap-card .lap-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+  }
+  .lap-card .lap-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .lap-card h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.15;
+    margin: 0.4rem 0 1rem;
+    letter-spacing: -0.01em;
+  }
+  .lap-card .beat { color: var(--text-soft); margin-bottom: 1.25rem; font-size: 0.95rem; line-height: 1.6; }
+  .lap-card .hook {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    color: var(--accent-light);
+    font-size: 1rem;
+    line-height: 1.4;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+  .lap-card .telemetry {
+    position: absolute;
+    top: 0.85rem;
+    right: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    opacity: 0.6;
+  }
+
+  /* CREW SECTION */
+  .crew { background: var(--bg-section); }
+  .crew h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 1rem;
+    max-width: 800px;
+  }
+  .crew h2 em { font-style: italic; color: var(--accent); }
+  .crew .lead { color: var(--text-soft); font-size: 1.15rem; max-width: 720px; margin-bottom: 3.5rem; line-height: 1.6; }
+  .crew .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .crew-role {
+    padding: 1.75rem 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    border-top: 3px solid var(--accent);
+  }
+  .crew-role .position {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .crew-role h4 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 1.2rem;
+    margin-bottom: 0.7rem;
+  }
+  .crew-role p { color: var(--text-soft); font-size: 0.95rem; line-height: 1.6; }
+
+  /* SPEEDBUMPS & BREAKDOWNS */
+  .hazards { background: var(--bg-deep); }
+  .hazards h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 1rem;
+    max-width: 850px;
+  }
+  .hazards .lead { color: var(--text-soft); font-size: 1.15rem; max-width: 720px; margin-bottom: 3.5rem; line-height: 1.6; }
+  .hazard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  @media (max-width: 700px) { .hazard-grid { grid-template-columns: 1fr; } }
+  .hazard-col {
+    padding: 2rem;
+    border-radius: 4px;
+  }
+  .hazard-col.speedbumps {
+    background: var(--caution-soft);
+    border-left: 3px solid var(--caution);
+  }
+  .hazard-col.breakdowns {
+    background: var(--danger-soft);
+    border-left: 3px solid var(--danger);
+  }
+  .hazard-col .flag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+  }
+  .hazard-col.speedbumps .flag { color: var(--caution); }
+  .hazard-col.breakdowns .flag { color: var(--danger); }
+  .hazard-col h4 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.4rem;
+    margin: 0.6rem 0 1.5rem;
+    line-height: 1.15;
+  }
+  .hazard-col ul {
+    list-style: none;
+  }
+  .hazard-col li {
+    padding: 0.85rem 0 0.85rem 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    color: var(--text);
+    font-size: 1rem;
+    line-height: 1.5;
+    position: relative;
+  }
+  .hazard-col li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    top: 0.85rem;
+    color: var(--text-dim);
+    font-weight: 700;
+  }
+  .hazard-col.speedbumps li::before { color: var(--caution); }
+  .hazard-col.breakdowns li::before { color: var(--danger); }
+
+  /* PIT STOPS */
+  .pitstops h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    margin: 1.5rem 0 1rem;
+    letter-spacing: -0.02em;
+  }
+  .pitstops h2 em { font-style: italic; color: var(--accent); }
+  .pitstops .lead { color: var(--text-soft); font-size: 1.15rem; max-width: 720px; margin-bottom: 3rem; line-height: 1.6; }
+  .pitstops table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .pitstops tr { transition: background 0.2s ease; }
+  .pitstops tr:hover { background: var(--accent-soft); }
+  .pitstops td {
+    padding: 1.4rem 1rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .pitstops td:first-child {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    width: 30%;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .pitstops td:nth-child(2) {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--accent-light);
+    width: 30%;
+  }
+  .pitstops td:nth-child(3) {
+    color: var(--text-soft);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .pitstops td:last-child {
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    text-align: right;
+    width: 18%;
+  }
+
+  /* CHAMPIONSHIP */
+  .championship { background: var(--bg-section); }
+  .championship h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: clamp(2rem, 4.4vw, 3.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 1.5rem;
+    max-width: 900px;
+  }
+  .championship h2 em { color: var(--accent); }
+  .championship .telemetry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .stat {
+    padding: 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    text-align: left;
+    border-top: 3px solid var(--go);
+  }
+  .stat .num {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    color: var(--accent-light);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .stat .label {
+    margin-top: 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .stat .body {
+    margin-top: 0.8rem;
+    color: var(--text-soft);
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  /* VOW + CTA */
+  .closing {
+    background: linear-gradient(180deg, var(--bg-deep) 0%, #02040A 100%);
+    padding: 11rem 1.5rem 8rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .closing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(37,120,228,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .closing > * { position: relative; }
+  .closing .vow {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    line-height: 1.15;
+    max-width: 920px;
+    margin: 0 auto 2.5rem;
+    letter-spacing: -0.015em;
+  }
+  .closing .vow strong { color: var(--accent-light); font-weight: 500; }
+  .closing .vow .second {
+    display: block;
+    margin-top: 2rem;
+    font-size: 0.7em;
+    color: var(--text-soft);
+    font-style: normal;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .closing .cta {
+    display: inline-block;
+    margin-top: 4rem;
+    padding: 1.1rem 2.5rem;
+    border: 2px solid var(--go);
+    color: var(--go);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  .closing .cta:hover { background: var(--go); color: var(--bg-deep); }
+  .closing .team {
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    margin-top: 5rem;
+  }
+  .closing .team span { color: var(--accent); margin: 0 1rem; }
+
+  footer {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    border-top: 1px solid var(--rule);
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+  }
+
+  @media (max-width: 700px) {
+    section { padding: 5rem 1.25rem; }
+    .premise .quote-block { padding: 1.75rem; font-size: 1.2rem; }
+    .pitstops td { padding: 0.9rem 0.5rem; font-size: 0.88rem; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="container">
+    <p class="mono eyebrow">Concept Extension · "The Pit Crew" · Builds on the EPLAN landing · v0.1</p>
+    <h1>Most shops drive harder.<br /><em>The fast ones get a pit crew.</em></h1>
+    <p class="sub">Speed without setup is just an expensive crash. NexGen is the crew between the driver and the championship.</p>
+  </div>
+  <div class="scroll-hint mono">scroll ↓</div>
+</section>
+
+<div class="checkered"></div>
+
+<section class="premise">
+  <div class="container">
+    <p class="mono">The Premise</p>
+    <h2>You can't win a race by buying a better engine. <em>You win it with a crew that knows the track.</em></h2>
+    <p class="bridge">The fastest cars on the grid aren't the ones with the most horsepower — they're the ones with the deepest pit crew, the sharpest race strategy, and the most disciplined setup. Most panel shops are trying to win on horsepower alone: bigger CNC, more software, more hires. The car keeps crashing into the same corner.</p>
+    <p class="bridge">NexGen is the pit crew. We don't drive your car. <strong style="color: var(--accent-light); font-weight: 500;">We make sure the car wins.</strong></p>
+
+    <div class="quote-block">
+      "Machines alone aren't enough. Software without process creates struggle. Automation without standards creates chaos. <strong>The hardest part of modernization was never buying the technology.</strong> It was rebuilding the workflow."
+    </div>
+  </div>
+</section>
+
+<div class="checkered"></div>
+
+<section class="laps">
+  <div class="container">
+    <p class="mono">The Race · Five Laps</p>
+    <h2>Every shop's racing the same circuit. Most don't have a pit crew.</h2>
+    <p class="lead">The five laps Brenden ran before NexGen existed. The same five laps every panel shop is running right now, whether they've named them or not.</p>
+    <div class="grid">
+      <div class="lap-card">
+        <span class="telemetry">2014 / SPS DRIVES</span>
+        <span class="lap-num">
+          <span class="lap-label">LAP</span>
+          <span class="lap-number">01</span>
+        </span>
+        <h3>The First Time He Saw a Real Team</h3>
+        <p class="beat">Nuremberg. The panel building hall at SPS Drives. Software, automation, workflow, manufacturing — operating as one connected system. Brenden came home convinced the answer was more horsepower. Bought the first Steinhauer ModCenter CNC.</p>
+        <p class="hook">"He thought he'd found the lever. He hadn't. Not the whole one."</p>
+      </div>
+      <div class="lap-card">
+        <span class="telemetry">+10–20% / LAP</span>
+        <span class="lap-num">
+          <span class="lap-label">LAP</span>
+          <span class="lap-number">02</span>
+        </span>
+        <h3>The Lap Times Started Slipping</h3>
+        <p class="beat">For two-and-a-half years, his quality went up and his throughput went up — and his bids kept coming back ten to twenty percent under. Competitors weren't cutting corners. Their lap times were genuinely faster. They had a better setup, a better strategy, a better crew.</p>
+        <p class="hook">"Their margins were holding while their prices were dropping."</p>
+      </div>
+      <div class="lap-card">
+        <span class="telemetry">PIT FAIL × N</span>
+        <span class="lap-num">
+          <span class="lap-label">LAP</span>
+          <span class="lap-number">03</span>
+        </span>
+        <h3>The Pit Stops That Didn't Pit</h3>
+        <p class="beat">More automation. Consultants. A new "lead engineer." Three drivers — sorry, salespeople — in two years. Longer hours behind the wheel. Heavier dependence on the senior wiremen who'd been there since the start.</p>
+        <p class="hook">"None of it moved the needle by a single point."</p>
+      </div>
+      <div class="lap-card">
+        <span class="telemetry">REGROUP</span>
+        <span class="lap-num">
+          <span class="lap-label">LAP</span>
+          <span class="lap-number">04</span>
+        </span>
+        <h3>The Real Strategy</h3>
+        <p class="beat">It wasn't a part. It was an order of operations. Lean — see the waste. Standards — keep what works. Cell-based production — flow the car cleanly through the garage. Employee engagement — the crew has to own the car. THEN EPLAN started to land. THEN automation paid off.</p>
+        <p class="hook">"The goal was never to remove craftsmanship. The goal was to remove struggle."</p>
+      </div>
+      <div class="lap-card">
+        <span class="telemetry">+70% PACE</span>
+        <span class="lap-num">
+          <span class="lap-label">LAP</span>
+          <span class="lap-number">05</span>
+        </span>
+        <h3>Championship Pace</h3>
+        <p class="beat">Today ADS runs 70% faster than it did. Not because the driver works harder — because the crew works better. Engineering flows into manufacturing. Information moves with clarity. Good people freed from broken processes return to craftsmanship. And every few months, another owner shows up asking <em>"who's your crew?"</em></p>
+        <p class="hook">"He already paid. The receipts are on the website."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="checkered"></div>
+
+<section class="crew">
+  <div class="container">
+    <p class="mono">The Crew</p>
+    <h2>You don't need a faster car. <em>You need a crew that's already won.</em></h2>
+    <p class="lead">A championship pit crew has positions — every one of them load-bearing. NexGen's crew is built the same way: each role exists because Brenden burned a quarter not having it.</p>
+    <div class="grid">
+      <div class="crew-role">
+        <p class="position">Lead Engineer</p>
+        <h4>Brenden Fritz</h4>
+        <p>Walked the road first. ADS owner. Knows where the car breaks down because he's broken it. Calls the strategy.</p>
+      </div>
+      <div class="crew-role">
+        <p class="position">Race Strategist</p>
+        <h4>Shain Heiss + Team</h4>
+        <p>Builds the race plan. Maps your circuit. Knows which tier is the right pit stop and which one would be the wrong call.</p>
+      </div>
+      <div class="crew-role">
+        <p class="position">Telemetry</p>
+        <h4>Intelligence Hub</h4>
+        <p>Captures every lap. Funnels, drop-offs, pain points, conversion. Tells the crew what the driver can't feel from the cockpit.</p>
+      </div>
+      <div class="crew-role">
+        <p class="position">Tools &amp; Setup</p>
+        <h4>CYOA + EPLAN + Automation Library</h4>
+        <p>Built once, used everywhere. Templates, macros, decision trees, proposal engines. The garage doesn't reinvent the wrench.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="checkered"></div>
+
+<section class="hazards">
+  <div class="container">
+    <p class="mono">The Hazards</p>
+    <h2>Two things will end your race.<br /><em>The crew catches both.</em></h2>
+    <p class="lead">Speedbumps slow you down. Breakdowns end you. Most shops can't tell the difference between the two until they're already off the track.</p>
+    <div class="hazard-grid">
+      <div class="hazard-col speedbumps">
+        <p class="flag">⚠ YELLOW FLAG · SPEEDBUMPS</p>
+        <h4>What we eliminate</h4>
+        <ul>
+          <li>Tribal knowledge that lives in one head and walks out the door at retirement</li>
+          <li>EPLAN installed but ignored — fastest shelf-software in the industry</li>
+          <li>The engineer's office is 40 feet from the wireman, and they walk back and forth all day</li>
+          <li>Bids written from the bid before, every time, with no system feedback</li>
+          <li>Onboarding by shadowing — a six-month delay before a new hire is productive</li>
+          <li>A consultant's binder gathering dust in a desk drawer</li>
+        </ul>
+      </div>
+      <div class="hazard-col breakdowns">
+        <p class="flag">⛔ RED FLAG · BREAKDOWNS</p>
+        <h4>What we prevent</h4>
+        <ul>
+          <li>Margin collapse — the slow erosion finally hitting zero</li>
+          <li>The senior wireman quits and three months of throughput leave with him</li>
+          <li>A failed EPLAN implementation that costs a quarter of revenue to clean up</li>
+          <li>An automation purchase that creates faster waste instead of faster work</li>
+          <li>The customer you can't deliver for because engineering wasn't ready</li>
+          <li>The owner burnout that ends in a fire-sale or a bad acquisition</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="checkered"></div>
+
+<section class="pitstops">
+  <div class="container">
+    <p class="mono">Pit Stops</p>
+    <h2>Pick the right pit stop. <em>Skip the ones that don't fit your lap.</em></h2>
+    <p class="lead">Not every car needs the same service. Most shops try the most expensive option first — usually the wrong call. NexGen's tier ladder is designed so you only buy the pit stop your race actually needs.</p>
+    <table>
+      <tr>
+        <td>QUICK TIRE CHANGE</td>
+        <td>Shop Assessment</td>
+        <td>Two days onsite. Diagnostic. Tells you which leak to fix first. The wedge into everything else.</td>
+        <td>$5,500</td>
+      </tr>
+      <tr>
+        <td>ENGINE TUNE</td>
+        <td>EPLAN Sprint</td>
+        <td>Six weeks. Templates, macros, training, go-live support. EPLAN starts paying off because the workflow can finally feed it.</td>
+        <td>$15,000</td>
+      </tr>
+      <tr>
+        <td>RACE-DAY SUPPORT</td>
+        <td>EPLAN Entry · Panel Shop Automation</td>
+        <td>Monthly group coaching. Members crew up on demand. The race goes on; we're in the radio.</td>
+        <td>$300 – $400 /mo</td>
+      </tr>
+      <tr>
+        <td>FULL CREW</td>
+        <td>Premium Combined</td>
+        <td>Tactical + strategic. Both paths. Every call. Two hours on-demand. The team you put behind a car you're serious about winning with.</td>
+        <td>$600 /mo</td>
+      </tr>
+      <tr>
+        <td>PRINCIPAL DRIVER PROGRAM</td>
+        <td>Elite One-on-One</td>
+        <td>Invite only. Private mentoring with Brenden — bi-weekly. For owners running a championship season, not a single race.</td>
+        <td>$2,500 /mo</td>
+      </tr>
+      <tr>
+        <td>FACTORY REBUILD</td>
+        <td>Engineering Fix · Build Fix · Condition Monitoring</td>
+        <td>Project-scoped. We bring ADS engineering into your shop, or rebuild the car alongside you. Quoted per job.</td>
+        <td>$20K – $60K</td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+<div class="checkered"></div>
+
+<section class="championship">
+  <div class="container">
+    <p class="mono">The Championship</p>
+    <h2>This is what the leaderboard looks like<br />when the crew's been doing its job.</h2>
+    <div class="telemetry-grid">
+      <div class="stat">
+        <div class="num">70%</div>
+        <div class="label">Throughput Gain</div>
+        <p class="body">ADS today vs. ADS pre-rebuild. Not because the driver pushed harder — because the crew rebuilt the setup.</p>
+      </div>
+      <div class="stat">
+        <div class="num">11 / 12</div>
+        <div class="label">EPLAN Customers w/o ROI</div>
+        <p class="body">Surveyed at an Omaha event. The eleven crashed at the same corner. The twelfth had a crew.</p>
+      </div>
+      <div class="stat">
+        <div class="num">15 yrs</div>
+        <div class="label">Of Receipts</div>
+        <p class="body">Brenden has already paid for the lessons. NexGen exists so you don't have to pay full price for them again.</p>
+      </div>
+      <div class="stat">
+        <div class="num">4</div>
+        <div class="label">Foundation Pillars</div>
+        <p class="body">Lean. Systems. Culture. Commitment. The setup the car runs on. Skip these and the engine doesn't matter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="checkered"></div>
+
+<section class="closing">
+  <div class="container">
+    <p class="mono" style="margin-bottom: 4rem;">The Vow</p>
+    <p class="vow">
+      We're the pit crew you wish you'd had <strong>on lap one</strong>.
+      <span class="second">
+        We don't drive your car. We don't win your race for you.<br />
+        We make sure the car wins.<br /><br />
+        <em>He already paid. The receipts are on the website.</em>
+      </span>
+    </p>
+    <a href="#" class="cta">Find Where You Are on the Track →</a>
+    <p class="team">
+      Race Strategist <span>·</span> Shain Heiss
+      <span>·</span> Lead Engineer <span>·</span> Brenden Fritz
+      <span>·</span> Livery <span>·</span> Chip Thompson Design
+    </p>
+  </div>
+</section>
+
+<footer>
+  NEXGEN PANEL MENTORING &nbsp; · &nbsp; PIT CREW CONCEPT v0.1 &nbsp; · &nbsp; sheiss94 / NexGen-BD &nbsp; · &nbsp; CONCEPT EXTENSION (NOT A REPLACEMENT)
+</footer>
+
+</body>
+</html>
