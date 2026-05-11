@@ -284,17 +284,24 @@
   }
   .timeline-svg-wrap svg {
     width: 100%;
-    min-width: 720px;
+    min-width: 760px;
     max-width: 100%;
     height: auto;
     display: block;
   }
-  .race-car {
-    transition: transform 1.4s cubic-bezier(.22,.85,.3,1);
-    filter: drop-shadow(0 0 8px rgba(37,120,228,0.45));
+  .race-car, .comp-car {
+    transition: transform 1.5s cubic-bezier(.22,.85,.3,1);
   }
-  #engineGlowEl {
-    transition: cx 1.4s cubic-bezier(.22,.85,.3,1);
+  .race-car--brenden {
+    filter: drop-shadow(0 0 10px rgba(37,120,228,0.55));
+  }
+  .comp-car--silver {
+    opacity: 0.85;
+    filter: drop-shadow(0 0 4px rgba(143,149,160,0.35));
+  }
+  .comp-car--ember {
+    opacity: 0.85;
+    filter: drop-shadow(0 0 4px rgba(231,134,53,0.4));
   }
   .station {
     cursor: pointer;
@@ -329,6 +336,7 @@
     display: flex;
     gap: 0.75rem;
     justify-content: center;
+    align-items: center;
     margin: 0.5rem 0 1.75rem;
     flex-wrap: wrap;
   }
@@ -354,10 +362,21 @@
     border-color: var(--accent);
     color: var(--accent);
   }
+  .lap-progress {
+    padding: 0.55rem 0.95rem;
+    color: var(--text);
+    font-size: 0.76rem;
+    letter-spacing: 0.15em;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: rgba(229,231,235,0.02);
+    min-width: 110px;
+    text-align: center;
+  }
 
   .lap-display {
     position: relative;
-    min-height: 280px;
+    min-height: 360px;
     margin-top: 0.5rem;
   }
   .lap-panel {
@@ -440,10 +459,17 @@
     max-width: 760px;
   }
 
+  /* Tagline H2 styling for the laps section */
+  .laps h2 em {
+    color: var(--accent-light);
+    font-style: italic;
+  }
+
   @media (max-width: 700px) {
     .race-timeline { padding: 1.75rem 1.25rem 1.5rem; }
     .ctrl { font-size: 0.7rem; padding: 0.5rem 0.7rem; }
-    .lap-display { min-height: 340px; }
+    .lap-progress { min-width: 90px; font-size: 0.7rem; padding: 0.5rem 0.7rem; }
+    .lap-display { min-height: 420px; }
   }
 
   /* CREW SECTION */
@@ -761,21 +787,21 @@
 
 <section class="laps">
   <div class="container">
-    <p class="mono">The Race · Five Laps</p>
-    <h2>Every shop's racing the same circuit. Most don't have a pit crew.</h2>
-    <p class="lead">Scrub the laps below. Auto-plays in 6 seconds. Click any lap number to jump.</p>
+    <p class="mono">The Circuit · Eight Turns</p>
+    <h2><em>The road to success isn't a straight line.</em></h2>
+    <p class="lead">Every shop runs this circuit. Most run it without a pit crew. Scrub the turns below — auto-plays in five seconds. The blue car is yours. The silver and ember cars are the competition.</p>
 
-    <div class="race-timeline" id="raceTimeline" aria-label="Race timeline animation">
+    <div class="race-timeline" id="raceTimeline" aria-label="Race circuit animation">
       <div class="timeline-svg-wrap">
-        <svg viewBox="0 0 1000 160" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
+        <svg viewBox="0 0 1000 380" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
           <defs>
             <pattern id="checkers" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
               <rect width="6" height="6" fill="#E5E7EB"/>
               <rect x="6" y="6" width="6" height="6" fill="#E5E7EB"/>
             </pattern>
-            <linearGradient id="trackPassed" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#1D5FB6" stop-opacity="0.6"/>
-              <stop offset="100%" stop-color="#2578E4" stop-opacity="0.9"/>
+            <linearGradient id="trackPassed" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1D5FB6"/>
+              <stop offset="100%" stop-color="#2578E4"/>
             </linearGradient>
             <radialGradient id="engineGlow" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stop-color="#2578E4" stop-opacity="0.5"/>
@@ -783,111 +809,162 @@
             </radialGradient>
           </defs>
 
-          <!-- Track surface -->
-          <rect x="60" y="56" width="880" height="44" rx="2" fill="#1A1F28"/>
-          <!-- Passed segment (animated) -->
-          <rect id="passedTrack" x="60" y="56" width="80" height="44" rx="2" fill="url(#trackPassed)" opacity="0.25"/>
-          <!-- Center lane stripes -->
-          <line x1="60" y1="78" x2="940" y2="78" stroke="#F5A623" stroke-width="2" stroke-dasharray="20 18" opacity="0.45"/>
+          <!-- Track surface (under-layer) -->
+          <path id="trackPath"
+                d="M 150 100 L 720 100 C 850 100 920 135 920 210 C 920 290 860 325 720 325 C 660 325 620 305 580 305 C 540 305 520 325 480 325 L 280 325 C 140 325 80 295 80 220 C 80 160 100 115 150 100 Z"
+                fill="none"
+                stroke="#1A1F28"
+                stroke-width="44"
+                stroke-linejoin="round" />
 
-          <!-- Start flag -->
-          <rect x="46" y="46" width="14" height="64" fill="url(#checkers)" opacity="0.7"/>
-          <text x="53" y="36" text-anchor="middle" font-family="JetBrains Mono" font-size="9" font-weight="700" fill="#A1AAB8" letter-spacing="0.1em">START</text>
-          <!-- Finish flag -->
-          <rect x="940" y="46" width="14" height="64" fill="url(#checkers)" opacity="0.7"/>
-          <text x="947" y="36" text-anchor="middle" font-family="JetBrains Mono" font-size="9" font-weight="700" fill="#34D399" letter-spacing="0.1em">FINISH</text>
+          <!-- Passed-portion overlay (animated via stroke-dashoffset) -->
+          <path id="passedPath"
+                d="M 150 100 L 720 100 C 850 100 920 135 920 210 C 920 290 860 325 720 325 C 660 325 620 305 580 305 C 540 305 520 325 480 325 L 280 325 C 140 325 80 295 80 220 C 80 160 100 115 150 100 Z"
+                fill="none"
+                stroke="url(#trackPassed)"
+                stroke-width="44"
+                stroke-linejoin="round"
+                opacity="0.35"
+                pointer-events="none" />
 
-          <!-- Engine glow (under car) -->
-          <ellipse id="engineGlowEl" cx="140" cy="78" rx="40" ry="22" fill="url(#engineGlow)"/>
+          <!-- Yellow dashed center stripe -->
+          <path d="M 150 100 L 720 100 C 850 100 920 135 920 210 C 920 290 860 325 720 325 C 660 325 620 305 580 305 C 540 305 520 325 480 325 L 280 325 C 140 325 80 295 80 220 C 80 160 100 115 150 100 Z"
+                fill="none"
+                stroke="#F5A623"
+                stroke-width="2"
+                stroke-dasharray="14 12"
+                opacity="0.4"
+                pointer-events="none" />
 
-          <!-- Stations (clickable) -->
-          <g class="station" data-lap="1" transform="translate(140,78)" tabindex="0" role="button" aria-label="Jump to lap 1">
-            <circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/>
-            <text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">01</text>
-          </g>
-          <g class="station" data-lap="2" transform="translate(340,78)" tabindex="0" role="button" aria-label="Jump to lap 2">
-            <circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/>
-            <text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">02</text>
-          </g>
-          <g class="station" data-lap="3" transform="translate(540,78)" tabindex="0" role="button" aria-label="Jump to lap 3">
-            <circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/>
-            <text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">03</text>
-          </g>
-          <g class="station" data-lap="4" transform="translate(740,78)" tabindex="0" role="button" aria-label="Jump to lap 4">
-            <circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/>
-            <text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">04</text>
-          </g>
-          <g class="station" data-lap="5" transform="translate(920,78)" tabindex="0" role="button" aria-label="Jump to lap 5">
-            <circle r="20" fill="#0F1218" stroke="#34D399" stroke-width="2"/>
-            <text y="5" text-anchor="middle" fill="#34D399" font-family="JetBrains Mono" font-size="12" font-weight="700">05</text>
+          <!-- Turn stations: positioned by JS along the path -->
+          <g class="station" data-lap="1" tabindex="0" role="button" aria-label="Jump to turn 1"><circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/><text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">01</text></g>
+          <g class="station" data-lap="2" tabindex="0" role="button" aria-label="Jump to turn 2"><circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/><text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">02</text></g>
+          <g class="station" data-lap="3" tabindex="0" role="button" aria-label="Jump to turn 3"><circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/><text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">03</text></g>
+          <g class="station" data-lap="4" tabindex="0" role="button" aria-label="Jump to turn 4"><circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/><text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">04</text></g>
+          <g class="station" data-lap="5" tabindex="0" role="button" aria-label="Jump to turn 5"><circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/><text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">05</text></g>
+          <g class="station" data-lap="6" tabindex="0" role="button" aria-label="Jump to turn 6"><circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/><text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">06</text></g>
+          <g class="station" data-lap="7" tabindex="0" role="button" aria-label="Jump to turn 7"><circle r="20" fill="#0F1218" stroke="#A1AAB8" stroke-width="2"/><text y="5" text-anchor="middle" fill="#A1AAB8" font-family="JetBrains Mono" font-size="12" font-weight="700">07</text></g>
+          <g class="station" data-lap="8" tabindex="0" role="button" aria-label="Jump to turn 8"><circle r="20" fill="#0F1218" stroke="#34D399" stroke-width="2"/><text y="5" text-anchor="middle" fill="#34D399" font-family="JetBrains Mono" font-size="12" font-weight="700">08</text></g>
+
+          <!-- Competitor car: Silver (the obvious competitor) -->
+          <g class="comp-car comp-car--silver" id="compCar1" transform="translate(150,100)">
+            <rect x="-18" y="-11" width="5" height="22" fill="#6B7280"/>
+            <rect x="-14" y="-9" width="28" height="18" rx="3" fill="#8F95A0"/>
+            <polygon points="22,-3 14,-8 14,8 22,3" fill="#8F95A0"/>
+            <circle cx="2" cy="0" r="4" fill="#0F1218"/>
+            <rect x="-15" y="-12" width="8" height="4" rx="1" fill="#171A1F"/>
+            <rect x="-15" y="8" width="8" height="4" rx="1" fill="#171A1F"/>
+            <rect x="7" y="-12" width="7" height="4" rx="1" fill="#171A1F"/>
+            <rect x="7" y="8" width="7" height="4" rx="1" fill="#171A1F"/>
           </g>
 
-          <!-- The car -->
-          <g class="race-car" id="raceCar" transform="translate(140,78)">
-            <!-- Nose cone -->
-            <polygon points="-26,-3 -16,-9 -16,9 -26,3" fill="#2578E4"/>
-            <!-- Body -->
-            <rect x="-16" y="-10" width="30" height="20" rx="3" fill="#2578E4"/>
-            <!-- Cockpit / driver -->
-            <circle cx="-2" cy="0" r="4.5" fill="#0F1218"/>
-            <!-- Rear wing -->
-            <rect x="13" y="-12" width="5" height="24" fill="#1D5FB6"/>
-            <!-- Wheels (front + rear, both sides) -->
-            <rect x="-15" y="-13" width="7" height="4" rx="1" fill="#171A1F"/>
-            <rect x="-15" y="9" width="7" height="4" rx="1" fill="#171A1F"/>
-            <rect x="8" y="-13" width="9" height="4" rx="1" fill="#171A1F"/>
-            <rect x="8" y="9" width="9" height="4" rx="1" fill="#171A1F"/>
+          <!-- Competitor car: Ember (the second competitor) -->
+          <g class="comp-car comp-car--ember" id="compCar2" transform="translate(150,100)">
+            <rect x="-18" y="-11" width="5" height="22" fill="#B8651E"/>
+            <rect x="-14" y="-9" width="28" height="18" rx="3" fill="#E78635"/>
+            <polygon points="22,-3 14,-8 14,8 22,3" fill="#E78635"/>
+            <circle cx="2" cy="0" r="4" fill="#0F1218"/>
+            <rect x="-15" y="-12" width="8" height="4" rx="1" fill="#171A1F"/>
+            <rect x="-15" y="8" width="8" height="4" rx="1" fill="#171A1F"/>
+            <rect x="7" y="-12" width="7" height="4" rx="1" fill="#171A1F"/>
+            <rect x="7" y="8" width="7" height="4" rx="1" fill="#171A1F"/>
+          </g>
+
+          <!-- Brenden's car (the protagonist) -->
+          <g class="race-car race-car--brenden" id="raceCar" transform="translate(150,100)">
+            <rect x="-20" y="-12" width="5" height="24" fill="#1D5FB6"/>
+            <rect x="-16" y="-10" width="32" height="20" rx="3" fill="#2578E4"/>
+            <polygon points="26,-3 16,-9 16,9 26,3" fill="#2578E4"/>
+            <circle cx="2" cy="0" r="4.5" fill="#0F1218"/>
+            <rect x="-17" y="-13" width="9" height="4" rx="1" fill="#171A1F"/>
+            <rect x="-17" y="9" width="9" height="4" rx="1" fill="#171A1F"/>
+            <rect x="8" y="-13" width="8" height="4" rx="1" fill="#171A1F"/>
+            <rect x="8" y="9" width="8" height="4" rx="1" fill="#171A1F"/>
+          </g>
+
+          <!-- Start/Finish line (positioned by JS near turn 1) -->
+          <g id="startFinishGroup" pointer-events="none">
+            <rect id="startFlag" x="0" y="0" width="6" height="46" fill="url(#checkers)" opacity="0.85"/>
+            <text id="startFlagLabel" font-family="JetBrains Mono" font-size="9" font-weight="700" fill="#34D399" letter-spacing="0.12em" text-anchor="middle">START / FINISH</text>
           </g>
         </svg>
       </div>
 
       <div class="timeline-controls">
-        <button class="ctrl" id="btnPrev" aria-label="Previous lap">◀ PREV LAP</button>
+        <button class="ctrl" id="btnPrev" aria-label="Previous turn">◀ PREV</button>
+        <span class="lap-progress mono" id="lapProgress">TURN 1 / 8</span>
         <button class="ctrl ctrl-play" id="btnPlay" aria-label="Pause or play">⏸ PAUSE</button>
-        <button class="ctrl" id="btnNext" aria-label="Next lap">NEXT LAP ▶</button>
+        <button class="ctrl" id="btnNext" aria-label="Next turn">NEXT ▶</button>
       </div>
 
       <div class="lap-display">
         <div class="lap-panel is-active" data-lap="1">
           <div class="lap-panel-head">
-            <span class="telemetry">2014 · SPS DRIVES · NUREMBERG</span>
-            <span class="lap-tag"><span class="lap-tag-label">LAP</span><span class="lap-tag-num">01</span></span>
+            <span class="telemetry">TAKEOVER · STATUS QUO</span>
+            <span class="lap-tag"><span class="lap-tag-label">TURN</span><span class="lap-tag-num">01</span></span>
           </div>
-          <h3>The First Time He Saw a Real Team</h3>
-          <p>Brenden walked into the panel building hall at SPS Drives in Nuremberg and saw, for the first time, what panel manufacturing could become — software, automation, workflow, manufacturing operating as one connected system. He came home convinced the answer was more horsepower. Bought the first Steinhauer ModCenter CNC.</p>
-          <p class="hook">"He thought he'd found the lever. He hadn't. Not the whole one."</p>
+          <h3>The Inheritance</h3>
+          <p>Brenden took over a shop that ran on paper, coffee, and the memory of two senior wiremen. The "way it's always been done" was the way. Tribal knowledge was the schematic. Heroic effort was the schedule. He worked harder, longer, smarter — and for a while, that was enough.</p>
+          <p class="hook">"The shop ran on paper, coffee, and the memory of two men."</p>
         </div>
         <div class="lap-panel" data-lap="2">
           <div class="lap-panel-head">
-            <span class="telemetry">PACE DROP · +10–20% / LAP</span>
-            <span class="lap-tag"><span class="lap-tag-label">LAP</span><span class="lap-tag-num">02</span></span>
+            <span class="telemetry">EARLY WARNINGS · IGNORED</span>
+            <span class="lap-tag"><span class="lap-tag-label">TURN</span><span class="lap-tag-num">02</span></span>
           </div>
-          <h3>The Lap Times Started Slipping</h3>
-          <p>For two-and-a-half years, the quality went up and the throughput went up — and the bids kept coming back ten to twenty percent under. His competitors weren't cutting corners. Their lap times were genuinely faster. They had a better setup, a better strategy, a better crew.</p>
-          <p class="hook">"Their margins were holding while their prices were dropping."</p>
+          <h3>The First Cracks</h3>
+          <p>A missed date. A senior wireman muttering about retirement. A regular customer placing a smaller order than last quarter. The first cracks are easy to miss — they look like having a bad month. Brenden chalked it up to volume, weather, the cycle. He worked harder.</p>
+          <p class="hook">"The first cracks are easy to miss. They look like 'just having a bad month.'"</p>
         </div>
         <div class="lap-panel" data-lap="3">
           <div class="lap-panel-head">
-            <span class="telemetry">PIT FAILURE · × N</span>
-            <span class="lap-tag"><span class="lap-tag-label">LAP</span><span class="lap-tag-num">03</span></span>
+            <span class="telemetry">2014 · SPS DRIVES · NUREMBERG</span>
+            <span class="lap-tag"><span class="lap-tag-label">TURN</span><span class="lap-tag-num">03</span></span>
           </div>
-          <h3>The Pit Stops That Didn't Pit</h3>
-          <p>More automation. Consultants who left binders. Higher-skilled engineers. Three salespeople in two years. Longer hours behind the wheel. Heavier reliance on the senior wiremen who carried the entire production capability of the company in their heads.</p>
-          <p class="hook">"None of it moved the needle by a single point."</p>
+          <h3>The Vision</h3>
+          <p>Spring 2014. The panel building hall at SPS Drives. Software, automation, workflow, and manufacturing — operating as one connected system. No one fighting through a pile of prints. The future already existed. Most of us in the United States just hadn't seen it yet.</p>
+          <p class="hook">"He thought he'd found the lever. He hadn't. Not the whole one."</p>
         </div>
         <div class="lap-panel" data-lap="4">
           <div class="lap-panel-head">
-            <span class="telemetry">REGROUP · ORDER OF OPS</span>
-            <span class="lap-tag"><span class="lap-tag-label">LAP</span><span class="lap-tag-num">04</span></span>
+            <span class="telemetry">FIRST WRONG TURN · MACHINE BUY</span>
+            <span class="lap-tag"><span class="lap-tag-label">TURN</span><span class="lap-tag-num">04</span></span>
           </div>
-          <h3>The Real Strategy</h3>
-          <p>It wasn't a part. It was an order of operations. Lean — see the waste. Standards — keep what works. Cell-based production — flow the car cleanly through the garage. Employee engagement — the crew has to own the car. THEN EPLAN started to land. THEN automation paid off.</p>
-          <p class="hook">"The goal was never to remove craftsmanship. The goal was to remove struggle."</p>
+          <h3>The CNC Misjudgment</h3>
+          <p>He came home convinced the answer was horsepower. ADS bought its first Steinhauer ModCenter CNC. Precision arrived almost overnight — the kind of repeatability the shop had never delivered before. He thought he'd found it. He'd found a piece of it.</p>
+          <p class="hook">"Precision wasn't the problem. The strategy was."</p>
         </div>
         <div class="lap-panel" data-lap="5">
           <div class="lap-panel-head">
+            <span class="telemetry">PACE DROP · +10–20% / LAP</span>
+            <span class="lap-tag"><span class="lap-tag-label">TURN</span><span class="lap-tag-num">05</span></span>
+          </div>
+          <h3>The Gradient</h3>
+          <p>For two-and-a-half years, quality went up and throughput went up — and the bids kept coming back ten to twenty percent under. Competitors weren't cutting corners. Their lap times were genuinely faster. They had a better setup, a better strategy, a better crew.</p>
+          <p class="hook">"Their margins were holding while their prices were dropping."</p>
+        </div>
+        <div class="lap-panel" data-lap="6">
+          <div class="lap-panel-head">
+            <span class="telemetry">PIT FAILURE · × N</span>
+            <span class="lap-tag"><span class="lap-tag-label">TURN</span><span class="lap-tag-num">06</span></span>
+          </div>
+          <h3>The Wrong Answers</h3>
+          <p>More automation. Consultants who left binders. Higher-skilled engineers. Three salespeople in two years. Longer hours behind the wheel. Heavier reliance on the senior wiremen who carried the entire production capability of the company in their heads.</p>
+          <p class="hook">"None of it moved the needle by a single point."</p>
+        </div>
+        <div class="lap-panel" data-lap="7">
+          <div class="lap-panel-head">
+            <span class="telemetry">REGROUP · ORDER OF OPS</span>
+            <span class="lap-tag"><span class="lap-tag-label">TURN</span><span class="lap-tag-num">07</span></span>
+          </div>
+          <h3>The Real Strategy</h3>
+          <p>It wasn't a part. It was an order of operations. Lean — see the waste. Standards — keep what works. Cell-based production — flow the car cleanly through the garage. Employee engagement — the crew has to own the car. <em>Then</em> EPLAN started to land. <em>Then</em> automation paid off.</p>
+          <p class="hook">"The goal was never to remove craftsmanship. The goal was to remove struggle."</p>
+        </div>
+        <div class="lap-panel" data-lap="8">
+          <div class="lap-panel-head">
             <span class="telemetry">CHECKERED FLAG · +70% PACE</span>
-            <span class="lap-tag lap-tag-finish"><span class="lap-tag-label">LAP</span><span class="lap-tag-num">05</span></span>
+            <span class="lap-tag lap-tag-finish"><span class="lap-tag-label">TURN</span><span class="lap-tag-num">08</span></span>
           </div>
           <h3>Championship Pace</h3>
           <p>Today ADS runs 70% faster than it did. Not because the driver works harder — because the crew works better. Engineering flows into manufacturing. Information moves with clarity. Good people freed from broken processes return to craftsmanship. And every few months, another owner shows up asking <em>"who's your crew?"</em></p>
@@ -1068,39 +1145,116 @@
 </section>
 
 <footer>
-  NEXGEN PANEL MENTORING &nbsp; · &nbsp; PIT CREW CONCEPT v0.2 &nbsp; · &nbsp; sheiss94 / NexGen-BD &nbsp; · &nbsp; CONCEPT EXTENSION (NOT A REPLACEMENT)
+  NEXGEN PANEL MENTORING &nbsp; · &nbsp; PIT CREW CONCEPT v0.3 — THE CIRCUIT &nbsp; · &nbsp; sheiss94 / NexGen-BD &nbsp; · &nbsp; CONCEPT EXTENSION (NOT A REPLACEMENT)
 </footer>
 
 <script>
 (function () {
-  // Race timeline animation — drives the moving car + lap content panels.
-  // No external libs. SVG coordinates match the inline markup above.
+  // Race CIRCUIT animation v0.3 — F1-shaped curved path, 8 turns, 3 cars (Brenden + 2 competitors).
+  // The road to success isn't a straight line.
 
-  var stationX = { 1: 140, 2: 340, 3: 540, 4: 740, 5: 920 };
-  var TOTAL_LAPS = 5;
-  var AUTOPLAY_MS = 6000;       // 6s per lap before auto-advancing
-  var FINISH_DWELL_MS = 8500;   // sit a beat longer on lap 5
+  // Where each turn (station) lives along the path, as a fraction of total path length.
+  var STATION_PCT = [0.05, 0.17, 0.29, 0.41, 0.53, 0.65, 0.77, 0.92];
+
+  // Per-turn car positions: [Brenden, Comp1 (silver), Comp2 (ember)]
+  // Narrative: comps start neck-and-neck, pull ahead during the gradient + wrong answers,
+  // Brenden catches at the regroup, Brenden wins the championship lap.
+  var LAP_POSITIONS = [
+    [0.05, 0.12, 0.09],   // Turn 1 — The Inheritance — close grid
+    [0.17, 0.24, 0.21],   // Turn 2 — First Cracks — competitors edging away
+    [0.29, 0.37, 0.33],   // Turn 3 — Nuremberg — Brenden has the vision, still trailing
+    [0.41, 0.53, 0.47],   // Turn 4 — CNC misjudgment — comps clearly ahead
+    [0.53, 0.67, 0.60],   // Turn 5 — The Gradient — Brenden losing the race
+    [0.65, 0.77, 0.71],   // Turn 6 — Wrong Answers — still behind
+    [0.77, 0.82, 0.79],   // Turn 7 — Order of Operations — drawing level
+    [0.92, 0.84, 0.88]    // Turn 8 — Championship — Brenden in the lead
+  ];
+
+  var TOTAL_LAPS = 8;
+  var AUTOPLAY_MS = 5000;
+  var FINISH_DWELL_MS = 7500;
 
   var current = 1;
   var playing = true;
   var timer = null;
 
+  var path = document.getElementById('trackPath');
+  var passedPath = document.getElementById('passedPath');
   var car = document.getElementById('raceCar');
-  var glow = document.getElementById('engineGlowEl');
-  var passedTrack = document.getElementById('passedTrack');
+  var comp1 = document.getElementById('compCar1');
+  var comp2 = document.getElementById('compCar2');
+  var startFinishGroup = document.getElementById('startFinishGroup');
+  var startFlag = document.getElementById('startFlag');
+  var startFlagLabel = document.getElementById('startFlagLabel');
   var stations = Array.prototype.slice.call(document.querySelectorAll('#raceTimeline .station'));
   var panels = Array.prototype.slice.call(document.querySelectorAll('#raceTimeline .lap-panel'));
   var btnPrev = document.getElementById('btnPrev');
   var btnNext = document.getElementById('btnNext');
   var btnPlay = document.getElementById('btnPlay');
+  var progress = document.getElementById('lapProgress');
+
+  if (!path || typeof path.getTotalLength !== 'function') {
+    // SVG path APIs not available — bail gracefully (very old browsers)
+    return;
+  }
+
+  var totalLength = path.getTotalLength();
+
+  // Place stations along the path
+  stations.forEach(function (s) {
+    var lap = parseInt(s.getAttribute('data-lap'), 10);
+    var pct = STATION_PCT[lap - 1];
+    if (pct == null) return;
+    var p = path.getPointAtLength(totalLength * pct);
+    s.setAttribute('transform', 'translate(' + p.x.toFixed(2) + ',' + p.y.toFixed(2) + ')');
+  });
+
+  // Place start/finish line just before Turn 1
+  if (startFlag && startFlagLabel) {
+    var startP = path.getPointAtLength(totalLength * 0.005);
+    var startTangent = path.getPointAtLength(totalLength * 0.02);
+    var startAngle = Math.atan2(startTangent.y - startP.y, startTangent.x - startP.x);
+    // Perpendicular offset to place flag beside the track
+    var perpAngle = startAngle - Math.PI / 2;
+    var fx = startP.x + Math.cos(perpAngle) * 36;
+    var fy = startP.y + Math.sin(perpAngle) * 36;
+    startFlag.setAttribute('x', fx - 3);
+    startFlag.setAttribute('y', fy - 23);
+    startFlagLabel.setAttribute('x', fx);
+    startFlagLabel.setAttribute('y', fy - 28);
+  }
+
+  // Configure passed-portion stroke-dash animation
+  if (passedPath) {
+    passedPath.setAttribute('stroke-dasharray', totalLength);
+    passedPath.setAttribute('stroke-dashoffset', totalLength);
+    passedPath.style.transition = 'stroke-dashoffset 1.5s cubic-bezier(.22,.85,.3,1)';
+  }
+
+  // Compute transform for a car at a given distance along the path,
+  // including rotation so the car points in the direction of motion.
+  function carTransform(distance) {
+    var d = Math.max(0, Math.min(totalLength - 1, distance));
+    var p1 = path.getPointAtLength(d);
+    var p2 = path.getPointAtLength(Math.min(d + 6, totalLength));
+    var angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
+    return 'translate(' + p1.x.toFixed(2) + ',' + p1.y.toFixed(2) + ') rotate(' + angle.toFixed(2) + ')';
+  }
 
   function render() {
-    var x = stationX[current];
+    var pos = LAP_POSITIONS[current - 1];
+    var brendenDist = pos[0] * totalLength;
+    var comp1Dist = pos[1] * totalLength;
+    var comp2Dist = pos[2] * totalLength;
 
-    // Move the car
-    if (car) car.setAttribute('transform', 'translate(' + x + ',78)');
-    if (glow) glow.setAttribute('cx', x);
-    if (passedTrack) passedTrack.setAttribute('width', Math.max(x - 60, 0));
+    if (car) car.setAttribute('transform', carTransform(brendenDist));
+    if (comp1) comp1.setAttribute('transform', carTransform(comp1Dist));
+    if (comp2) comp2.setAttribute('transform', carTransform(comp2Dist));
+
+    // Reveal passed portion of the track up to Brenden's position
+    if (passedPath) {
+      passedPath.setAttribute('stroke-dashoffset', Math.max(totalLength - brendenDist, 0));
+    }
 
     // Station states
     stations.forEach(function (s) {
@@ -1115,6 +1269,8 @@
       var lap = parseInt(p.getAttribute('data-lap'), 10);
       p.classList.toggle('is-active', lap === current);
     });
+
+    if (progress) progress.textContent = 'TURN ' + current + ' / ' + TOTAL_LAPS;
   }
 
   function advance() {
@@ -1143,17 +1299,14 @@
     if (playing) schedule(); else clearTimeout(timer);
   }
 
-  // Hooks
   stations.forEach(function (s) {
     s.addEventListener('click', function () {
-      var lap = parseInt(s.getAttribute('data-lap'), 10);
-      goTo(lap);
+      goTo(parseInt(s.getAttribute('data-lap'), 10));
     });
     s.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        var lap = parseInt(s.getAttribute('data-lap'), 10);
-        goTo(lap);
+        goTo(parseInt(s.getAttribute('data-lap'), 10));
       }
     });
   });
@@ -1161,25 +1314,21 @@
   if (btnNext) btnNext.addEventListener('click', function () { goTo(current === TOTAL_LAPS ? 1 : current + 1); });
   if (btnPlay) btnPlay.addEventListener('click', togglePlay);
 
-  // Pause when off-screen, resume when back (saves battery and feels less frantic)
-  var io;
   if ('IntersectionObserver' in window) {
-    io = new IntersectionObserver(function (entries) {
+    var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting && playing) schedule();
         else clearTimeout(timer);
       });
-    }, { threshold: 0.25 });
+    }, { threshold: 0.2 });
     io.observe(document.getElementById('raceTimeline'));
   }
 
-  // Respect reduced motion — show lap 1, no auto-advance
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     playing = false;
     if (btnPlay) btnPlay.textContent = '▶ PLAY';
   }
 
-  // Boot
   render();
   schedule();
 })();
