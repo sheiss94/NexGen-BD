@@ -50,7 +50,7 @@ Continuous improvement.
 THEN EPLAN started to land — because the systems could absorb it.
 THEN automation paid off — because the workflows could feed it.
 
-Eventually those initiatives stopped being separate things. They started working together as one connected system — the same thing I'd seen in Nuremberg, but built for an American panel shop, on the floor I'd inherited.
+Eventually those initiatives stopped being separate things. They started working together as one connected system — the same thing I'd seen in Nuremberg, but built for an American panel shop, in the shop I'd built.
 
 The goal was never to remove craftsmanship.
 

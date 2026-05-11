@@ -15,7 +15,7 @@ This folder is for **raw, unedited source assets**: audio recordings, video foot
 ```
 
 Examples:
-- `audio-01-the-inheritance.m4a`
+- `audio-01-the-build.m4a`
 - `audio-02-the-tuesday.m4a`
 - `video-shopfloor-walkthrough-take1.mp4`
 - `photo-archive-1989-toolbench.jpg`
@@ -24,7 +24,7 @@ Examples:
 
 For the story bible interviews — drop into this folder as you record:
 
-- [ ] `audio-01-the-inheritance.m4a` — Prompt 1: walk into the shop
+- [ ] `audio-01-the-build.m4a` — Prompt 1: how it started
 - [ ] `audio-02-the-tuesday.m4a` — Prompt 2: the moment it broke ⭐ HIGHEST PRIORITY
 - [ ] `audio-03-the-wrong-bets.m4a` — Prompt 3: what didn't work
 - [ ] `audio-04-the-pillars.m4a` — Prompt 4: the four pillars stories

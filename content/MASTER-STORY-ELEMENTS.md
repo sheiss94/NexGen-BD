@@ -65,7 +65,7 @@
 >
 > That's when the real lesson landed. **Machines alone aren't enough.** Software without process creates struggle. Automation without standards creates chaos. *The hardest part of modernization was never buying the technology* — it was rebuilding the workflow, training the people, standardizing the process, and staying committed long enough to reach the payoff.
 >
-> What finally moved it was an **order of operations.** ADS rebuilt around Lean manufacturing, standardization, cell-based production, employee engagement, and continuous improvement. *Then* EPLAN started to land — because by then the systems could absorb it. *Then* automation paid off — because by then the workflows could feed it. Eventually those initiatives stopped being separate things and started working together as **one connected system** — the same thing Brenden had seen in Nuremberg, but built for an American panel shop, by Americans, on the floor he'd inherited.
+> What finally moved it was an **order of operations.** ADS rebuilt around Lean manufacturing, standardization, cell-based production, employee engagement, and continuous improvement. *Then* EPLAN started to land — because by then the systems could absorb it. *Then* automation paid off — because by then the workflows could feed it. Eventually those initiatives stopped being separate things and started working together as **one connected system** — the same thing Brenden had seen in Nuremberg, but built for an American panel shop, by Americans, in the shop he'd built.
 >
 > **The goal was never to remove craftsmanship. The goal was to remove struggle.**
 >
@@ -148,7 +148,7 @@ The single-event framing was dramatic but counterfeit-feeling. Real businesses d
 
 ### Competent version (what NOT to ship — preserved as a counter-example)
 
-> Fifteen years ago Brenden Fritz inherited a panel shop where two senior wiremen carried the entire production capability of the company in their heads — drawings were decoration, tribal knowledge was the real schematic. He hit the wall every owner eventually hits, and learned the hard way that software ahead of workflow doesn't stick, equipment ahead of standards doesn't scale, and consultants leave binders. What finally worked was a system…
+> Fifteen years after Brenden Fritz built ADS from the ground up, the shop ran on two senior wiremen who carried the entire production capability of the company in their heads — drawings were decoration, tribal knowledge was the real schematic. He hit the wall every owner eventually hits, and learned the hard way that software ahead of workflow doesn't stick, equipment ahead of standards doesn't scale, and consultants leave binders. What finally worked was a system…
 
 > Why this is "competent" and not epic: tells events without putting the reader inside them. No specific timeframe. No villain. No turn to the reader. No tattooable line. **Don't ship anything that looks like this.**
 
@@ -259,7 +259,7 @@ Brenden's actual arc, anchored in his real journey markers (Nuremberg, the Stein
 
 ### ACT IV — The Order of Operations (the rebuild)
 
-**What happens:** ADS rebuilds around Lean manufacturing, standardization, cell-based production, employee engagement, and continuous improvement. *Then* EPLAN starts to land. *Then* automation pays off. Eventually the initiatives stop being separate things and start working as one connected system — *the same thing Brenden saw in Nuremberg, but built for an American panel shop, by Americans, on the floor he'd inherited.*
+**What happens:** ADS rebuilds around Lean manufacturing, standardization, cell-based production, employee engagement, and continuous improvement. *Then* EPLAN starts to land. *Then* automation pays off. Eventually the initiatives stop being separate things and start working as one connected system — *the same thing Brenden saw in Nuremberg, but built for an American panel shop, by Americans, in the shop he'd built.*
 
 **What the reader feels:** *Wait. The order matters? I've been starting at step five too.*
 
@@ -382,7 +382,7 @@ The shop owner who says "we have all that knowledge in our people" is one resign
 Software demos that don't change anything. Consultants who leave binders. Trainings that produce certificates and zero throughput. NexGen lives below this layer, where the actual work happens.
 
 ### "We've Always Done It This Way"
-The most expensive sentence in panel manufacturing. Carries the weight of inheritance, but inherits the limits of whoever was running the floor when the sentence got minted.
+The most expensive sentence in panel manufacturing. Carries decades of weight, but locks in the limits of whoever was running the floor when the sentence got minted.
 
 ### The Myth That Adopting EPLAN Equals Using EPLAN
 **11 of 12** EPLAN customers at our local distributor event reported no significant ROI from their software investment. The software isn't the problem. The adoption is.
@@ -614,7 +614,7 @@ The 9-move scoring rubric. **6/9 to ship. 8/9 for the home page.**
 
 | # | Move | Don't | Do |
 |---|---|---|---|
-| 1 | Open in the wound | "Fifteen years ago Brenden inherited a panel shop…" | "It was a Tuesday — March 11, 2014 — and the bid came back $90,000 under us…" |
+| 1 | Open in the wound | "Fifteen years ago Brenden built a panel shop…" | "It was a Tuesday — March 11, 2014 — and the bid came back $90,000 under us…" |
 | 2 | Name a villain | (no villain) | "The lie every shop owner in America has been told for thirty years." |
 | 3 | Specifics a journalist could fact-check | "a Tuesday he couldn't sleep through" | "The Carmichael bid · Wisconsin · $90K under · forty minutes in the truck" |
 | 4 | Sensory anchor | "He struggled" | "He sat in his truck in the parking lot for forty minutes." |

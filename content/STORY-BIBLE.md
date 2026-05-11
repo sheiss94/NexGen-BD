@@ -30,10 +30,10 @@ Every story beat has to answer: *is this me? am I where he was? am I where he en
 
 The arc Brenden actually traveled, mapped to the arc the reader needs to feel.
 
-### Act I — *The Inheritance*
-**What it is:** Brenden walks into a shop he didn't design, full of people who'd been doing it the same way for 20 years, in an industry where the "way it's always been done" was the actual liability.
+### Act I — *The Build*
+**What it is:** Brenden built ADS from the ground up — hiring carefully, training personally, sweeping the floor at the end of every shift. Years in, the shop succeeded enough that two senior wiremen ended up carrying the entire production capability of the company in their heads. Working harder was the strategy. For a long while, it was enough.
 **What the reader feels:** *That's my shop.*
-**Beat: ~2014.** Paper schematics. Toolboxes by whoever grabbed them last. Two senior wiremen carrying the entire production capability of the company in their heads. Bid-the-way-Dad-bid-it. Build-the-way-they-always-built-it.
+**Beat: founding through ~2014.** Hand-drawn drawings. Toolboxes organized by whoever cared enough to organize them. Two senior wiremen who could quit on a Tuesday and end the company by Friday. Bid-the-way-we've-always-bid-it. Build-the-way-we've-always-built-it.
 
 ### Act II — *The Tuesday*
 **What it is:** The single moment the system broke. Specific day. Specific dollar number. Specific phone call. The night before he couldn't sleep.
@@ -67,15 +67,15 @@ The existing `nexgen-backstory.html` doc has six prompts. Below is the expansion
 
 > **Format:** Brenden, find a quiet hour. Pick a single prompt at a time. Speak it out loud, recorded on your phone. Don't write — talk. We polish later.
 
-### Prompt 1 — The Inheritance (Act I)
-*Talk for ~5 minutes about what you walked into.*
+### Prompt 1 — The Build (Act I)
+*Talk for ~5 minutes about how it started.*
 
-- What year? What was your title? Who was running the shop the day you took over?
-- Walk me through the floor as it looked your first week. What was on the wall? What was on the desk? What was on the loading dock?
-- Who were the people? Name two specifically — first name only, just so we can write about them as humans. What did they do that no one else could do?
-- What did "a good week" look like back then?
+- What year did ADS open? What were the conditions — were you working from a borrowed corner, a leased space, a rented bay? What was your day one look like?
+- Walk me through the first floor as it took shape. What was on the wall? What was on the desk? What was on the loading dock the first time a job actually shipped?
+- Who were the people you hired in the early years? Name two specifically — first name only, just so we can write about them as humans. What did they do that no one else could do, and how did they end up carrying so much of the shop in their heads?
+- What did "a good week" look like in the building-it years?
 - What did "a bad week" look like?
-- What were you bidding jobs at? What were you closing them at?
+- What were you bidding jobs at? What were you closing them at? When did the win/loss column start to feel like a problem?
 
 ### Prompt 2 — The Tuesday (Act II)
 *Tell me about the moment you knew the way you were running things wasn't going to work.*
@@ -311,7 +311,7 @@ Below is the test every piece of NexGen story copy gets measured against — the
 ### The Nine Moves
 
 #### 1. Open in the wound, not the setup
-*Don't:* "Fifteen years ago Brenden inherited a panel shop…"
+*Don't:* "Fifteen years ago Brenden built a panel shop…"
 *Do:* "It was a Tuesday — March 11, 2014 — and the bid came back $90,000 under us, and Brenden sat in his truck in the parking lot for forty minutes before he could go home."
 The reader gets dropped inside the worst day of someone's life before they know who he is. They keep reading because they have to.
 
